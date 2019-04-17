@@ -20,5 +20,5 @@ This project is created by CAICT(China Academy of Information Communications Tec
 - ZTE;
 - Other contributers include China Telecom, China Mobile, China Unicom, China information and communication technology group co. LTD, Raisecom, Greenway, Shanshui Optoelectronic, and GAOKE COMMUNICATIONS. 
 
-Any questions about this repository, please contact zhaoxing@catr.cn or xuyunbin@catr.cn.
+Any questions about this repository, please contact zhaoxing@caict.ac.cn or xuyunbin@caict.ac.cn.
 
