@@ -1,0 +1,181 @@
+module acc-sdh {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-sdh";
+    prefix acc-sdh;
+
+    import acc-devm { 
+        prefix acc-devm; 
+    }
+    import acc-yang-types {
+        prefix acc-type;
+    }
+
+    organization
+        "xxx";
+
+    contact
+        "xxx";
+
+    description
+        "xxx";
+
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+
+    typedef sdh-signal-type {
+        type enumeration {
+            enum STM1 {
+                value 0;
+                description "none";
+            }
+            enum STM4 {
+                value 1;
+                description "none";
+            }
+            enum STM16 {
+                value 2;
+                description "none";
+            }
+            enum STM64 {
+                value 3;
+                description "none";
+            }
+            enum STM256 {
+                value 4;
+                description "none";
+            }
+        }
+        description "none";
+    }
+
+    typedef switch-type {
+        type enumeration {
+            enum VC12 {
+                value 0;
+                description "none";
+            }
+            enum VC3 {
+                value 1;
+                description "none";
+            }
+            enum VC4 {
+                value 2;
+                description "none";
+            }
+        }
+    }
+
+    augment "/acc-devm:ptps/acc-devm:ptp" {
+        when "acc-devm:layer-protocol-name = acc-type:SDH";
+        container sdh-ptp-pac {
+            leaf sdh-type {
+                mandatory true;
+                type sdh-signal-type;
+                description "none";
+            }
+            leaf-list switch-capability {
+                min-elements 1;
+                type switch-type;
+                config false;
+                description "none";
+            }
+            leaf j0-trail-trance-actual-tx {
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            leaf j0-trail-trance-expectd-rx {
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            leaf j0-trail-trance-actual-rx {
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            description "none";
+        }
+    }
+
+    augment "/acc-devm:ftps/acc-devm:ftp" {
+        when "acc-devm:layer-protocol-name = acc-type:SDH";
+        container sdh-ftp-pac {
+            leaf sdh-type {
+                mandatory true;
+                type sdh-signal-type;
+                description "none";
+            }
+            leaf j0-actual-tx {
+                type string {
+                    length "1..64";
+                }
+                description "none";
+            }
+            leaf j0-expected-rx {
+                type string {
+                    length "1..64";
+                }
+                description "none";
+            }
+            leaf j0-actual-rx {
+                type string {
+                    length "1..64";
+                }
+                description "none";
+            }
+            description "none";
+        }
+
+        container vctrunk-ftp-pac {
+            leaf vc-type {
+                mandatory true;
+                type switch-type;
+                description "none";
+            }
+            leaf lcas {
+                type boolean;
+                default false;
+                description "none";
+            }
+            leaf hold-off {
+                type uint32;
+                default 0;
+                description "unit: ms";
+            }
+            leaf wtr {
+                type uint32;
+                default 300;
+                description "unit: s";
+            }
+            leaf tsd {
+                type boolean;
+                default false;
+                description "none";
+            }
+            description "none";
+        }
+    }
+
+    augment "/acc-devm:ctps/acc-devm:ctp" {
+        when "acc-devm:layer-protocol-name = acc-type:SDH";
+        container vc-ctp-pac {
+            leaf vc-type {
+                mandatory true;
+                type switch-type;
+                description "none";
+            }
+            description "none";
+        }
+    }
+}

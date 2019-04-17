@@ -1,0 +1,91 @@
+module acc-notifications {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-notifications";
+    prefix acc-ntf;
+
+    organization "xxx";
+    contact "xxx";
+    description "This module defines a YANG data model for use with the
+        NETCONF protocol that allows the NETCONF client to
+        receive event notifications.";
+    revision 2019-02-13 {
+        description "Initial revision.";
+        reference "RFC xxx";
+    }
+    /*
+    * Common types
+    */
+    typedef event-type {
+        type enumeration {
+            enum object-creation {
+                value 0;
+                description "event-type object-creation";
+            }
+            enum object-deletion {
+                value 1;
+                description "event-type object-deletion";
+            }
+            enum attribute-value-change {
+                value 2;
+                description "event-type attribute-value-change";
+            }
+        }
+        description "event-type";
+    }   
+    /*
+    * Groupings
+    */    
+    grouping event {
+        leaf event-serial-no {
+            type uint64;
+            description "event event-serial-no";
+        }
+        leaf event-type {
+            type event-type;
+            description "event event-type";
+        }
+        leaf object-name {
+            type string;
+            description "event object-name";
+        }
+        leaf object-type {
+            type string;
+            description "event object-type";
+        }
+        description "event";
+    }
+
+    /*
+    * Notifications
+    */    
+    notification common-notification {
+        container event {
+            uses event;
+            description "common-notification";
+        }
+        description "common-notification";
+    }
+    notification attribute-value-change-notification {
+        container event {
+            uses event;
+            description "event";
+        }
+        container attribute-value-change {
+            leaf attribute-name {
+                type string;
+                description "attribute-value-change attribute-name";
+            }
+            leaf new-attribute-value {
+                type string;
+                description "attribute-value-change new-attribute-value";
+            }
+            leaf old-attribute-value {
+                type string;
+                description "attribute-value-change old-attribute-value";
+            }
+            description "attribute-value-change";
+        }
+        description "attribute-value-change-notification";
+    }
+
+}

@@ -1,0 +1,75 @@
+module acc-yang-types {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-yang-types";
+    prefix acc-type;
+
+    organization "xxx";
+    contact "xxx";
+    description "This module defines access-otn yang types.";
+
+    revision 2019-02-13 {
+        description "Initial revision.";
+        reference "RFC xxx";
+    }
+
+    /*
+   * Common types
+   */    
+    typedef real {
+        type decimal64 {
+            fraction-digits 2;
+        }
+    }
+    typedef granularity {
+        type enumeration {
+            enum 1min {
+                value 0;
+                description "1min granularity";
+            }
+            enum 15min {
+                value 1;
+                description "15min granularity";
+            }
+            enum 24h {
+                value 2;
+                description "24h granularity";
+            }
+
+        }
+        description "pm granularity";
+    }
+    typedef threshold-type {
+        type enumeration {
+            enum low {
+                value 0;
+                description "low threshold-type";
+            }
+            enum high {
+                value 1;
+                description "high threshold-type";
+            }
+        }
+        description "pm threshold-type";
+    }
+    typedef layer-protocol-name {
+        type enumeration {
+            enum ODU {
+                value 0;
+                description
+                "ODU";
+            }
+            enum ETH {
+                value 1;
+                description
+                "ETH";
+            }
+            enum SDH {
+                value 2;
+                description
+                "SDH";
+            }
+        }
+        description
+        "layer protocol name";
+    }
+}

@@ -1,0 +1,345 @@
+module acc-otn {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-otn";
+    prefix acc-otn;
+
+    import ietf-otn-types {
+        prefix otn-types;
+    }
+    import acc-devm { 
+        prefix acc-devm; 
+    }
+    import acc-connection {
+        prefix acc-con;
+    }
+    import acc-yang-types { 
+        prefix acc-type; 
+    }
+
+    organization
+        "xxx";
+
+    contact
+        "xxx";
+
+    description
+        "xxx";
+
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+    /*
+    * common types
+    */
+
+    identity OTN-ODU0 {
+    base otn-types:client-signal;
+    description
+      "Client signal type of ODU0";
+    }
+
+    identity OTN-ODU1 {
+    base otn-types:client-signal;
+    description
+      "Client signal type of ODU1";
+    }
+
+    identity OTN-ODU2 {
+    base otn-types:client-signal;
+    description
+      "Client signal type of ODU3";
+    }
+
+    identity OTN-ODU4 {
+    base otn-types:client-signal;
+    description
+      "Client signal type of ODU4";
+    }
+
+    typedef adaptation-type {
+        type enumeration {
+            enum CBR_AMP {
+                value 0;
+                description "none";
+            }
+            enum CBR_BMP {
+                value 1;
+                description "none";
+            }
+            enum GFP-T {
+                value 2;
+                description "none";
+            }
+            enum GFP-F {
+                value 3;
+                description "none";
+            }
+            enum NULL {
+                value 4;
+                description "none";
+            }
+            enum PRBS {
+                value 5;
+                description "none";
+            }
+            enum CBRx {
+                value 6;
+                description "none";
+            }
+            enum TTT+GMP {
+                value 7;
+                description "none";
+            }
+            enum CBRX_GMP {
+                value 8;
+                description "none";
+            }
+            enum ODUij {
+                value 9;
+                description "none";
+            }
+            enum ODUj21 {
+                value 10;
+                description "none";
+            }
+        }
+        description "none";
+    }
+
+    typedef channel-sate {
+        type enumeration {
+            enum sf {
+                value 0;
+                description
+                    "SF";
+            }
+            enum sd {
+                value 1;
+                description
+                    "SD";
+            }
+            enum normal {
+                value 2;
+                description
+                    "Normal";
+            }
+        }
+        description
+            "channel sate";
+    }
+
+    /*
+    * groupings
+    */
+    grouping nni {
+        leaf nni-ptp-name {
+            type string{
+              length "1..64";
+            }
+            description "none";
+        }
+        leaf nni-ctp-name {
+            type string{
+              length "1..64";
+            }
+            description "none";
+        }
+        leaf nni-ts-detail {
+            type string{
+              length "1..64";
+            }
+            description "none";
+        }
+        leaf adaptation-type {
+            type adaptation-type;
+            description "none";
+        }
+        leaf client-signal-type {
+            type identityref {
+                base otn-types:client-signal;
+            }
+            description "none";
+        }
+        leaf switch-capability {
+            type identityref {
+                base otn-types:odu-type;
+            }
+            config false;
+            description "none";
+        }
+        description "none";
+    }
+
+    /*
+    * the data tree
+    */
+
+    augment "/acc-devm:ptps/acc-devm:ptp" {
+        when "acc-devm:layer-protocol-name = acc-type:ODU";
+        container odu-ptp-pac {
+            leaf odu-capacity {
+                mandatory true;
+                type uint64;
+                config false;
+                description "none";
+            }
+            leaf-list client-signal-type {
+                min-elements 1;
+                type identityref {
+                    base otn-types:client-signal;
+                }
+                config false;
+                description "none";
+            }
+            leaf-list adaptation-type {
+                min-elements 1;
+                type adaptation-type;
+                config false;
+                description "none";
+            }
+            leaf-list switch-capability {
+                min-elements 1;
+                type identityref {
+                    base otn-types:odu-type;
+                }
+                config false;
+                description "none";
+            }
+            leaf ts-detail {
+                mandatory true;
+                type string;
+                description "none";
+            }
+            leaf smtrail-trace-actual-tx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                description "none";
+            }
+            leaf smtrail-trace-actual-rx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            leaf smtrail-trace-expected-rx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                description "none";
+            }
+            leaf pmtrail-trace-actual-tx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                description "none";
+            }
+            leaf pmtrail-trace-actual-rx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            leaf pmtrail-trace-expected-rx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                description "none";
+            }
+            description "none";
+        }
+    }
+
+    augment "/acc-devm:ctps/acc-devm:ctp" {
+        when "acc-devm:layer-protocol-name = acc-type:ODU";
+        container odu-ctp-pac {
+            leaf client-signal-type {
+                mandatory true;
+                type identityref {
+                    base otn-types:client-signal;
+                }
+                description "none";
+            }
+            leaf adaptation-type {
+                mandatory true;
+                type adaptation-type;
+                description "none";
+            }
+            leaf switch-capability {
+                mandatory true;
+                type identityref {
+                    base otn-types:odu-type;
+                }
+                config false;
+                description "none";
+            }
+            leaf ts-detail {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                description "none";
+            }
+            leaf-list current-number-of-tributary-slots {
+                type uint64;
+                config false;
+                description "none";
+            }
+            leaf pmtrail-trace-actual-tx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            leaf pmtrail-trace-actual-rx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                config false;
+                description "none";
+            }
+            leaf pmtrail-trace-expected-rx {
+                mandatory true;
+                type string{
+                length "1..64";
+                }
+                description "none";
+            }
+            description "none";
+        }
+    }
+
+    augment "/acc-con:create-connection/acc-con:input" {
+        container client-side-nni {
+            uses nni;
+            description "client side nni";
+        }
+        container primary-nni {
+            uses nni;
+            description "primary nni";
+        }
+        container secondary-nni {
+            uses nni;
+            description "secondary nni";
+        }
+    }
+
+    /*
+    * operations
+    */
+
+}

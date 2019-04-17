@@ -1,0 +1,294 @@
+module acc-alarms {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-alarms";
+    prefix acc-alm;
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+    import acc-yang-types {
+        prefix acc-type;
+    }
+  
+    organization "xxx";
+    contact "xxx";
+    description "this module defines an interface for managing alarms.";
+    revision 2019-02-13 {
+        description "initial revision.";
+    }
+    /*
+    * common types
+    */
+    typedef alarm-state {
+        type enumeration {
+            enum start {
+                value 0;
+                description "alarm-state start";
+            }
+            enum end {
+                value 1;
+                description "alarm-state end";
+            }
+        }
+        description "alarm-state";
+    }
+    typedef perceived-severity {
+        type enumeration {
+            enum critical {
+                value 0;
+                description "perceived-severity critical";
+            }
+            enum major {
+                value 1;
+                description "perceived-severity critical";
+            }
+            enum minor {
+                value 2;
+                description "perceived-severity critical";
+            }
+            enum warning {
+                value 3;
+                description "perceived-severity critical";
+            }
+        }
+        description "perceived-severity";
+    }
+    /*
+    * groupings
+    */
+    grouping alarm {
+        description
+            "common parameters for an alarm.";
+        leaf alarm-serial-no {
+            mandatory true;
+            type uint64;
+            description "alarm alarm-serial-no";
+        }
+        leaf object-name {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+            description "alarm object-name";
+        }
+        leaf object-type {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+            description "alarm object-type";
+        }
+        leaf alarm-code {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+            description "alarm alarm-code";
+        }
+        leaf alarm-state {
+            mandatory true;
+            type alarm-state;
+            description "alarm alarm-state";
+        }
+        leaf perceived-severity {
+            type perceived-severity;
+            config false;
+            description "alarm perceived-severity";
+        }
+        leaf start-time {
+            mandatory true;
+            type yang:date-and-time;
+            description "alarm start-time";
+        }
+        leaf end-time {
+            type yang:date-and-time;
+            description "alarm end-time";
+        }
+        leaf additional-text {
+            type string {
+                length "1..64";
+            }
+            description "alarm additional-text";
+        }
+    }
+    grouping alarms {
+        list alarm {
+            key 'alarm-serial-no';
+            config false;
+            uses alarm;
+            description "alarms list";
+        }
+        description "alarms";
+    }
+
+    grouping tca {
+        leaf tca-serial-no {
+            type uint64;
+            description "tca tca-serial-no";
+        }
+        container tca-parameter {
+            leaf object-type {
+                mandatory true;
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "tca-parameter object-type";
+            }    
+            leaf object-name {
+                mandatory true;
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "tca-parameter object-name";
+            }
+            leaf pm-parameter-name {
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "tca-parameter pm-parameter-name";
+            }
+            leaf granularity {
+                type acc-type:granularity;
+                config false;
+                description "tca-parameter granularity";
+            }
+            leaf threshold-type {
+                type acc-type:threshold-type;
+                config false;
+                description "tca-parameter threshold-type";
+            }
+            leaf threshold-value {
+                type acc-type:real;
+                description "tca-parameter threshold-value";
+            }
+            description "tca-parameter";
+        }
+        leaf tca-state {
+            mandatory true;
+            type alarm-state;
+            config false;
+            description "tca tca-state";
+        }
+        leaf current-value {
+            mandatory true;
+            type acc-type:real;
+            config false;
+            description "tca current-value";
+        }
+        leaf start-time {
+            mandatory true;
+            type yang:date-and-time;
+            config false;
+            description "tca start-time";
+        }
+        leaf end-time {
+            type yang:date-and-time;
+            config false;
+            description "tca end-time";
+        }
+        description "tca";
+    }
+    grouping tcas {
+        list tca {
+            key 'tca-serial-no';
+            uses tca;
+            description "tcas list";
+        }
+        description "tcas";
+    }
+      
+    /*
+    * the data tree
+    */
+    container alarms {
+        uses alarms;
+        description "alarms container";
+    }        
+    container tcas {
+        uses tcas;
+        description "tcas container";
+    }
+    container alarm-suppress-states {
+        list alarm-suppress-state {
+            key 'object-name alarm-code';
+            min-elements 1;
+            leaf object-type {
+                type string {
+                    length "1..64";
+                }
+                mandatory true;
+                description "alarm-suppress-state object-type";
+            }
+            leaf object-name {
+                type string {
+                    length "1..64";
+                }
+                mandatory true; 
+                description "alarm-suppress-state object-name";
+            }
+            leaf alarm-code {
+                type string {
+                    length "1..64";
+                }
+                mandatory true;
+                description "alarm-suppress-state alarm-code";
+            }
+            leaf alarm-suppress-state {
+                type boolean;
+                mandatory true;
+                description "alarm-suppress-state";
+            }
+        }
+        description "alarm-suppress-states";
+    }        
+
+    /*
+    * notifications
+    */
+    notification alarm-notification {
+        container alarm {
+            uses alarm;
+            description "alarm-notification container";
+        }
+        description "alarm-notification";
+    }
+    notification tca-notification {
+        container tca {
+            uses tca;
+            description "tca-notification container";
+        }
+        description "tca-notification";
+    }
+    /*
+    * operations
+    */
+    rpc get-history-alarms {
+        description "get-history-alarms";
+        input {
+            leaf start-time {
+                type yang:date-and-time;
+                description "start-time";
+            }
+            leaf end-time {
+                type yang:date-and-time;
+                description "end-time";
+            }
+        }
+        output {
+            container data {
+                presence "";
+                container alarms {
+                    uses alarms;
+                    description "output alarms";
+                }
+                container tcas {
+                    uses tcas;
+                    description "output tcas";
+                }
+            }
+        }
+    }
+}        

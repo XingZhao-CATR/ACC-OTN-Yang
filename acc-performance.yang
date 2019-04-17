@@ -1,0 +1,134 @@
+module acc-performance {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-performance";
+    prefix acc-pm;
+
+    import ietf-yang-types {
+        prefix yang;
+    }
+    import acc-yang-types {
+        prefix acc-type;
+    }
+    
+    organization "xxx";
+    contact "xxx";
+    description "This module defines an interface for managing performances.";
+    revision 2019-02-13 {
+        description "Initial revision.";
+        reference "RFC xxx";
+    }
+    /*
+    * Groupings
+    */   
+    grouping performances {
+        list performance {
+            key 'pm-parameter-name start-time';
+            leaf pm-parameter-name {
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "pm-parameter-name";
+            }
+            leaf start-time {
+                type yang:date-and-time;
+                config true;
+                description "start-time";
+            }
+            leaf object-name {
+                mandatory true;
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "object-name";
+            }
+            leaf object-type {
+                mandatory true;
+                type string {
+                    length "1..64";
+                }
+                config false;
+                description "object-type";
+            }
+            leaf granularity {
+                type acc-type:granularity;
+                config false;
+                description "granularity";
+            }
+            leaf digital-pm-value {
+                type acc-type:real;
+                config false;
+                description "digital-pm-value";
+            }
+            container analog-pm-value {
+                leaf max-value {
+                    type acc-type:real;
+                    description "max-value";
+                }
+                leaf min-value {
+                    type acc-type:real;
+                    description "min-value";
+                }
+                leaf average-value {
+                    type acc-type:real;
+                    description "average-value";
+                }
+                leaf current-value {
+                    type acc-type:real;
+                    description "current-value";
+                }
+                description "analog-pm-value";
+            }
+            description "performance list";
+        }
+        description "performances";
+    }
+    /*
+    * The data tree
+    */
+    container performances {
+        uses performances;
+        description "performances container";
+    }
+    /*
+    * Operations
+    */
+    rpc get-history-performance-monitoring-data {
+        description "none";
+            input {
+                leaf start-time {
+                    type yang:date-and-time;
+                    description "none";
+                }
+                leaf end-time {
+                    type yang:date-and-time;
+                    description "none";
+                }
+                leaf object-name {
+                    type string {
+                        length "1..64";
+                    }
+                    description "none";
+                }
+                leaf granularity {
+                    type acc-type:granularity;
+                    description "none";
+                }
+                leaf pm-parameter-name {
+                    type string {
+                        length "1..64";
+                    }
+                    description "none";
+                }
+            }
+            output {
+                container data {
+                    container performances {
+                        uses performances;
+                        description "none";
+                    } 
+                }
+            }
+    }
+}        

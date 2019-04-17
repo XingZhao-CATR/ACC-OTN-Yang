@@ -1,0 +1,234 @@
+module acc-protection-group {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-protection-group";
+    prefix acc-pg;
+
+    import acc-devm {
+         prefix acc-devm; 
+    }
+
+    organization
+        "xxx";
+    contact
+        "xxx";
+    description
+        "xxx";
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+    /*
+    * common types
+    */
+    typedef protection-type {
+        type enumeration {
+            enum sncp1-1 {
+                value 0;
+                description
+                    "SNCP 1+1";
+            }
+            enum och1-1 {
+                value 1;
+                description
+                    "OCH 1+1";
+            }
+        }
+        description
+            "protection type";
+    }
+    typedef switch-type {
+        type enumeration {
+            enum uni-switch {
+                value 0;
+                description
+                    "uni switch";
+            }
+            enum bi-switch {
+                value 1;
+                description
+                    "bi switch";
+            }
+        }
+        description
+            "switch type";
+    }
+    typedef protection-direction {
+        type enumeration {
+            enum to-primary {
+                value 0;
+                description
+                    "to primary";
+            }
+            enum to-secondary {
+                value 1;
+                description
+                    "to secondary";
+            }
+        }
+        description "protection direction";
+    }
+    typedef reversion-mode {
+        type enumeration {
+            enum return {
+                value 0;
+                description
+                    "none";
+            }
+            enum non-return {
+                value 1;
+                description
+                    "none";
+            }
+        }
+        description
+            "reversion mode";
+    }
+    typedef switch-reason {
+        type enumeration {
+            enum no-switch {
+                value 0;
+                description
+                    "no switch";
+            }
+            enum sf-switch {
+                value 1;
+                description
+                    "SF switch";
+            }
+            enum sd-switch {
+                value 2;
+                description
+                    "SD switch";
+            }
+            enum manual-switch {
+                value 3;
+                description
+                    "manual switch";
+            }
+            enum force-switch {
+                value 4;
+                description
+                    "force switch";
+            }
+        }
+        description
+            "switch reason";
+    }
+    /*
+    * groupings
+    */
+    grouping pg {
+        description
+            "pg";
+        leaf pg-id {
+            type uint64;
+            description
+                "pg id";
+        }
+        leaf protection-type {
+            type protection-type;
+            description
+                "protection type";
+        }
+        leaf switch-type {
+            type switch-type;
+            description
+                "switch type";
+        }
+        leaf reversion-mode {
+            type reversion-mode;
+            description
+                "reversion mode";
+        }
+        leaf switch-reason {
+            type switch-reason;
+            description
+                "switch reason";
+        }
+        leaf wait-to-restore-time {
+            type uint64;
+            units seconds;
+            description
+                "wait to restore time";
+        }
+        leaf primary-port {
+            type leafref {
+                path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
+            }
+            description
+                "primary port";
+        }
+        leaf secondary-port {
+            type leafref {
+                path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
+            }
+            description
+                "secondary port";
+        }
+        leaf selected-port {
+            type leafref {
+                path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
+            }
+            description
+                "selected port";
+        }
+    }
+
+    /*
+    * the data tree
+    */
+    container pgs {
+        list pg {
+            key 'pg-id';
+            uses pg;
+            description "pg";
+        }
+        description "pgs";
+    }
+
+    /*
+    * notifications
+    */
+    notification protection-switch-notification {
+        leaf protection-switch-serial-no {
+            type uint64;
+            description
+                "protection switch serial no";
+        }
+        container pg {
+            uses pg;
+            description
+                "pg";
+        }
+        description "protection switch notification";
+    }
+
+    /*
+    * operations
+    */
+    rpc perform-protection-command {
+        description
+            "protection";
+        input {
+            leaf pg-id {
+                type uint64;
+                description
+                    "pg id";
+            }
+
+            leaf protection-command {
+                type switch-reason;
+                description
+                    "protection command";
+            }
+
+            leaf protection-direction {
+                type protection-direction;
+                description
+                    "protection direction";
+            }
+        }
+    }
+}
