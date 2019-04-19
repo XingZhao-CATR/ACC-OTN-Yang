@@ -6,6 +6,12 @@ module acc-sdh {
     import acc-devm { 
         prefix acc-devm; 
     }
+    import acc-connection {
+        prefix acc-con;
+    }
+    import acc-protection-group {
+        prefix acc-pg;
+    }
     import acc-yang-types {
         prefix acc-type;
     }
@@ -25,7 +31,26 @@ module acc-sdh {
         reference
             "xxx";
     }
-
+    identity SDH {
+        base acc-type:layer-protocol-name;
+        description "";
+    }
+    typedef switch-type {
+        type enumeration {
+            enum VC12 {
+                value 0;
+                description "none";
+            }
+            enum VC3 {
+                value 1;
+                description "none";
+            }
+            enum VC4 {
+                value 2;
+                description "none";
+            }
+        }
+    }
     typedef sdh-signal-type {
         type enumeration {
             enum STM1 {
@@ -52,27 +77,57 @@ module acc-sdh {
         description "none";
     }
 
-    typedef switch-type {
-        type enumeration {
-            enum VC12 {
-                value 0;
-                description "none";
-            }
-            enum VC3 {
-                value 1;
-                description "none";
-            }
-            enum VC4 {
-                value 2;
-                description "none";
-            }
+    grouping vcg-pac {
+        leaf vc-type {
+            mandatory true;
+            type acc-sdh:switch-type;
+            description "none";
         }
+        leaf lcas {
+            type boolean;
+            default false;
+            description "none";
+        }
+        leaf hold-off {
+            type uint32;
+            default 0;
+            description "unit: ms";
+        }
+        leaf wtr {
+            type uint32;
+            default 300;
+            description "unit: s";
+        }
+        leaf tsd {
+            type boolean;
+            default false;
+            description "none";
+        }
+        leaf tx-number {
+            type uint64;
+            default 0;
+            config false;
+            description "The actual number of members sent by the LCAS group.";
+        }
+        leaf rx-number {
+            type uint64;
+            default 0;
+            config false;
+            description "The actual number of members received by the LCAS group.";
+        }
+        leaf so-handshake-state {
+            type boolean;
+            default false;
+            config false;
+            description "The handshake state of the source end.";
+        }
+        description "none";
     }
 
     augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = acc-type:SDH";
         container sdh-ptp-pac {
-            leaf sdh-type {
+            leaf sdh-signal-type {
                 mandatory true;
                 type sdh-signal-type;
                 description "none";
@@ -83,21 +138,22 @@ module acc-sdh {
                 config false;
                 description "none";
             }
-            leaf j0-trail-trance-actual-tx {
+            leaf j0-actual-tx {
+                mandatory true;
                 type string {
                     length "1..64";
                 }
-                config false;
                 description "none";
             }
-            leaf j0-trail-trance-expectd-rx {
+            leaf j0-expectd-rx {
+                mandatory true;
                 type string {
                     length "1..64";
                 }
-                config false;
                 description "none";
             }
-            leaf j0-trail-trance-actual-rx {
+            leaf j0-actual-rx {
+                mandatory true;
                 type string {
                     length "1..64";
                 }
@@ -111,7 +167,7 @@ module acc-sdh {
     augment "/acc-devm:ftps/acc-devm:ftp" {
         when "acc-devm:layer-protocol-name = acc-type:SDH";
         container sdh-ftp-pac {
-            leaf sdh-type {
+            leaf sdh-signal-type {
                 mandatory true;
                 type sdh-signal-type;
                 description "none";
@@ -132,35 +188,7 @@ module acc-sdh {
                 type string {
                     length "1..64";
                 }
-                description "none";
-            }
-            description "none";
-        }
-
-        container vctrunk-ftp-pac {
-            leaf vc-type {
-                mandatory true;
-                type switch-type;
-                description "none";
-            }
-            leaf lcas {
-                type boolean;
-                default false;
-                description "none";
-            }
-            leaf hold-off {
-                type uint32;
-                default 0;
-                description "unit: ms";
-            }
-            leaf wtr {
-                type uint32;
-                default 300;
-                description "unit: s";
-            }
-            leaf tsd {
-                type boolean;
-                default false;
+                config false;
                 description "none";
             }
             description "none";
@@ -173,9 +201,104 @@ module acc-sdh {
             leaf vc-type {
                 mandatory true;
                 type switch-type;
+            }
+            leaf mapping-path {
+                mandatory true;
+                type string {
+                    length "1..64";
+                }
+            }
+            leaf j1-actual-tx {
+                type string {
+                    length "1..64";
+                }
+                description "none";
+            }
+            leaf j1-expected-rx {
+                type string {
+                    length "1..64";
+                }
+                description "none";
+            }
+            leaf j1-actual-rx {
+                type string {
+                    length "1..64";
+                }
+                config false;
                 description "none";
             }
             description "none";
+        }
+    }
+
+    /*
+    * operations
+    */
+
+    rpc create-sdh-connection {
+        description "";
+        input {
+            uses acc-con:create-connection;
+
+            container sdh-uni {
+                leaf uni-ptp-name {
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf vc-type {
+                    type switch-type;
+                }
+                leaf a-ctp-mapping-path {
+                    type string {
+                        length "1..64";
+                    }
+                description "";
+                }
+            }
+            container sdh-nni {
+                leaf sdh-type {
+                    type sdh-signal-type;
+                }
+                leaf z-ctp-mapping-path {
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf z-ctp-mapping-path-protect {
+                    type string {
+                        length "1..64";
+                    }
+                }
+            }
+        }
+        output {
+            container connection {
+                description
+                    "";
+                uses acc-con:connection;
+            }
+            container create-component {
+                description
+                    "";
+                list ftp {
+                    key 'name';
+                    uses acc-devm:ftp;
+                    description
+                        "";
+                }
+                list ctp {
+                    key 'name';
+                    uses acc-devm:ctp;
+                }
+                list pg {
+                    key 'pg-id';
+                    uses acc-pg:pg;
+                    description
+                        "";
+                }
+
+            }
         }
     }
 }

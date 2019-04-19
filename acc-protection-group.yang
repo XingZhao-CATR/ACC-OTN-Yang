@@ -116,6 +116,7 @@ module acc-protection-group {
         description
             "switch reason";
     }
+
     /*
     * groupings
     */
@@ -123,7 +124,7 @@ module acc-protection-group {
         description
             "pg";
         leaf pg-id {
-            type uint64;
+            type uint16;
             description
                 "pg id";
         }
@@ -152,6 +153,18 @@ module acc-protection-group {
             units seconds;
             description
                 "wait to restore time";
+        }
+        leaf hold-off {
+            type uint32;
+            units ms;
+            default 0;
+            description
+                "hold off time";
+        }
+        leaf protection-direction {
+            type protection-direction;
+            description
+                "protection direction";
         }
         leaf primary-port {
             type leafref {

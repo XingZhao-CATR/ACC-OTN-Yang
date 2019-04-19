@@ -38,6 +38,31 @@ module acc-connection {
     /*
     * groupings
     */
+    grouping capacity {
+        leaf total-size {
+            mandatory true;
+            type uint64;
+            description "total size";
+        }
+        leaf cbs {
+            type uint64;
+            description "cbs";
+        }
+        leaf cir {
+            mandatory true;
+            type uint64;
+            description "cir";
+        }
+        leaf ebs {
+            type uint64;
+            description "ebs";
+        }
+        leaf eir {
+            type uint64;
+            description "eir";
+        }
+        description "capacity";
+    }
     grouping connection {
         description
         "connection";
@@ -52,9 +77,17 @@ module acc-connection {
             uses acc-devm:state-pac;
         }
         leaf layer-protocol-name {
-            type acc-type:layer-protocol-name;
+            mandatory true;
+            type identityref {
+                base acc-type:layer-protocol-name;
+            }
             description
                 "layer protocol name";
+        }
+        container requested-capacity {
+            uses capacity;
+            description
+                "requested capacity";
         }
         leaf-list ctp {
             type leafref {
@@ -65,15 +98,42 @@ module acc-connection {
                 "ctp list";
         }
         leaf service-type {
+            mandatory true;
             type acc-devm:service-type;
             description
                 "service type";
         }
-        leaf create-time {
+        leaf pg-id {
+            type uint16;
+            description
+                "pg id";
+        }
+    }
+
+    grouping create-connection {
+        leaf connection-name {
             type string;
             description
-                "create time";
+                "connection name";
         }
+        leaf service-type {
+            type acc-devm:service-type;
+            description
+                "service type";
+        }
+        leaf layer-protocol-name {
+            type identityref {
+                base acc-type:layer-protocol-name;
+            }
+            description
+                "layer protocol name";
+        }
+        container requested-capacity {
+            uses capacity;
+            description
+                "requested capacity";
+        }
+        description "create connection";
     }
 
     /*
@@ -97,38 +157,5 @@ module acc-connection {
             description "connection list";
         }
         description "connection container";
-    }
-    rpc create-connection {
-        description
-            "create connection";
-        input {
-            leaf connection-name {
-                type string;
-                description
-                    "connection name";
-            }
-            leaf service-type {
-                type acc-devm:service-type;
-                description
-                    "service type";
-            }
-            leaf layer-protocol-name {
-                type acc-type:layer-protocol-name;
-                description
-                    "layer protocol name";
-            }
-        }
-        output {
-            container data {
-                presence "";
-                description
-                    "data container";
-                container connection {
-                    description
-                        "connection container";
-                    uses connection;
-                }
-            }
-        }
     }
 }

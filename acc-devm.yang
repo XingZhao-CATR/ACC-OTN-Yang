@@ -30,109 +30,67 @@ module acc-devm {
         type enumeration {
             enum up {
                 value 0;
-                description "none";
+                description "Up";
             }
             enum down {
                 value 1;
-                description "none";
+                description "Down";
             }
         }
-        description "none";
+        description "Operational state";
     }
     typedef admin-state {
         type enumeration {
-            enum enable {
+            enum enabled {
                 value 0;
-                description "none";
+                description "Enable";
             }
-            enum disable {
+            enum disabled {
                 value 1;
-                description "none";
+                description "Disable";
             }
         }
-        description "none";
+        description "Admin state";
     }
     typedef laser-status {
         type enumeration {
-            enum laserOn {
-                description "none";
+            enum laser-on {
+                description "Laser on";
             }
-            enum laserOff {
-                description "none";
+            enum laser-off {
+                description "Laser off";
             }
-            enum noOpticalModule {
-                description "none";
-            }
-        }
-        description "none";
-    }
-    typedef loop-back-type {
-        type enumeration {
-            enum non-loop {
-                value 0;
-                description "none";
-            }
-            enum facility-loop {
-                value 1;
-                description "none";
-            }
-            enum terminal-loop {
-                value 2;
-                description "none";
-            }
-            enum mac-facility-loop {
-                value 3;
-                description "none";
-            }
-            enum mac-terminal-loop {
-                value 4;
-                description "none";
-            }
-        }
-        description "none";
-    }
-    typedef me-status {
-        type enumeration {
-            enum installing {
-                value 0;
-                description "none";
-            }
-            enum running {
-                value 1;
-                description "none";
-            }
-            enum maintenance  {
-                value 2;
-                description "none";
+            enum no-optical-module {
+                description "No optical module";
             }
         }
         description "none";
     }
 
-    typedef ntp-state {
+    typedef loopback-type {
         type enumeration {
-            enum clock-never-set {
+            enum facility-loopback {
                 value 0;
-                description "none";
+                description "Facility loopback";
             }
-            enum freq-set-from-file {
+            enum terminal-loopback {
                 value 1;
-                description "none";
+                description "Terminal loopback";
             }
-            enum spike {
+            enum mac-facility-loopback {
                 value 2;
-                description "none";
+                description "Mac facility loopback";
             }
-            enum frequency-mode {
+            enum mac-terminal-loopback {
                 value 3;
-                description "none";
+                description "Mac terminal loopback";
             }
-            enum synchronized {
+            enum non-loopback {
                 value 4;
-                description "none";
+                description "Non loopback";
             }
         }
-        description "rfc 5905";
+        description "none";
     }
 
     typedef interface-type {
@@ -173,43 +131,61 @@ module acc-devm {
         }
         description "none";
     }
-    typedef loopback-type {
+    typedef me-status {
         type enumeration {
-            enum facility-loopback {
+            enum installing {
                 value 0;
                 description "none";
             }
-            enum terminal-loopback {
+            enum running {
                 value 1;
                 description "none";
             }
-            enum mac-facility-loopback {
+            enum maintenance  {
                 value 2;
-                description "none";
-            }
-            enum mac-terminal-loopback {
-                value 3;
-                description "none";
-            }
-            enum non-loopback {
-                value 4;
                 description "none";
             }
         }
         description "none";
     }
-    typedef reset-type {
+
+    typedef ntp-state {
         type enumeration {
-            enum warm-reset {
+            enum clock-never-set {
                 value 0;
                 description "none";
             }
-            enum cold-reset {
+            enum freq-set-from-file {
                 value 1;
                 description "none";
             }
+            enum spike-detected {
+                value 2;
+                description "none";
+            }
+            enum frequency-mode {
+                value 3;
+                description "none";
+            }
+            enum clock-synchronized {
+                value 4;
+                description "none";
+            }
         }
-        description "none";
+        description "rfc 5905";
+    }
+    typedef reset-type {
+        type enumeration {
+            enum soft-reset {
+                value 0;
+                description "Soft reset";
+            }
+            enum hard-reset {
+                value 1;
+                description "Hard reset";
+            }
+        }
+        description "Reset type";
     }
     typedef device-type {
         type enumeration {
@@ -233,6 +209,44 @@ module acc-devm {
         description "none";
     }
 
+    typedef port-role {
+        type enumeration {
+            enum symmetric {
+                value 0;
+                description "";
+            }
+            enum root {
+                value 1;
+                description "";
+            }
+            enum leaf-node {
+                value 2;
+                description "";
+            }
+        }
+    }
+
+    typedef protect-role {
+        type enumeration {
+            enum null {
+                value 0;
+                description "";
+            }
+            enum protected {
+                value 1;
+                description "";
+            }
+            enum primary {
+                value 2;
+                description "";
+            }
+            enum secondary {
+                value 3;
+                description "";
+            }
+        }
+    }
+
     /*
     * groupings
     */
@@ -240,16 +254,96 @@ module acc-devm {
         leaf operational-state {
             mandatory true;
             type operational-state;
-            description "none";
+            description "Operational state";
         }
         leaf admin-state {
             mandatory true;
             type admin-state;
-            description "none";
+            description "Admin state";
         }
         description "none";
     }
 
+    grouping ftp {
+        leaf name {
+            type string{
+            length "1..64";
+            }
+                description "Name of ftp";
+        }
+        container state-pac {
+            uses state-pac;
+                description "State of ftp";
+        }
+        leaf layer-protocol-name {
+            mandatory true;
+            type identityref {
+                base acc-type:layer-protocol-name;
+            }
+                description "Layer protocol name of ftp";
+        }
+        leaf-list client-ctp {
+            type leafref {
+                path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
+            }
+                description "Client ctps";
+        }
+        leaf-list server-ctp {
+            type leafref {
+                path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
+            }
+            description "Server ctps";
+        }
+        leaf loop-back {
+            type loopback-type;
+            default non-loopback;
+            description "Loop back type of ftp";
+        }
+    }
+
+    grouping ctp {
+        leaf name {
+            type string{
+            length "1..64";
+            }
+                description "Name of ctp";
+        }
+        container state-pac {
+            uses state-pac;
+                description "State of ctp";
+        }
+        leaf layer-protocol-name {
+            mandatory true;
+            type identityref {
+                base acc-type:layer-protocol-name;
+            }
+            description "Layer protocol name of ctp";
+        }
+        leaf port-role {
+            type port-role;
+            default symmetric;
+            config false;
+            description "The port role.";
+        }
+        leaf protect-role {
+            mandatory true;
+            type protect-role;
+            config false;
+            description "The protect role.";
+        }
+        leaf server-tp {
+            type string{
+            length "1..64";
+            }
+                description "Server tp";
+        }
+        leaf loop-back {
+            type loopback-type;
+            default non-loopback;
+            description "Loop back type of ctp";
+        }
+        description "ctp";
+    }
     /*
     * the data tree
     */
@@ -258,14 +352,14 @@ module acc-devm {
             type string{
               length "1..64";
             }            
-            description "none";
+            description "name";
         }
         leaf uuid {
-            type yang:mac-address;
-            description "none";
+            type string;
+            config false;
+            description "Universal unique identifier, MAC address is suggested.";
         }
         leaf status {
-            mandatory true;
             type me-status;
             description "";
         }
@@ -274,14 +368,14 @@ module acc-devm {
             type string{
               length "1..32";
             }
-            description "none";
+            description "Manufacturer";
         }
         leaf product-name {
             mandatory true;
             type string{
               length "1..32";
             }
-            description "none";
+            description "Product name";
         }
         leaf software-version {
             mandatory true;
@@ -289,7 +383,7 @@ module acc-devm {
               length "1..32";
             }
             config false;
-            description "none";
+            description "Software version";
         }
         leaf hardware-version {
             mandatory true;
@@ -297,80 +391,91 @@ module acc-devm {
               length "1..32";
             }
             config false;
-            description "none";
+            description "Hardware version";
         }
         leaf device-type {
             mandatory true;
             type device-type;
-            description "";
+            config false;
+            description "Device type";
         }
         leaf-list layer-protocol-name {
-            type acc-type:layer-protocol-name;
+            type identityref {
+                base acc-type:layer-protocol-name;
+            }
             min-elements 1;
-            description "none";
+            config false;
+            description "Layer protocol name";
         }
         leaf ip-address {
             mandatory true;
             type inet:ipv4-address;
-            description "none";
+            description "Ip address(ipv4)";
         }
         leaf mask {
+            mandatory true;
             type yang:dotted-quad;
-            description "none";
+            description "Mask";
+        }
+        leaf ntp-enable {
+            mandatory true;
+            type boolean;
+            description "Support ntp or not.";
+        }
+        container ntp-servers {
+            list ntp-server {
+                key 'name';
+                leaf name {
+                    type string {
+                        length "1..32";
+                    }
+                    description "Name of ntp server.";
+                }
+                leaf ip-address {
+                    mandatory true;
+                    type inet:ipv4-address;
+                    description "Ip address of ntp";
+                }
+                leaf port {
+                    type inet:port-number;
+                    default 123;
+                    description "Port number of ntp";
+                }
+                leaf ntp-version {
+                    type string {
+                        length "1..64";
+                    }
+                    description "Ntp version";
+                }
+                leaf ntp-state {
+                    type ntp-state;
+                    config false;
+                    description "Ntp state";
+                }
+                description "ntp";
+            }
         }
         leaf gate-way1 {
             mandatory true;
             type inet:ipv4-address;
-            description "none";
+            description "Gat way1(ipv4)";
         }
         leaf gate-way2 {
+            mandatory true;
             type inet:ipv4-address;
-            description "none";
+            description "Gat way2(ipv4)";
         }
         leaf-list eq {
             type leafref {
                 path '/acc-devm:eqs/acc-devm:eq/acc-devm:name';
             }
             min-elements 1;
-            description "none";
+            config false;
+            description "Eq list";
         }
         description "me";
     }
 
-    container ntp {
-        leaf name {
-            type string {
-                length "1..32";
-            }
-            mandatory true;
-            description "none";
-        }
-        leaf ip-address {
-            type inet:ipv4-address;
-            mandatory true;
-            description "none";
-        }
-        leaf port {
-            type inet:port-number;
-            default 123;
-            description "none";
-        }
-        leaf ntp-version {
-            type string {
-                length "1..64";
-            }
-            description "none";
-        }
-        leaf ntp-enable {
-            type boolean;
-            description "none";
-        }
-        leaf ntp-state {
-            type ntp-state;
-            description "none";
-        }
-        description "ntp";
-    }
     container ptps {
         list ptp {
             key 'name';
@@ -379,124 +484,89 @@ module acc-devm {
                 type string{
                 length "1..64";
                 }
-                description "none";
+                description "Name of ptp";
             }
             container state-pac {
                 uses state-pac;
-                description "none";
+                description "State of ptp";
             }
             leaf layer-protocol-name {
                 mandatory true;
-                type acc-type:layer-protocol-name;
-                description "none";
+                type identityref {
+                base acc-type:layer-protocol-name;
+            }
+                description "Layer protocol name of ptp";
             }
             leaf peer-ip-address {
                 type string {
                     length "1..16";
                 }
                 config false;
-                description "none";
+                description "Peer ip address";
             }
             leaf peer-ptp-name {
                 type string {
                     length "1..64";
                 }
                 config false;
-                description "none";
-            }
-            leaf laser-switch {
-                type admin-state;
-                default enable;
-                description "none";
+                description "Peer ptp name";
             }
             leaf laser-status {
-                mandatory true;
                 type laser-status;
-                config false;
-                description "none";
+                default laser-on;
+                description "Laser status of ptp";
             }
             leaf-list ctp {
                 type leafref {
                     path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
                 }
-                description "该PTP所承载的CTP索引列表";
+                description "Ctp list";
             }
             leaf interface-type {
                 mandatory true;
                 type interface-type;
-                description "none";
+                description "Interface type of ptp";
             }
             leaf loop-back {
-                type loop-back-type;
-                default non-loop;
-                description "none";
+                type loopback-type;
+                default non-loopback;
+                description "Loop back type of ptp";
             }
             container optical-power-pac {
                 leaf input-power {
                     mandatory true;
                     type acc-type:real;
-                    description "none";
+                    config false;
+                    description "Input power of ptp";
                 }
                 leaf output-power {
                     mandatory true;
                     type acc-type:real;
-                    description "none";
+                    description "Output power of ptp";
                 }
                 leaf input-power-upper-threshold {
                     mandatory true;
                     type acc-type:real;
-                    description "none";
+                    config false;
+                    description "Input power upper threshold of ptp";
                 }
                 leaf input-power-lower-threshold {
                     mandatory true;
                     type acc-type:real;
-                    description "none";
+                    config false;
+                    description "Input power lower threshold of ptp";
                 }
-                description "none";
+                description "Optical power of ptp";
             }
 
-            description "none";
+            description "ptp";
         }
-        description "none";
+        description "ptps";
     }
     container ftps {
         list ftp {
             key 'name';
-            leaf name {
-                type string{
-                length "1..64";
-                }
-                description "none";
-            }
-            container state-pac {
-                uses state-pac;
-                description "none";
-            }
-            leaf layer-protocol-name {
-                mandatory true;
-                type acc-type:layer-protocol-name;
-                config false;
-                description "none";
-            }
-            leaf-list client-ctp {
-                type leafref {
-                    path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
-                }
-                config false;
-                description "none";
-            }
-            leaf-list server-ctp {
-                type leafref {
-                    path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
-                }
-                config false;
-                description "none";
-            }
-            leaf loop-back {
-                type loop-back-type;
-                default non-loop;
-                description "none";
-            }
+            uses ftp;
             description "none";
         }
         description "none";
@@ -504,35 +574,7 @@ module acc-devm {
     container ctps {
         list ctp {
             key 'name';
-            leaf name {
-                type string{
-                length "1..64";
-                }
-                description "none";
-            }
-            container state-pac {
-                uses state-pac;
-                description "none";
-            }
-            leaf layer-protocol-name {
-                mandatory true;
-                type acc-type:layer-protocol-name;
-                config false;
-                description "none";
-            }
-            leaf server-tp {
-                type string{
-                length "1..64";
-                }
-                config false;
-                description "none";
-            }
-            leaf loop-back {
-                type loop-back-type;
-                default non-loop;
-                description "none";
-            }
-            description "none";
+            uses ctp;
         }
         description "none";
     }    
@@ -542,15 +584,15 @@ module acc-devm {
             min-elements 1;
             leaf name {
                 type string {
-                length "1..32";
+                length "1..64";
                 }
-                description "none";
+                description "Name of eq";
             }
             leaf plug-state {
                 mandatory true;
                 type boolean;
                 config false;
-                description "none";
+                description "Plug state of eq";
             }
             leaf software-version {
                 mandatory true;
@@ -558,7 +600,7 @@ module acc-devm {
                     length "1..32";
                 }
                 config false;
-                description "none";
+                description "Software version of eq";
             }
             leaf hardware-version {
                 mandatory true;
@@ -566,18 +608,19 @@ module acc-devm {
                     length "1..32";
                 }
                 config false;
-                description "none";
+                description "Hardware version of eq";
             }
             leaf-list ptp {
                 type leafref {
                     path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
                 }
                 min-elements 1;
-                description "none";
+                config false;
+                description "Ptps of eq";
             }
-            description "none";
+            description "eq";
         }
-        description "none";
+        description "eqs";
     }    
     /*
     * operations
@@ -589,11 +632,11 @@ module acc-devm {
                 type string{
                   length "1..64";
                 }
-                description "none";
+                description "Name of tp(ptp,ctp,ftp)";
             }
             leaf loopback-type {
                 type loopback-type;
-                description "none";
+                description "Loopback type";
             }
         }
     }
@@ -604,7 +647,7 @@ module acc-devm {
                 type string{
                   length "1..64";
                 }
-                description "none";
+                description  "Name of tp(ptp,ctp,ftp)";
             }
         }
         output {
@@ -612,61 +655,42 @@ module acc-devm {
                 presence "";
                 leaf loopback-type {
                     type loopback-type;
-                    description "none";
+                    description "Loopback type";
                 }
             }
             
         }
     }
     rpc reset {
-        description "none";
+        description "reset";
         input {
             leaf eq-name {
                 type string{
                   length "1..64";
                 }
-                description "none";
+                description "Name of eq";
             }
             leaf reset-type {
                 type reset-type;
-                description "none";
+                description "Reset type";
             }
         }
     }
-    rpc set-laser-switch {
-        description "none";
+
+    rpc modify-user-password {
         input {
-            leaf ptp-name {
-                type string{
-                  length "1..64";
+            leaf old-password {
+                type string {
+                    length "8..16";
                 }
-                description "none";
+                description "Old password.";
             }
-            leaf laser-switch {
-                type boolean;
-                description "false(Off), true(On)";
+            leaf new-password {
+                type string {
+                    length "8..16";
+                }
+                description "New password.";
             }
         }
     }
-    rpc get-laser-switch-status {
-        description "none";
-        input {
-            leaf ptp-name {
-                type string{
-                  length "1..64";
-                }
-                description "none";
-            }
-        }
-        output {
-            container data {
-                presence "";
-                leaf laser-switch {
-                    type boolean;
-                    description "false(Off), true(On)";
-                }
-            }
-            
-        }
-    }
-}        
+}

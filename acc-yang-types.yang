@@ -51,25 +51,8 @@ module acc-yang-types {
         }
         description "pm threshold-type";
     }
-    typedef layer-protocol-name {
-        type enumeration {
-            enum ODU {
-                value 0;
-                description
-                "ODU";
-            }
-            enum ETH {
-                value 1;
-                description
-                "ETH";
-            }
-            enum SDH {
-                value 2;
-                description
-                "SDH";
-            }
-        }
-        description
-        "layer protocol name";
+
+    identity layer-protocol-name {
+        description "The name of layer protocol.";
     }
 }

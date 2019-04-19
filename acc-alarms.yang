@@ -92,7 +92,6 @@ module acc-alarms {
         }
         leaf perceived-severity {
             type perceived-severity;
-            config false;
             description "alarm perceived-severity";
         }
         leaf start-time {
@@ -121,49 +120,52 @@ module acc-alarms {
         description "alarms";
     }
 
+    grouping tca-parameter {
+        leaf object-type {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+            description "tca-parameter object-type";
+        }
+        leaf object-name {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+            description "tca-parameter object-name";
+        }
+        leaf pm-parameter-name {
+            type string {
+                length "1..64";
+            }
+            description "tca-parameter pm-parameter-name";
+        }
+        leaf granularity {
+            type acc-type:granularity;
+            description "tca-parameter granularity";
+        }
+        leaf threshold-type {
+            type acc-type:threshold-type;
+            config false;
+            description "tca-parameter threshold-type";
+        }
+        leaf threshold-value {
+            type acc-type:real;
+            description "tca-parameter threshold-value";
+        }
+        description "tca-parameter";
+    }
+
+
     grouping tca {
         leaf tca-serial-no {
             type uint64;
             description "tca tca-serial-no";
         }
         container tca-parameter {
-            leaf object-type {
-                mandatory true;
-                type string {
-                    length "1..64";
-                }
-                config false;
-                description "tca-parameter object-type";
-            }    
-            leaf object-name {
-                mandatory true;
-                type string {
-                    length "1..64";
-                }
-                config false;
-                description "tca-parameter object-name";
-            }
-            leaf pm-parameter-name {
-                type string {
-                    length "1..64";
-                }
-                config false;
-                description "tca-parameter pm-parameter-name";
-            }
-            leaf granularity {
-                type acc-type:granularity;
-                config false;
-                description "tca-parameter granularity";
-            }
-            leaf threshold-type {
-                type acc-type:threshold-type;
-                config false;
-                description "tca-parameter threshold-type";
-            }
-            leaf threshold-value {
-                type acc-type:real;
-                description "tca-parameter threshold-value";
-            }
+            config false;
+            uses tca-parameter;
             description "tca-parameter";
         }
         leaf tca-state {
@@ -210,6 +212,13 @@ module acc-alarms {
     container tcas {
         uses tcas;
         description "tcas container";
+    }
+    container tca-parameters {
+        list tca-parameter {
+            key 'object-type object-name pm-parameter-name granularity';
+            uses tca-parameter;
+            description "tca-parameter";
+        }
     }
     container alarm-suppress-states {
         list alarm-suppress-state {

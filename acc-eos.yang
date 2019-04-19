@@ -1,0 +1,74 @@
+module acc-eos {
+    yang-version 1.1;
+    namespace "urn:xxx:yang:acc-eos";
+    prefix acc-eos;
+
+    import acc-devm { 
+        prefix acc-devm; 
+    }
+    import acc-eth {
+        prefix acc-eth;
+    }
+    import acc-sdh {
+        prefix acc-sdh;
+    }
+
+    organization
+        "xxx";
+
+    contact
+        "xxx";
+
+    description
+        "xxx";
+
+    revision 2019-02-13 {
+        description
+            "Initial revision.";
+        reference
+            "xxx";
+    }
+
+    augment "/acc-devm:ftps/acc-devm:ftp/acc-eth:eth-ftp-pac" {
+        when "acc-eth:mapping-type = 'acc-eth:EoS'";
+        container vcg-pac {
+            uses acc-sdh:vcg-pac;
+            description "Virtual concatenation group";
+        }
+        description "none";
+    }
+
+    rpc modify-vcg-connection-capacity {
+        input {
+            leaf eth-ftp-name {
+                type string {
+                    length "1..64";
+                }
+                description
+                    "The name of eth ftp name.";
+            }
+            leaf sdh-ftp-name {
+                type string {
+                    length "1..64";
+                }
+                description
+                    "The name of sdh ftp name.";
+            }
+            leaf sdh-protect-ftp-name {
+                type string {
+                    length "1..64";
+                }
+                description
+                    "The name of the protect sdh ftp name.";
+            }
+            leaf-list mapping-path {
+                min-elements 1;
+                type string {
+                    length "1..64";
+                }
+                description
+                    "The mapping path list.";
+            }
+        }
+    }
+}

@@ -27,12 +27,10 @@ module acc-performance {
                 type string {
                     length "1..64";
                 }
-                config false;
                 description "pm-parameter-name";
             }
             leaf start-time {
                 type yang:date-and-time;
-                config true;
                 description "start-time";
             }
             leaf object-name {
