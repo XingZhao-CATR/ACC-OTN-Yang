@@ -17,6 +17,10 @@ module acc-eth {
         prefix acc-con;
     }
 
+    import acc-otn {
+        prefix acc-otn;
+    }
+
     organization "xxx";
     contact "xxx";
     description "xxx";
@@ -33,15 +37,15 @@ module acc-eth {
     }
     typedef vlan-type {
         type enumeration {
-            enum c_tag {
+            enum c-tag {
                 value 0;
                 description "c-tag";
             }
-            enum s_tag {
+            enum s-tag {
                 value 1;
                 description "s-tag";
             }
-            enum un_tag {
+            enum un-tag {
                 value 2;
                 description "no-tag";
             }
@@ -167,6 +171,7 @@ module acc-eth {
     grouping vlan-spec {
         leaf vlan-id {
             mandatory true;
+            when "vlan-type != 'un-tag'";
             type uint64 {
                 range "1..4094";
             }
@@ -174,6 +179,7 @@ module acc-eth {
         }
         leaf vlan-priority {
             mandatory true;
+            when "vlan-type != 'un-tag'";
             type uint64 {
                 range "0..7";
             }
@@ -267,7 +273,6 @@ module acc-eth {
             }
             leaf mac-address {
                 type yang:mac-address;
-                config false;
                 description "none";
             }
             leaf port-type {
@@ -280,17 +285,22 @@ module acc-eth {
                 type boolean;
                 description "none";
             }
-            leaf lldp-chassis-id {
+            leaf lldp-peer-chassis-id {
                 type string {
                     length 1..64;
                 }
                 description "none";
             }
-            leaf lldp-port-id {
+            leaf lldp-peer-port-id {
                 type string {
                     length 1..64;
                 }
                 description "none";
+            }
+            leaf lldp-peer-system-name {
+                type string {
+                    length 1..64;
+                }
             }
             description "none";
         }
@@ -380,7 +390,6 @@ module acc-eth {
                     description "";
                 }
                 leaf remote-mep-id {
-                    mandatory true;
                     type uint16 {
                         range "1..8191";
                     }
@@ -397,12 +406,6 @@ module acc-eth {
                         range "0..7";
                     }
                     description "";
-                }
-                leaf md-name {
-                    type string {
-                        length "1..43";
-                    }
-                    description "MD name.";
                 }
                 leaf cc-interval {
                     mandatory true;
@@ -424,6 +427,19 @@ module acc-eth {
             description "none";
         }
         description "none";
+    }
+
+    grouping eth-nni {
+        leaf nni-ptp-name {
+            type string {
+                length 1..64;
+            }
+            description "";
+        }
+        leaf nni-ts-detail {
+            type string;
+            description "";
+        }
     }
 
     rpc create-eth-connection {
@@ -451,6 +467,13 @@ module acc-eth {
                 description
                     "eth uni";
             }
+
+            container primary-nni {
+                uses acc-otn:nni;
+            }
+            container secondary-nni {
+                uses acc-otn:nni;
+            }
         }
         output {
             container connection {
@@ -461,15 +484,22 @@ module acc-eth {
             container create-component {
                 description
                     "";
-                list ftp {
-                    key 'name';
-                    uses acc-devm:ftp;
+                leaf-list ftp-name {
+                    type string {
+                        length "1..64";
+                    }
                     description
                         "";
                 }
-                list ctp {
-                    key 'name';
-                    uses acc-devm:ctp;
+                leaf-list ctp-name {
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf-list pg-name {
+                    type uint16;
+                    description
+                        "";
                 }
             }
         }

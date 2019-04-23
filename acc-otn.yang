@@ -12,9 +12,6 @@ module acc-otn {
     import acc-connection {
         prefix acc-con;
     }
-    import acc-protection-group {
-        prefix acc-pg;
-    }
     import acc-yang-types { 
         prefix acc-type; 
     }
@@ -238,12 +235,6 @@ module acc-otn {
             }
             description "none";
         }
-        leaf nni-ctp-name {
-            type string{
-              length "1..64";
-            }
-            description "none";
-        }
         leaf nni-ts-detail {
             type string{
               length "1..64";
@@ -264,7 +255,6 @@ module acc-otn {
             type identityref {
                 base otn-types:odu-type;
             }
-            config false;
             description "Switch capability";
         }
         description "none";
@@ -418,6 +408,7 @@ module acc-otn {
             }
             leaf g-hao-status {
                 type g-hao-status;
+                config false;
                 description "The status of G.HAO";
             }
             description "none";
@@ -427,7 +418,7 @@ module acc-otn {
     /*
     * operations
     */
-    rpc create-oth-connection {
+    rpc create-odu-connection {
         input {
             uses acc-con:create-connection;
 
@@ -453,9 +444,8 @@ module acc-otn {
             container create-component {
                 description
                     "";
-                list pg {
-                    key 'pg-id';
-                    uses acc-pg:pg;
+                leaf-list pg-name {
+                    type uint16;
                     description
                         "";
                 }
@@ -466,7 +456,8 @@ module acc-otn {
 
     rpc modify-odu-connection-capacity {
         input {
-            leaf name {
+            leaf odu-ctp-name {
+                mandatory true;
                 type string {
                     length "1..64";
                 }
@@ -474,31 +465,34 @@ module acc-otn {
                     "The name of ODU CTP.";
             }
             leaf position {
+                mandatory true;
                 type odu-position;
                 description
                     "The position.";
             }
             leaf action {
+                mandatory true;
                 type modify-action;
                 description
                     "The Action of the modification.";
             }
             leaf switch-capability {
+                mandatory true;
                 type identityref {
                     base otn-types:odu-type;
                 }
                 description "Switch capability";
             }
             leaf current-number-of-tributary-slots {
+                mandatory true;
                 type uint64;
             }
-            leaf-list ts-detail {
-                type string {
-                    length "1..64";
-                }
+            leaf ts-detail {
+                type string;
                 description "";
             }
             leaf timeout {
+                mandatory true;
                 type uint64;
                 description "Rpc time out count, unit: second.";
             }
@@ -506,7 +500,19 @@ module acc-otn {
     }
 
     notification g-hao-notification {
+        leaf g-hao-adjust-serial-no {
+            mandatory true;
+            type uint64;
+            description "g.hao adjust serial No.";
+        }
+        leaf ctp-name {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+        }
         leaf modify-result {
+            mandatory true;
             type g-hao-modify-result;
         }
     }

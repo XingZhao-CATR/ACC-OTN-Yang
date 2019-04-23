@@ -220,8 +220,8 @@ module acc-alarms {
             description "tca-parameter";
         }
     }
-    container alarm-suppress-states {
-        list alarm-suppress-state {
+    container alarm-mask-states {
+        list alarm-mask-state {
             key 'object-name alarm-code';
             min-elements 1;
             leaf object-type {
@@ -229,29 +229,29 @@ module acc-alarms {
                     length "1..64";
                 }
                 mandatory true;
-                description "alarm-suppress-state object-type";
+                description "alarm-mask-state object-type";
             }
             leaf object-name {
                 type string {
                     length "1..64";
                 }
                 mandatory true; 
-                description "alarm-suppress-state object-name";
+                description "alarm-mask-state object-name";
             }
             leaf alarm-code {
                 type string {
                     length "1..64";
                 }
                 mandatory true;
-                description "alarm-suppress-state alarm-code";
+                description "alarm-mask-state alarm-code";
             }
-            leaf alarm-suppress-state {
+            leaf alarm-mask-state {
                 type boolean;
                 mandatory true;
-                description "alarm-suppress-state";
+                description "alarm-mask-state";
             }
         }
-        description "alarm-suppress-states";
+        description "alarm-mask-states";
     }        
 
     /*

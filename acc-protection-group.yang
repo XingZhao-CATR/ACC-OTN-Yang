@@ -145,6 +145,7 @@ module acc-protection-group {
         }
         leaf switch-reason {
             type switch-reason;
+            config false;
             description
                 "switch reason";
         }
@@ -163,6 +164,7 @@ module acc-protection-group {
         }
         leaf protection-direction {
             type protection-direction;
+            config false;
             description
                 "protection direction";
         }
@@ -184,6 +186,7 @@ module acc-protection-group {
             type leafref {
                 path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
             }
+            config false;
             description
                 "selected port";
         }
@@ -206,6 +209,7 @@ module acc-protection-group {
     */
     notification protection-switch-notification {
         leaf protection-switch-serial-no {
+            mandatory true;
             type uint64;
             description
                 "protection switch serial no";
@@ -226,18 +230,21 @@ module acc-protection-group {
             "protection";
         input {
             leaf pg-id {
+                mandatory true;
                 type uint64;
                 description
                     "pg id";
             }
 
             leaf protection-command {
+                mandatory true;
                 type switch-reason;
                 description
                     "protection command";
             }
 
             leaf protection-direction {
+                mandatory true;
                 type protection-direction;
                 description
                     "protection direction";

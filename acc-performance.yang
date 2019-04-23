@@ -96,20 +96,24 @@ module acc-performance {
         description "none";
             input {
                 leaf start-time {
+                    mandatory true;
                     type yang:date-and-time;
                     description "none";
                 }
                 leaf end-time {
+                    mandatory true;
                     type yang:date-and-time;
                     description "none";
                 }
                 leaf object-name {
+                    mandatory true;
                     type string {
                         length "1..64";
                     }
                     description "none";
                 }
                 leaf granularity {
+                    mandatory true;
                     type acc-type:granularity;
                     description "none";
                 }

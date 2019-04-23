@@ -12,6 +12,12 @@ module acc-eos {
     import acc-sdh {
         prefix acc-sdh;
     }
+    import acc-connection {
+        prefix acc-con;
+    }
+    import acc-otn {
+        prefix acc-otn;
+    }
 
     organization
         "xxx";
@@ -37,10 +43,93 @@ module acc-eos {
         }
         description "none";
     }
+    rpc create-eos-connection {
+        input {
+            uses acc-con:create-connection;
 
+            container client-side-nni {
+                uses acc-otn:nni;
+                description "client side nni";
+            }
+            container primary-nni {
+                uses acc-otn:nni;
+                description "primary nni";
+            }
+            container secondary-nni {
+                uses acc-otn:nni;
+                description "secondary nni";
+            }
+            container eos-pac {
+                leaf sdh-signal-type {
+                    type acc-sdh:sdh-signal-type;
+                }
+                leaf vc-type {
+                    mandatory true;
+                    type acc-sdh:switch-type;
+                    description "none";
+                }
+                leaf mapping-path {
+                    mandatory true;
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf lcas {
+                    type boolean;
+                    default false;
+                    description "none";
+                }
+                leaf hold-off {
+                    type uint32;
+                    default 0;
+                    description "unit: ms";
+                }
+                leaf wtr {
+                    type uint32;
+                    default 300;
+                    description "unit: s";
+                }
+                leaf tsd {
+                    type boolean;
+                    default false;
+                    description "none";
+                }
+            }
+        }
+        output {
+            container connection {
+                description
+                    "";
+                uses acc-con:connection;
+            }
+            container create-component {
+                description
+                    "";
+                leaf-list ftp-name {
+                    type string {
+                        length "1..64";
+                    }
+                    description
+                        "";
+                }
+                leaf-list ctp-name {
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf-list pg-name {
+                    type uint16;
+                    description
+                        "";
+                }
+            }
+        }
+        description "";
+    }
     rpc modify-vcg-connection-capacity {
         input {
             leaf eth-ftp-name {
+                mandatory true;
                 type string {
                     length "1..64";
                 }
@@ -48,6 +137,7 @@ module acc-eos {
                     "The name of eth ftp name.";
             }
             leaf sdh-ftp-name {
+                mandatory true;
                 type string {
                     length "1..64";
                 }
@@ -68,6 +158,16 @@ module acc-eos {
                 }
                 description
                     "The mapping path list.";
+            }
+        }
+        output {
+            leaf-list connection-name {
+                type string;
+            }
+            leaf-list ctp-name {
+                type string {
+                    length "1..64";
+                }
             }
         }
     }

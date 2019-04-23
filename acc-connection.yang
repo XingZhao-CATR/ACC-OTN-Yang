@@ -24,13 +24,6 @@ module acc-connection {
             "xxx";
     }
 
-    feature acc-box {
-        description "";
-    }
-    feature acc-pnp {
-        description "";
-    }
-
     /*
     * common types
     */
@@ -117,11 +110,13 @@ module acc-connection {
                 "connection name";
         }
         leaf service-type {
+            mandatory true;
             type acc-devm:service-type;
             description
                 "service type";
         }
         leaf layer-protocol-name {
+            mandatory true;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
@@ -139,18 +134,7 @@ module acc-connection {
     /*
     * the data tree
     */
-    container mappings {
-        if-feature acc-box;
-        config false;
-        list connection {
-            key 'name';
-            uses connection;
-            description "connection list";
-        }
-        description "connection container";
-    }
     container connections {
-        if-feature acc-pnp;
         list connection {
             key 'name';
             uses connection;

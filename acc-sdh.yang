@@ -9,8 +9,8 @@ module acc-sdh {
     import acc-connection {
         prefix acc-con;
     }
-    import acc-protection-group {
-        prefix acc-pg;
+    import acc-otn {
+        prefix acc-otn;
     }
     import acc-yang-types {
         prefix acc-type;
@@ -242,14 +242,17 @@ module acc-sdh {
 
             container sdh-uni {
                 leaf uni-ptp-name {
+                    mandatory true;
                     type string {
                         length "1..64";
                     }
                 }
                 leaf vc-type {
+                    mandatory true;
                     type switch-type;
                 }
                 leaf a-ctp-mapping-path {
+                    mandatory true;
                     type string {
                         length "1..64";
                     }
@@ -258,18 +261,29 @@ module acc-sdh {
             }
             container sdh-nni {
                 leaf sdh-type {
+                    mandatory true;
                     type sdh-signal-type;
                 }
                 leaf z-ctp-mapping-path {
+                    mandatory true;
                     type string {
                         length "1..64";
                     }
+                }
+                leaf sdh-type-protect {
+                    type sdh-signal-type;
                 }
                 leaf z-ctp-mapping-path-protect {
                     type string {
                         length "1..64";
                     }
                 }
+            }
+            container primary-nni {
+                uses acc-otn:nni;
+            }
+            container secondary-nni {
+                uses acc-otn:nni;
             }
         }
         output {
@@ -281,23 +295,23 @@ module acc-sdh {
             container create-component {
                 description
                     "";
-                list ftp {
-                    key 'name';
-                    uses acc-devm:ftp;
+                leaf-list ftp-name {
+                    type string {
+                        length "1..64";
+                    }
                     description
                         "";
                 }
-                list ctp {
-                    key 'name';
-                    uses acc-devm:ctp;
+                leaf-list ctp-name {
+                    type string {
+                        length "1..64";
+                    }
                 }
-                list pg {
-                    key 'pg-id';
-                    uses acc-pg:pg;
+                leaf-list pg-name {
+                    type uint16;
                     description
                         "";
                 }
-
             }
         }
     }

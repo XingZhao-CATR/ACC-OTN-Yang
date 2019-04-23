@@ -108,24 +108,20 @@ module acc-devm {
     }
     typedef service-type {
         type enumeration {
-            enum EPL-T {
+            enum ODU {
                 value 0;
                 description "none";
             }
-            enum EPL-F {
+            enum SDH {
                 value 1;
                 description "none";
             }
-            enum EVPL {
+            enum EPL {
                 value 2;
                 description "none";
             }
-            enum SDH {
+            enum EVPL {
                 value 3;
-                description "none";
-            }
-            enum ODU {
-                value 4;
                 description "none";
             }
         }
@@ -368,6 +364,7 @@ module acc-devm {
             type string{
               length "1..32";
             }
+            config false;
             description "Manufacturer";
         }
         leaf product-name {
@@ -375,6 +372,7 @@ module acc-devm {
             type string{
               length "1..32";
             }
+            config false;
             description "Product name";
         }
         leaf software-version {
@@ -461,7 +459,6 @@ module acc-devm {
             description "Gat way1(ipv4)";
         }
         leaf gate-way2 {
-            mandatory true;
             type inet:ipv4-address;
             description "Gat way2(ipv4)";
         }
@@ -624,43 +621,7 @@ module acc-devm {
     }    
     /*
     * operations
-    */    
-    rpc set-loopback {
-        description "none";
-        input {
-            leaf tp-name {
-                type string{
-                  length "1..64";
-                }
-                description "Name of tp(ptp,ctp,ftp)";
-            }
-            leaf loopback-type {
-                type loopback-type;
-                description "Loopback type";
-            }
-        }
-    }
-    rpc get-loopback-status {
-        description "none";
-        input {
-            leaf tp-name {
-                type string{
-                  length "1..64";
-                }
-                description  "Name of tp(ptp,ctp,ftp)";
-            }
-        }
-        output {
-            container data{
-                presence "";
-                leaf loopback-type {
-                    type loopback-type;
-                    description "Loopback type";
-                }
-            }
-            
-        }
-    }
+    */
     rpc reset {
         description "reset";
         input {
