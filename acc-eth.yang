@@ -400,6 +400,12 @@ module acc-eth {
                     type string;
                     description "";
                 }
+                leaf md-name {
+                    type string {
+                        length "1..43";
+                    }
+                    description "MD name.";
+                }
                 leaf mel {
                     mandatory true;
                     type uint8 {

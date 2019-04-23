@@ -47,9 +47,25 @@ module acc-eos {
         input {
             uses acc-con:create-connection;
 
-            container client-side-nni {
-                uses acc-otn:nni;
-                description "client side nni";
+            container eth-uni {
+                leaf uni-ptp-name {
+                    type string;
+                    description "uni ptp name";
+                }
+                container client-vlan-spec {
+                    uses acc-eth:client-vlan-spec;
+                    description "client side vlan spec";
+                }
+                container uni-vlan-spec {
+                    uses acc-eth:vlan-spec;
+                    description "uni vlan spec";
+                }
+                container ftp-vlan-spec {
+                    uses acc-eth:vlan-spec;
+                    description "ftp vlan spec";
+                }
+                description
+                    "eth uni";
             }
             container primary-nni {
                 uses acc-otn:nni;
@@ -105,6 +121,9 @@ module acc-eos {
             container create-component {
                 description
                     "";
+                leaf-list vc-connection-name {
+                    type string;
+                }
                 leaf-list ftp-name {
                     type string {
                         length "1..64";

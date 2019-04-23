@@ -307,6 +307,7 @@ module: acc-devm
   |     |     +--rw acc-eth:mep-id           uint16
   |     |     +--rw acc-eth:remote-mep-id?   uint16
   |     |     +--rw acc-eth:meg-id           string
+  |     |     +--rw acc-eth:md-name?         string
   |     |     +--rw acc-eth:mel              uint8
   |     |     +--rw acc-eth:cc-interval      oam-transmit-interval
   |     |     +--rw acc-eth:lm-interval      oam-transmit-interval
@@ -579,12 +580,22 @@ module: acc-eos
     |  |  |  +---w cir           uint64
     |  |  |  +---w ebs?          uint64
     |  |  |  +---w eir?          uint64
-    |  |  +---w client-side-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  +---w eth-uni
+    |  |  |  +---w uni-ptp-name?       string
+    |  |  |  +---w client-vlan-spec
+    |  |  |  |  +---w vlan-id*         uint64
+    |  |  |  |  +---w vlan-priority?   uint64
+    |  |  |  |  +---w vlan-type?       vlan-type
+    |  |  |  +---w uni-vlan-spec
+    |  |  |  |  +---w vlan-id          uint64
+    |  |  |  |  +---w vlan-priority    uint64
+    |  |  |  |  +---w access-action?   access-action
+    |  |  |  |  +---w vlan-type        vlan-type
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id          uint64
+    |  |  |     +---w vlan-priority    uint64
+    |  |  |     +---w access-action?   access-action
+    |  |  |     +---w vlan-type        vlan-type
     |  |  +---w primary-nni
     |  |  |  +---w nni-ptp-name?         string
     |  |  |  +---w nni-ts-detail?        string
@@ -622,9 +633,10 @@ module: acc-eos
     |     |  +--ro service-type           acc-devm:service-type
     |     |  +--ro pg-id?                 uint16
     |     +--ro create-component
-    |        +--ro ftp-name*   string
-    |        +--ro ctp-name*   string
-    |        +--ro pg-name*    uint16
+    |        +--ro vc-connection-name*   string
+    |        +--ro ftp-name*             string
+    |        +--ro ctp-name*             string
+    |        +--ro pg-name*              uint16
     +---x modify-vcg-connection-capacity
        +---w input
        |  +---w eth-ftp-name            string
