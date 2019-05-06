@@ -91,7 +91,7 @@ module acc-eth {
                 value 1;
                 description "push-pop vlan";
             }
-            enum keep_exchange {
+            enum exchange {
                 value 2;
                 description "exchange vlan";
             }
@@ -169,8 +169,7 @@ module acc-eth {
    * groupings
    */
     grouping vlan-spec {
-        leaf vlan-id {
-            mandatory true;
+        leaf-list vlan-id {
             when "vlan-type != 'un-tag'";
             type uint64 {
                 range "1..4094";
@@ -195,26 +194,6 @@ module acc-eth {
             description "vlan type";
         }
         description "vlan spec";
-    }
-
-    grouping client-vlan-spec {
-        leaf-list vlan-id {
-            type uint64 {
-                range "1..4094";
-            }
-            description "vlan id";
-        }
-        leaf vlan-priority {
-            type uint64 {
-                range "0..7";
-            }
-            description "vlan pri";
-        }
-        leaf vlan-type {
-            type vlan-type;
-            description "vlan type";
-        }
-        description "client side vlan spec";
     }
 
     grouping eth-ftp-pac {
@@ -326,7 +305,7 @@ module acc-eth {
                 description "vlan spec";
             }
             container client-vlan-spec {
-                uses client-vlan-spec;
+                uses vlan-spec;
                 description "client vlan spec";
             }
             container performance {
@@ -459,7 +438,7 @@ module acc-eth {
                     description "uni ptp name";
                 }
                 container client-vlan-spec {
-                    uses client-vlan-spec;
+                    uses vlan-spec;
                     description "client side vlan spec";
                 }
                 container uni-vlan-spec {
