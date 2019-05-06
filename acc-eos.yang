@@ -53,7 +53,7 @@ module acc-eos {
                     description "uni ptp name";
                 }
                 container client-vlan-spec {
-                    uses acc-eth:client-vlan-spec;
+                    uses acc-eth:vlan-spec;
                     description "client side vlan spec";
                 }
                 container uni-vlan-spec {
