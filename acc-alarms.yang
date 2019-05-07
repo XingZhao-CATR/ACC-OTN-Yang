@@ -224,13 +224,6 @@ module acc-alarms {
         list alarm-mask-state {
             key 'object-name alarm-code';
             min-elements 1;
-            leaf object-type {
-                type string {
-                    length "1..64";
-                }
-                mandatory true;
-                description "alarm-mask-state object-type";
-            }
             leaf object-name {
                 type string {
                     length "1..64";
@@ -245,10 +238,17 @@ module acc-alarms {
                 mandatory true;
                 description "alarm-mask-state alarm-code";
             }
-            leaf alarm-mask-state {
+            leaf object-type {
+                type string {
+                    length "1..64";
+                }
+                mandatory true;
+                description "alarm-mask-state object-type";
+            }
+            leaf mask-state {
                 type boolean;
                 mandatory true;
-                description "alarm-mask-state";
+                description "true is mask";
             }
         }
         description "alarm-mask-states";
