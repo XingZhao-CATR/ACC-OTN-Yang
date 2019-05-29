@@ -1,6 +1,6 @@
 module acc-connection {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-connection";
+    namespace "urn:ccsa:yang:acc-connection";
     prefix acc-con;
 
     import acc-devm {
@@ -36,20 +36,12 @@ module acc-connection {
             mandatory true;
             type uint64;
             description "total size";
-        }
-        leaf cbs {
-            type uint64;
-            description "cbs";
-        }
+        }     
         leaf cir {
             mandatory true;
             type uint64;
             description "cir";
-        }
-        leaf ebs {
-            type uint64;
-            description "ebs";
-        }
+        }      
         leaf eir {
             type uint64;
             description "eir";
