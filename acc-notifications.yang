@@ -1,6 +1,6 @@
 module acc-notifications {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-notifications";
+    namespace "urn:ccsa:yang:acc-notifications";
     prefix acc-ntf;
 
     organization "xxx";
@@ -75,11 +75,11 @@ module acc-notifications {
                 type string;
                 description "attribute-value-change attribute-name";
             }
-            leaf new-attribute-value {
+            leaf new-value {
                 type string;
                 description "attribute-value-change new-attribute-value";
             }
-            leaf old-attribute-value {
+            leaf old-value {
                 type string;
                 description "attribute-value-change old-attribute-value";
             }
