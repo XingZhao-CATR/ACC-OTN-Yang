@@ -76,17 +76,9 @@ module acc-devm {
             enum terminal-loopback {
                 value 1;
                 description "Terminal loopback";
-            }
-            enum mac-facility-loopback {
-                value 2;
-                description "Mac facility loopback";
-            }
-            enum mac-terminal-loopback {
-                value 3;
-                description "Mac terminal loopback";
-            }
+            }    
             enum non-loopback {
-                value 4;
+                value 2;
                 description "Non loopback";
             }
         }
@@ -653,5 +645,13 @@ module acc-devm {
                 description "New password.";
             }
         }
+    }
+    
+    rpc set-managed-element-time {
+        input {
+            leaf new-time {
+                type yang:date-and-time;
+                }
+         }
     }
 }
