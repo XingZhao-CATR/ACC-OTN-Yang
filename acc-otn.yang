@@ -1,6 +1,6 @@
 module acc-otn {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-otn";
+    namespace "urn:ccsa:yang:acc-otn";
     prefix acc-otn;
 
     import ietf-otn-types {
@@ -34,7 +34,7 @@ module acc-otn {
     /*
     * common types
     */
-    identity OTN {
+    identity ODU {
         base acc-type:layer-protocol-name;
         description "";
     }
