@@ -145,7 +145,7 @@ module acc-sdh {
                 }
                 description "none";
             }
-            leaf j0-expectd-rx {
+            leaf j0-expected-rx {
                 mandatory true;
                 type string {
                     length "1..64";
@@ -170,6 +170,12 @@ module acc-sdh {
             leaf sdh-signal-type {
                 mandatory true;
                 type sdh-signal-type;
+                description "none";
+            }
+            leaf-list switch-capability {
+                min-elements 1;
+                type switch-type;
+                config false;
                 description "none";
             }
             leaf j0-actual-tx {
