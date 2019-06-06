@@ -16,8 +16,13 @@ module acc-yang-types {
    * Common types
    */    
     typedef real {
-        type decimal64 {
-            fraction-digits 2;
+        type union {
+            type decimal64 {
+                fraction-digits 2;
+            }
+            type decimal64 {
+                fraction-digits 18;
+            }
         }
     }
     typedef granularity {
