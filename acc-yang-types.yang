@@ -1,6 +1,6 @@
 module acc-yang-types {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-yang-types";
+    namespace "urn:ccsa:yang:acc-yang-types";
     prefix acc-type;
 
     organization "xxx";
