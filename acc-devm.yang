@@ -1,6 +1,6 @@
 module acc-devm {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-devm";
+    namespace "urn:ccsa:yang:acc-devm";
     prefix acc-devm;
 
     import ietf-yang-types {
@@ -610,7 +610,37 @@ module acc-devm {
             description "eq";
         }
         description "eqs";
-    }    
+    }
+
+    /*
+    * notifications
+    */
+    notification peer-change-notification {
+        leaf ptp-name {
+            mandatory true;
+            type string {
+                length 1..64;
+            }
+            description
+                "PTP name.";
+        }
+        leaf peer-ip-address {
+        	  mandatory true;
+            type string {
+                length 1..16;
+            }
+            description "Peer ip address";
+        }
+        leaf peer-ptp-name {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "Peer ptp name";
+        }
+        description "Peer change notification";
+    } 
+    
     /*
     * operations
     */
