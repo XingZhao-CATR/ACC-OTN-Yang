@@ -1,6 +1,6 @@
 module acc-eth {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-eth";
+    namespace "urn:ccsa:yang:acc-eth";
     prefix acc-eth;
     import ietf-yang-types {
         prefix yang;
@@ -425,6 +425,42 @@ module acc-eth {
             type string;
             description "";
         }
+    }
+
+    /*
+    * notifications
+    */
+    notification lldp-change-notification {
+        leaf ptp-name {
+            mandatory true;
+            type string {
+                length 1..64;
+            }
+            description
+                "PTP name.";
+        }
+        leaf lldp-peer-chassis-id {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "none";
+        }
+        leaf lldp-peer-port-id {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "none";
+        }
+        leaf lldp-peer-system-name {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "none";
+        }
+        description "LLDP change notification";
     }
 
     rpc create-eth-connection {
