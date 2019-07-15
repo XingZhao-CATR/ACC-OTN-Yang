@@ -1,6 +1,6 @@
 module acc-performance {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-performance";
+    namespace "urn:ccsa:yang:acc-performance";
     prefix acc-pm;
 
     import ietf-yang-types {
@@ -125,12 +125,10 @@ module acc-performance {
                 }
             }
             output {
-                container data {
-                    container performances {
-                        uses performances;
-                        description "none";
-                    } 
-                }
+                container performances {
+                    uses performances;
+                    description "none";
+                } 
             }
     }
 }        
