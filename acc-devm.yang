@@ -1,6 +1,6 @@
 module acc-devm {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-devm";
+    namespace "urn:ccsa:yang:acc-devm";
     prefix acc-devm;
 
     import ietf-yang-types {
@@ -76,17 +76,9 @@ module acc-devm {
             enum terminal-loopback {
                 value 1;
                 description "Terminal loopback";
-            }
-            enum mac-facility-loopback {
-                value 2;
-                description "Mac facility loopback";
-            }
-            enum mac-terminal-loopback {
-                value 3;
-                description "Mac terminal loopback";
-            }
+            }    
             enum non-loopback {
-                value 4;
+                value 2;
                 description "Non loopback";
             }
         }
@@ -420,6 +412,11 @@ module acc-devm {
             type boolean;
             description "Support ntp or not.";
         }
+        leaf ntp-state {
+            type ntp-state;
+            config false;
+            description "Ntp state";
+        }
         container ntp-servers {
             list ntp-server {
                 key 'name';
@@ -444,11 +441,6 @@ module acc-devm {
                         length "1..64";
                     }
                     description "Ntp version";
-                }
-                leaf ntp-state {
-                    type ntp-state;
-                    config false;
-                    description "Ntp state";
                 }
                 description "ntp";
             }
@@ -618,7 +610,37 @@ module acc-devm {
             description "eq";
         }
         description "eqs";
-    }    
+    }
+
+    /*
+    * notifications
+    */
+    notification peer-change-notification {
+        leaf ptp-name {
+            mandatory true;
+            type string {
+                length 1..64;
+            }
+            description
+                "PTP name.";
+        }
+        leaf peer-ip-address {
+        	  mandatory true;
+            type string {
+                length 1..16;
+            }
+            description "Peer ip address";
+        }
+        leaf peer-ptp-name {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "Peer ptp name";
+        }
+        description "Peer change notification";
+    } 
+    
     /*
     * operations
     */
@@ -653,5 +675,13 @@ module acc-devm {
                 description "New password.";
             }
         }
+    }
+    
+    rpc set-managed-element-time {
+        input {
+            leaf new-time {
+                type yang:date-and-time;
+                }
+         }
     }
 }

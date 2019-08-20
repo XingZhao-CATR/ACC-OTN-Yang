@@ -1,6 +1,6 @@
 module acc-otn {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-otn";
+    namespace "urn:ccsa:yang:acc-otn";
     prefix acc-otn;
 
     import ietf-otn-types {
@@ -34,7 +34,7 @@ module acc-otn {
     /*
     * common types
     */
-    identity OTN {
+    identity ODU {
         base acc-type:layer-protocol-name;
         description "";
     }
@@ -263,7 +263,37 @@ module acc-otn {
     /*
     * the data tree
     */
-
+    augment "/acc-devm:ptps/acc-devm:ptp" {
+        when "acc-devm:layer-protocol-name = acc-type:ODU";
+        container odu-ptp-map-info-pac {
+            list map-info {
+                config false;
+                min-elements 1;
+                leaf odu-signal-type {
+                    type identityref {
+                        base otn-types:client-signal;
+                    }
+                    config false;
+                    description
+                      "The client signal type.";
+                }
+                leaf adaptation-type {
+                    type adaptation-type;
+                    config false;
+                    description
+                      "The adaptation type.";
+                }
+                leaf switch-capability {
+                    type identityref {
+                        base otn-types:odu-type;
+                    }
+                    config false;
+                    description
+                      "The switch capability";
+                }
+            }
+        }
+    }
     augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = acc-type:ODU";
         container odu-ptp-pac {

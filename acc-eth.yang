@@ -1,6 +1,6 @@
 module acc-eth {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-eth";
+    namespace "urn:ccsa:yang:acc-eth";
     prefix acc-eth;
     import ietf-yang-types {
         prefix yang;
@@ -8,11 +8,15 @@ module acc-eth {
     import acc-yang-types {
          prefix acc-type; 
     }
-
+    import ietf-otn-types {
+        prefix otn-types;
+    }
     import acc-devm {
         prefix acc-devm;
     }
-
+    import acc-sdh {
+        prefix acc-sdh;
+    }
     import acc-connection {
         prefix acc-con;
     }
@@ -91,7 +95,7 @@ module acc-eth {
                 value 1;
                 description "push-pop vlan";
             }
-            enum keep_exchange {
+            enum exchange {
                 value 2;
                 description "exchange vlan";
             }
@@ -169,8 +173,7 @@ module acc-eth {
    * groupings
    */
     grouping vlan-spec {
-        leaf vlan-id {
-            mandatory true;
+        leaf-list vlan-id {
             when "vlan-type != 'un-tag'";
             type uint64 {
                 range "1..4094";
@@ -197,26 +200,6 @@ module acc-eth {
         description "vlan spec";
     }
 
-    grouping client-vlan-spec {
-        leaf-list vlan-id {
-            type uint64 {
-                range "1..4094";
-            }
-            description "vlan id";
-        }
-        leaf vlan-priority {
-            type uint64 {
-                range "0..7";
-            }
-            description "vlan pri";
-        }
-        leaf vlan-type {
-            type vlan-type;
-            description "vlan type";
-        }
-        description "client side vlan spec";
-    }
-
     grouping eth-ftp-pac {
         leaf supported-mtu {
             mandatory true;
@@ -241,6 +224,34 @@ module acc-eth {
         }
     }
 
+    augment "/acc-devm:eqs/acc-devm:eq" {
+        container eq-eth-pac {
+            leaf supported-mapping-type {
+                type eth-mapping-type;
+                description
+                  "none";
+            }
+            choice supported-server-switch-capability {
+                case odu-switch-capability-case {
+                    when "supported-server-ctp-layer = 'ODU'";
+                    leaf-list odu-switch-capability {
+                        type identityref {
+                            base otn-types:odu-type;
+                        }
+                        description "ODU Switch capability";
+                    }
+                }
+                case sdh-switch-capability-case {
+                    when "supported-server-ctp-layer = 'SDH'";
+                    leaf-list sdh-switch-capability {
+                        type acc-sdh:switch-type;
+                        description "SDH Switch capability";
+                    }
+                }
+            }
+            description "none";
+        }
+    }
     augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ptp-pac {
@@ -286,18 +297,21 @@ module acc-eth {
                 description "none";
             }
             leaf lldp-peer-chassis-id {
+                config false;
                 type string {
                     length 1..64;
                 }
                 description "none";
             }
             leaf lldp-peer-port-id {
+                config false;
                 type string {
                     length 1..64;
                 }
                 description "none";
             }
             leaf lldp-peer-system-name {
+                config false;
                 type string {
                     length 1..64;
                 }
@@ -326,7 +340,7 @@ module acc-eth {
                 description "vlan spec";
             }
             container client-vlan-spec {
-                uses client-vlan-spec;
+                uses vlan-spec;
                 description "client vlan spec";
             }
             container performance {
@@ -448,6 +462,42 @@ module acc-eth {
         }
     }
 
+    /*
+    * notifications
+    */
+    notification lldp-change-notification {
+        leaf ptp-name {
+            mandatory true;
+            type string {
+                length 1..64;
+            }
+            description
+                "PTP name.";
+        }
+        leaf lldp-peer-chassis-id {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "none";
+        }
+        leaf lldp-peer-port-id {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "none";
+        }
+        leaf lldp-peer-system-name {
+        	  mandatory true;
+            type string {
+                length 1..64;
+            }
+            description "none";
+        }
+        description "LLDP change notification";
+    }
+
     rpc create-eth-connection {
         description "";
         input {
@@ -459,7 +509,7 @@ module acc-eth {
                     description "uni ptp name";
                 }
                 container client-vlan-spec {
-                    uses client-vlan-spec;
+                    uses vlan-spec;
                     description "client side vlan spec";
                 }
                 container uni-vlan-spec {

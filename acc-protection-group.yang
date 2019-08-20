@@ -1,6 +1,6 @@
 module acc-protection-group {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-protection-group";
+    namespace "urn:ccsa:yang:acc-protection-group";
     prefix acc-pg;
 
     import acc-devm {
@@ -24,15 +24,20 @@ module acc-protection-group {
     */
     typedef protection-type {
         type enumeration {
-            enum sncp1-1 {
+            enum odu-sncp {
                 value 0;
                 description
-                    "SNCP 1+1";
+                    "ODU SNCP";
             }
-            enum och1-1 {
+            enum vc-sncp {
                 value 1;
                 description
-                    "OCH 1+1";
+                    "VC SNCP";
+            }
+            enum olp-1-plus-1 {
+                value 2;
+                description
+                    "OLP 1+1";
             }
         }
         description

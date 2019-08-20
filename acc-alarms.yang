@@ -1,6 +1,6 @@
 module acc-alarms {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-alarms";
+    namespace "urn:ccsa:yang:acc-alarms";
     prefix acc-alm;
 
     import ietf-yang-types {
@@ -146,8 +146,8 @@ module acc-alarms {
             description "tca-parameter granularity";
         }
         leaf threshold-type {
+            mandatory true;
             type acc-type:threshold-type;
-            config false;
             description "tca-parameter threshold-type";
         }
         leaf threshold-value {
@@ -215,7 +215,7 @@ module acc-alarms {
     }
     container tca-parameters {
         list tca-parameter {
-            key 'object-type object-name pm-parameter-name granularity';
+            key 'object-name pm-parameter-name granularity threshold-type';
             uses tca-parameter;
             description "tca-parameter";
         }
@@ -224,13 +224,6 @@ module acc-alarms {
         list alarm-mask-state {
             key 'object-name alarm-code';
             min-elements 1;
-            leaf object-type {
-                type string {
-                    length "1..64";
-                }
-                mandatory true;
-                description "alarm-mask-state object-type";
-            }
             leaf object-name {
                 type string {
                     length "1..64";
@@ -245,10 +238,17 @@ module acc-alarms {
                 mandatory true;
                 description "alarm-mask-state alarm-code";
             }
-            leaf alarm-mask-state {
+            leaf object-type {
+                type string {
+                    length "1..64";
+                }
+                mandatory true;
+                description "alarm-mask-state object-type";
+            }
+            leaf mask-state {
                 type boolean;
                 mandatory true;
-                description "alarm-mask-state";
+                description "true is mask";
             }
         }
         description "alarm-mask-states";
@@ -287,16 +287,13 @@ module acc-alarms {
             }
         }
         output {
-            container data {
-                presence "";
-                container alarms {
-                    uses alarms;
-                    description "output alarms";
-                }
-                container tcas {
-                    uses tcas;
-                    description "output tcas";
-                }
+            container alarms {
+                uses alarms;
+                description "output alarms";
+            }
+            container tcas {
+                uses tcas;
+                description "output tcas";
             }
         }
     }

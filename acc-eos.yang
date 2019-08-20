@@ -1,6 +1,6 @@
 module acc-eos {
     yang-version 1.1;
-    namespace "urn:xxx:yang:acc-eos";
+    namespace "urn:ccsa:yang:acc-eos";
     prefix acc-eos;
 
     import acc-devm { 
@@ -53,7 +53,7 @@ module acc-eos {
                     description "uni ptp name";
                 }
                 container client-vlan-spec {
-                    uses acc-eth:client-vlan-spec;
+                    uses acc-eth:vlan-spec;
                     description "client side vlan spec";
                 }
                 container uni-vlan-spec {
@@ -84,8 +84,16 @@ module acc-eos {
                     type acc-sdh:switch-type;
                     description "none";
                 }
-                leaf mapping-path {
-                    mandatory true;
+                leaf-list mapping-path {
+                    min-elements 1;
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf sdh-signal-type-protect {
+                    type acc-sdh:sdh-signal-type;
+                }
+                leaf-list mapping-path-protect {
                     type string {
                         length "1..64";
                     }
