@@ -333,12 +333,7 @@ module acc-sdh {
                     type string {
                         length "1..64";
                     }
-                }
-                leaf-list pg-name {
-                    type uint16;
-                    description
-                        "";
-                }
+                }                
             }
         }
     }

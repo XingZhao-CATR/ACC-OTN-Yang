@@ -265,37 +265,6 @@ module acc-otn {
     */
     augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = acc-type:ODU";
-        container odu-ptp-map-info-pac {
-            list map-info {
-                config false;
-                min-elements 1;
-                leaf odu-signal-type {
-                    type identityref {
-                        base otn-types:client-signal;
-                    }
-                    config false;
-                    description
-                      "The client signal type.";
-                }
-                leaf adaptation-type {
-                    type adaptation-type;
-                    config false;
-                    description
-                      "The adaptation type.";
-                }
-                leaf switch-capability {
-                    type identityref {
-                        base otn-types:odu-type;
-                    }
-                    config false;
-                    description
-                      "The switch capability";
-                }
-            }
-        }
-    }
-    augment "/acc-devm:ptps/acc-devm:ptp" {
-        when "acc-devm:layer-protocol-name = acc-type:ODU";
         container odu-ptp-pac {
             leaf odu-capacity {
                 mandatory true;
@@ -470,16 +439,7 @@ module acc-otn {
                 description
                     "";
                 uses acc-con:connection;
-            }
-            container create-component {
-                description
-                    "";
-                leaf-list pg-name {
-                    type uint16;
-                    description
-                        "";
-                }
-            }
+            }           
         }
         description "";
     }
