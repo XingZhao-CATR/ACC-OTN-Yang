@@ -287,13 +287,16 @@ module acc-alarms {
             }
         }
         output {
-            container alarms {
-                uses alarms;
-                description "output alarms";
-            }
-            container tcas {
-                uses tcas;
-                description "output tcas";
+            container data {
+                presence "";
+                container alarms {
+                    uses alarms;
+                    description "output alarms";
+                }
+                container tcas {
+                    uses tcas;
+                    description "output tcas";
+                }
             }
         }
     }
