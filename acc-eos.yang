@@ -181,13 +181,6 @@ module acc-eos {
                 description
                     "The mapping path list.";
             }
-            leaf-list mapping-path-protected {
-                type string {
-                    length "1..64";
-                }
-                description
-                    "The protected mapping path list.";
-            }
         }
         output {
             leaf-list connection-name {

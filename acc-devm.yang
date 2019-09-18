@@ -493,19 +493,12 @@ module acc-devm {
                 config false;
                 description "Peer ip address";
             }
-            leaf peer-tcp-id {
+            leaf peer-ptp-name {
                 type string {
                     length "1..64";
                 }
                 config false;
-                description "Peer ptp tcp-id";
-            }
-            leaf local-tcp-id {
-                type string {
-                    length "1..64";
-                }
-                config false;
-                description "Local ptp tcp-id";
+                description "Peer ptp name";
             }
             leaf laser-status {
                 type laser-status;

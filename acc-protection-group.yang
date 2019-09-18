@@ -117,11 +117,6 @@ module acc-protection-group {
                 description
                     "force switch";
             }
-            enum cleared {
-                value 5;
-                description
-                    "cleared";
-            }
         }
         description
             "switch reason";
