@@ -73,6 +73,10 @@ module acc-sdh {
                 value 4;
                 description "none";
             }
+            enum NO-SERVICE {
+                value 5;
+                description "none";
+            }
         }
         description "none";
     }
