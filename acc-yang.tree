@@ -56,7 +56,6 @@ module: acc-eth
           +--ro create-component
              +--ro ftp-name*   string
              +--ro ctp-name*   string
-             +--ro pg-name*    uint16
 
   notifications:
     +---n lldp-change-notification
@@ -189,27 +188,23 @@ module: acc-devm
   |  +--ro eq*                    -> /eqs/eq/name
   +--rw ptps
   |  +--rw ptp* [name]
-  |     +--rw name                            string
+  |     +--rw name                   string
   |     +--rw state-pac
   |     |  +--rw operational-state    operational-state
   |     |  +--rw admin-state          admin-state
-  |     +--rw layer-protocol-name             identityref
-  |     +--ro peer-ip-address?                string
-  |     +--ro peer-ptp-name?                  string
-  |     +--rw laser-status?                   laser-status
-  |     +--rw ctp*                            -> /ctps/ctp/name
-  |     +--rw interface-type                  interface-type
-  |     +--rw loop-back?                      loopback-type
+  |     +--rw layer-protocol-name    identityref
+  |     +--ro peer-ip-address?       string
+  |     +--ro peer-tcp-id?           string
+  |     +--ro local-tcp-id?          string
+  |     +--rw laser-status?          laser-status
+  |     +--rw ctp*                   -> /ctps/ctp/name
+  |     +--rw interface-type         interface-type
+  |     +--rw loop-back?             loopback-type
   |     +--rw optical-power-pac
   |     |  +--ro input-power                    acc-type:real
   |     |  +--rw output-power                   acc-type:real
   |     |  +--ro input-power-upper-threshold    acc-type:real
   |     |  +--ro input-power-lower-threshold    acc-type:real
-  |     +--rw acc-otn:odu-ptp-map-info-pac
-  |     |  +--ro acc-otn:map-info* []
-  |     |     +--ro acc-otn:odu-signal-type?     identityref
-  |     |     +--ro acc-otn:adaptation-type?     adaptation-type
-  |     |     +--ro acc-otn:switch-capability?   identityref
   |     +--rw acc-otn:odu-ptp-pac
   |     |  +--ro acc-otn:odu-capacity                 uint64
   |     |  +--ro acc-otn:odu-signal-type*             identityref
@@ -471,7 +466,6 @@ module: acc-sdh
           +--ro create-component
              +--ro ftp-name*   string
              +--ro ctp-name*   string
-             +--ro pg-name*    uint16
 module: acc-connection
   +--rw connections
      +--rw connection* [name]
@@ -519,20 +513,18 @@ module: acc-otn
     |  |     +---w switch-capability?    identityref
     |  +--ro output
     |     +--ro connection
-    |     |  +--ro name?                  string
-    |     |  +--ro state-pac
-    |     |  |  +--ro operational-state    operational-state
-    |     |  |  +--ro admin-state          admin-state
-    |     |  +--ro layer-protocol-name    identityref
-    |     |  +--ro requested-capacity
-    |     |  |  +--ro total-size    uint64
-    |     |  |  +--ro cir           uint64
-    |     |  |  +--ro eir?          uint64
-    |     |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
-    |     |  +--ro service-type           acc-devm:service-type
-    |     |  +--ro pg-id?                 uint16
-    |     +--ro create-component
-    |        +--ro pg-name*   uint16
+    |        +--ro name?                  string
+    |        +--ro state-pac
+    |        |  +--ro operational-state    operational-state
+    |        |  +--ro admin-state          admin-state
+    |        +--ro layer-protocol-name    identityref
+    |        +--ro requested-capacity
+    |        |  +--ro total-size    uint64
+    |        |  +--ro cir           uint64
+    |        |  +--ro eir?          uint64
+    |        +--ro ctp*                   -> /acc-devm:ctps/ctp/name
+    |        +--ro service-type           acc-devm:service-type
+    |        +--ro pg-id?                 uint16
     +---x modify-odu-connection-capacity
        +---w input
           +---w odu-ctp-name                         string
@@ -654,13 +646,13 @@ module: acc-eos
     |        +--ro vc-connection-name*   string
     |        +--ro ftp-name*             string
     |        +--ro ctp-name*             string
-    |        +--ro pg-name*              uint16
     +---x modify-vcg-connection-capacity
        +---w input
-       |  +---w eth-ftp-name            string
-       |  +---w sdh-ftp-name            string
-       |  +---w sdh-protect-ftp-name?   string
-       |  +---w mapping-path*           string
+       |  +---w eth-ftp-name              string
+       |  +---w sdh-ftp-name              string
+       |  +---w sdh-protect-ftp-name?     string
+       |  +---w mapping-path*             string
+       |  +---w mapping-path-protected*   string
        +--ro output
           +--ro connection-name*   string
           +--ro ctp-name*          string
