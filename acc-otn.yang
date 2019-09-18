@@ -109,6 +109,10 @@ module acc-otn {
                 value 10;
                 description "none";
             }
+            enum ODUk {
+                value 11;
+                description "none";
+            }
         }
         description "Adaptation type";
     }

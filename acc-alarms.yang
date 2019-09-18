@@ -40,15 +40,15 @@ module acc-alarms {
             }
             enum major {
                 value 1;
-                description "perceived-severity critical";
+                description "perceived-severity major";
             }
             enum minor {
                 value 2;
-                description "perceived-severity critical";
+                description "perceived-severity minor";
             }
             enum warning {
                 value 3;
-                description "perceived-severity critical";
+                description "perceived-severity warning";
             }
         }
         description "perceived-severity";
