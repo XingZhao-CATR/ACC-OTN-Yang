@@ -493,12 +493,19 @@ module acc-devm {
                 config false;
                 description "Peer ip address";
             }
-            leaf peer-ptp-name {
+            leaf peer-tcp-id {
                 type string {
-                    length "1..64";
+                    length "1..32";
                 }
                 config false;
-                description "Peer ptp name";
+                description "对端端口ID，32bit，建议子架（8比特）+槽位（8比特）+子卡（8比特）+端口号（8比特)";
+            }
+            leaf local-tcp-id {
+                type string {
+                    length "1..32";
+                }
+                config false;
+                description "local端端口ID，32bit，建议子架（8比特）+槽位（8比特）+子卡（8比特）+端口号（8比特)";
             }
             leaf laser-status {
                 type laser-status;
