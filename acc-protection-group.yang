@@ -138,6 +138,11 @@ module acc-protection-group {
                 description
                     "cleared";
             }
+            enum wait-for-restore {
+                value 6;
+                description
+                    "WTR";
+            }
         }
         description
             "switch reason";
