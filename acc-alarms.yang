@@ -105,7 +105,7 @@ module acc-alarms {
         }
         leaf additional-text {
             type string {
-                length "1..64";
+                length "1..512";
             }
             description "alarm additional-text";
         }
