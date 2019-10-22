@@ -175,7 +175,7 @@ module acc-protection-group {
                 "reversion mode";
         }
         leaf sd-trigger {
-            type sd-strigger;
+            type sd-trigger;
             description
                 "sd protection";
         }
