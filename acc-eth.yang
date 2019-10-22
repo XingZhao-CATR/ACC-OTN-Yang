@@ -299,14 +299,14 @@ module acc-eth {
             leaf lldp-peer-chassis-id {
                 config false;
                 type string {
-                    length 1..64;
+                    length 1..255;
                 }
                 description "none";
             }
             leaf lldp-peer-port-id {
                 config false;
                 type string {
-                    length 1..64;
+                    length 1..255;
                 }
                 description "none";
             }
