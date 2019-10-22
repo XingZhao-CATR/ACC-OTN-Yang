@@ -106,7 +106,6 @@ module acc-performance {
                     description "none";
                 }
                 leaf object-name {
-                    mandatory true;
                     type string {
                         length "1..64";
                     }
