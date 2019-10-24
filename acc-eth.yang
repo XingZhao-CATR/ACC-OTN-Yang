@@ -233,7 +233,7 @@ module acc-eth {
             }
             choice supported-server-switch-capability {
                 case odu-switch-capability-case {
-                    when "supported-server-ctp-layer = 'ODU'";
+                    when "supported-mapping-type = 'EoO'";
                     leaf-list odu-switch-capability {
                         type identityref {
                             base otn-types:odu-type;
@@ -242,7 +242,7 @@ module acc-eth {
                     }
                 }
                 case sdh-switch-capability-case {
-                    when "supported-server-ctp-layer = 'SDH'";
+                    when "supported-mapping-type = 'EoS'";
                     leaf-list sdh-switch-capability {
                         type acc-sdh:switch-type;
                         description "SDH Switch capability";
