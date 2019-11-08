@@ -242,7 +242,6 @@ module acc-devm {
         leaf operational-state {
             mandatory true;
             type operational-state;
-            config false;
             description "Operational state";
         }
         leaf admin-state {
@@ -455,10 +454,6 @@ module acc-devm {
             type inet:ipv4-address;
             description "Gat way2(ipv4)";
         }
-        leaf me-time {
-            type yang:date-and-time;
-            description "me time";
-		}
         leaf-list eq {
             type leafref {
                 path '/acc-devm:eqs/acc-devm:eq/acc-devm:name';

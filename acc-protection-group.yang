@@ -59,22 +59,6 @@ module acc-protection-group {
         description
             "switch type";
     }
-    typedef sd-trigger {
-        type enumeration {
-            enum enabled {
-                value 0;
-                description
-                    "sd trigger enabled";
-            }
-            enum disabled {
-                value 1;
-                description
-                    "sd trigger disabled";
-            }
-        }
-        description
-            "sd-trigger";
-    }
     typedef protection-direction {
         type enumeration {
             enum to-primary {
@@ -138,11 +122,6 @@ module acc-protection-group {
                 description
                     "cleared";
             }
-            enum wait-for-restore {
-                value 6;
-                description
-                    "WTR";
-            }
         }
         description
             "switch reason";
@@ -173,11 +152,6 @@ module acc-protection-group {
             type reversion-mode;
             description
                 "reversion mode";
-        }
-        leaf sd-trigger {
-            type sd-trigger;
-            description
-                "sd protection";
         }
         leaf switch-reason {
             type switch-reason;

@@ -127,19 +127,6 @@ module acc-sdh {
         }
         description "none";
     }
-	
-	grouping sdh-nni{
-        container sdh-nni {
-            leaf sdh-type {
-                type sdh-signal-type;
-            }
-            leaf z-ctp-mapping-path {
-                type string {
-                    length "1..64";
-                }
-            }
-		}
-	}
 
     augment "/acc-devm:eqs/acc-devm:eq" {
         container eq-sdh-pac {
@@ -303,21 +290,31 @@ module acc-sdh {
                 description "";
                 }
             }
+            container sdh-nni {
+                leaf sdh-type {
+                    mandatory true;
+                    type sdh-signal-type;
+                }
+                leaf z-ctp-mapping-path {
+                    mandatory true;
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf sdh-type-protect {
+                    type sdh-signal-type;
+                }
+                leaf z-ctp-mapping-path-protect {
+                    type string {
+                        length "1..64";
+                    }
+                }
+            }
             container primary-nni {
                 uses acc-otn:nni;
-                uses sdh-nni;
             }
             container secondary-nni {
                 uses acc-otn:nni;
-                uses sdh-nni;
-            }
-            container primary-nni2 {
-                uses acc-otn:nni;
-                uses sdh-nni;
-            }
-            container secondary-nni2 {
-                uses acc-otn:nni;
-                uses sdh-nni;
             }
         }
         output {

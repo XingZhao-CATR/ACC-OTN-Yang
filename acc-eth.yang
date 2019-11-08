@@ -233,7 +233,7 @@ module acc-eth {
             }
             choice supported-server-switch-capability {
                 case odu-switch-capability-case {
-                    when "supported-mapping-type = 'EoO'";
+                    when "supported-server-ctp-layer = 'ODU'";
                     leaf-list odu-switch-capability {
                         type identityref {
                             base otn-types:odu-type;
@@ -242,7 +242,7 @@ module acc-eth {
                     }
                 }
                 case sdh-switch-capability-case {
-                    when "supported-mapping-type = 'EoS'";
+                    when "supported-server-ctp-layer = 'SDH'";
                     leaf-list sdh-switch-capability {
                         type acc-sdh:switch-type;
                         description "SDH Switch capability";
@@ -299,14 +299,14 @@ module acc-eth {
             leaf lldp-peer-chassis-id {
                 config false;
                 type string {
-                    length 1..255;
+                    length 1..64;
                 }
                 description "none";
             }
             leaf lldp-peer-port-id {
                 config false;
                 type string {
-                    length 1..255;
+                    length 1..64;
                 }
                 description "none";
             }

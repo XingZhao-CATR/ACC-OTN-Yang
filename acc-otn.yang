@@ -306,14 +306,14 @@ module acc-otn {
             leaf smtrail-trace-actual-tx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 description "The OTU SM trail trace identifier(TTI) transmitted.";
             }
             leaf smtrail-trace-actual-rx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 config false;
                 description "The OTU SM trail trace identifier(TTI) received.";
@@ -321,21 +321,21 @@ module acc-otn {
             leaf smtrail-trace-expected-rx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 description "The OTU SM trail trace identifier(TTI) expected.";
             }
             leaf pmtrail-trace-actual-tx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 description "The ODU PM trail trace identifier(TTI) transmitted.";
             }
             leaf pmtrail-trace-actual-rx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 config false;
                 description "The ODU PM trail trace identifier(TTI) received.";
@@ -343,7 +343,7 @@ module acc-otn {
             leaf pmtrail-trace-expected-rx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 description "The ODU PM trail trace identifier(TTI) expected.";
             }
@@ -389,7 +389,7 @@ module acc-otn {
             leaf pmtrail-trace-actual-tx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 config false;
                 description "The ODU PM trail trace identifier(TTI) transmitted.";
@@ -397,7 +397,7 @@ module acc-otn {
             leaf pmtrail-trace-actual-rx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 config false;
                 description "The ODU PM trail trace identifier(TTI) received.";
@@ -405,7 +405,7 @@ module acc-otn {
             leaf pmtrail-trace-expected-rx {
                 mandatory true;
                 type string{
-                length "1..128";
+                length "1..64";
                 }
                 description "The ODU PM trail trace identifier(TTI) expected.";
             }
