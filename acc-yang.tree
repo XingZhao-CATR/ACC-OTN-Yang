@@ -185,13 +185,12 @@ module: acc-devm
   |  |     +--rw ntp-version?   string
   |  +--rw gate-way1              inet:ipv4-address
   |  +--rw gate-way2?             inet:ipv4-address
-  |  +--rw me-time?               yang:date-and-time
   |  +--ro eq*                    -> /eqs/eq/name
   +--rw ptps
   |  +--rw ptp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
-  |     |  +--ro operational-state    operational-state
+  |     |  +--rw operational-state    operational-state
   |     |  +--rw admin-state          admin-state
   |     +--rw layer-protocol-name    identityref
   |     +--ro peer-ip-address?       string
@@ -241,7 +240,7 @@ module: acc-devm
   |  +--rw ftp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
-  |     |  +--ro operational-state    operational-state
+  |     |  +--rw operational-state    operational-state
   |     |  +--rw admin-state          admin-state
   |     +--rw layer-protocol-name    identityref
   |     +--rw client-ctp*            -> /ctps/ctp/name
@@ -271,7 +270,7 @@ module: acc-devm
   |  +--rw ctp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
-  |     |  +--ro operational-state    operational-state
+  |     |  +--rw operational-state    operational-state
   |     |  +--rw admin-state          admin-state
   |     +--rw layer-protocol-name    identityref
   |     +--ro port-role?             port-role
@@ -400,7 +399,7 @@ module: acc-performance
        +---w input
        |  +---w start-time           yang:date-and-time
        |  +---w end-time             yang:date-and-time
-       |  +---w object-name?         string
+       |  +---w object-name          string
        |  +---w granularity          acc-type:granularity
        |  +---w pm-parameter-name?   string
        +--ro output
@@ -433,42 +432,23 @@ module: acc-sdh
        |  |  +---w uni-ptp-name          string
        |  |  +---w vc-type               switch-type
        |  |  +---w a-ctp-mapping-path    string
+       |  +---w sdh-nni
+       |  |  +---w sdh-type                      sdh-signal-type
+       |  |  +---w z-ctp-mapping-path            string
+       |  |  +---w sdh-type-protect?             sdh-signal-type
+       |  |  +---w z-ctp-mapping-path-protect?   string
        |  +---w primary-nni
        |  |  +---w nni-ptp-name?         string
        |  |  +---w nni-ts-detail?        string
        |  |  +---w adaptation-type?      adaptation-type
        |  |  +---w client-signal-type?   identityref
        |  |  +---w switch-capability?    identityref
-       |  |  +---w sdh-nni
-       |  |     +---w sdh-type?             sdh-signal-type
-       |  |     +---w z-ctp-mapping-path?   string
        |  +---w secondary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
-       |  |  +---w sdh-nni
-       |  |     +---w sdh-type?             sdh-signal-type
-       |  |     +---w z-ctp-mapping-path?   string
-       |  +---w primary-nni2
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
-       |  |  +---w sdh-nni
-       |  |     +---w sdh-type?             sdh-signal-type
-       |  |     +---w z-ctp-mapping-path?   string
-       |  +---w secondary-nni2
        |     +---w nni-ptp-name?         string
        |     +---w nni-ts-detail?        string
        |     +---w adaptation-type?      adaptation-type
        |     +---w client-signal-type?   identityref
        |     +---w switch-capability?    identityref
-       |     +---w sdh-nni
-       |        +---w sdh-type?             sdh-signal-type
-       |        +---w z-ctp-mapping-path?   string
        +--ro output
           +--ro connection
           |  +--ro name?                  string
@@ -491,7 +471,7 @@ module: acc-connection
      +--rw connection* [name]
         +--rw name                   string
         +--rw state-pac
-        |  +--ro operational-state    operational-state
+        |  +--rw operational-state    operational-state
         |  +--rw admin-state          admin-state
         +--rw layer-protocol-name    identityref
         +--rw requested-capacity
@@ -567,7 +547,6 @@ module: acc-protection-group
         +--rw protection-type?        protection-type
         +--rw switch-type?            switch-type
         +--rw reversion-mode?         reversion-mode
-        +--rw sd-trigger?             sd-trigger
         +--ro switch-reason?          switch-reason
         +--rw wait-to-restore-time?   uint64
         +--rw hold-off?               uint32
@@ -591,7 +570,6 @@ module: acc-protection-group
           +--ro protection-type?        protection-type
           +--ro switch-type?            switch-type
           +--ro reversion-mode?         reversion-mode
-          +--ro sd-trigger?             sd-trigger
           +--ro switch-reason?          switch-reason
           +--ro wait-to-restore-time?   uint64
           +--ro hold-off?               uint32
