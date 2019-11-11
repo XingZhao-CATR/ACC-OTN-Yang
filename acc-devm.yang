@@ -242,6 +242,7 @@ module acc-devm {
         leaf operational-state {
             mandatory true;
             type operational-state;
+            config false;
             description "Operational state";
         }
         leaf admin-state {
@@ -691,8 +692,8 @@ module acc-devm {
                 }
          }
     }
-    
-    rpc get-object-time {
+	
+	rpc get-object-time {
         output {
             leaf date-time {
                 type yang:date-and-time;

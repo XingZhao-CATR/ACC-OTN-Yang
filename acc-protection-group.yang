@@ -143,10 +143,10 @@ module acc-protection-group {
                 description
                     "WTR";
             }
-            enum no-request {
+            enum lockout {
                 value 7;
                 description
-                    "No request";
+                    "lockout of protection";
             }
         }
         description

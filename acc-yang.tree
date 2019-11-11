@@ -190,7 +190,7 @@ module: acc-devm
   |  +--rw ptp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
-  |     |  +--rw operational-state    operational-state
+  |     |  +--ro operational-state    operational-state
   |     |  +--rw admin-state          admin-state
   |     +--rw layer-protocol-name    identityref
   |     +--ro peer-ip-address?       string
@@ -240,7 +240,7 @@ module: acc-devm
   |  +--rw ftp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
-  |     |  +--rw operational-state    operational-state
+  |     |  +--ro operational-state    operational-state
   |     |  +--rw admin-state          admin-state
   |     +--rw layer-protocol-name    identityref
   |     +--rw client-ctp*            -> /ctps/ctp/name
@@ -270,7 +270,7 @@ module: acc-devm
   |  +--rw ctp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
-  |     |  +--rw operational-state    operational-state
+  |     |  +--ro operational-state    operational-state
   |     |  +--rw admin-state          admin-state
   |     +--rw layer-protocol-name    identityref
   |     +--ro port-role?             port-role
@@ -399,7 +399,7 @@ module: acc-performance
        +---w input
        |  +---w start-time           yang:date-and-time
        |  +---w end-time             yang:date-and-time
-       |  +---w object-name          string
+       |  +---w object-name?         string
        |  +---w granularity          acc-type:granularity
        |  +---w pm-parameter-name?   string
        +--ro output
@@ -471,7 +471,7 @@ module: acc-connection
      +--rw connection* [name]
         +--rw name                   string
         +--rw state-pac
-        |  +--rw operational-state    operational-state
+        |  +--ro operational-state    operational-state
         |  +--rw admin-state          admin-state
         +--rw layer-protocol-name    identityref
         +--rw requested-capacity
@@ -547,6 +547,7 @@ module: acc-protection-group
         +--rw protection-type?        protection-type
         +--rw switch-type?            switch-type
         +--rw reversion-mode?         reversion-mode
+        +--rw sd-trigger?             sd-trigger
         +--ro switch-reason?          switch-reason
         +--rw wait-to-restore-time?   uint64
         +--rw hold-off?               uint32
@@ -570,6 +571,7 @@ module: acc-protection-group
           +--ro protection-type?        protection-type
           +--ro switch-type?            switch-type
           +--ro reversion-mode?         reversion-mode
+          +--ro sd-trigger?             sd-trigger
           +--ro switch-reason?          switch-reason
           +--ro wait-to-restore-time?   uint64
           +--ro hold-off?               uint32
