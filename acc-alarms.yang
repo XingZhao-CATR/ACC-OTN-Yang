@@ -121,13 +121,6 @@ module acc-alarms {
     }
 
     grouping tca-parameter {
-        leaf object-type {
-            mandatory true;
-            type string {
-                length "1..64";
-            }
-            description "tca-parameter object-type";
-        }
         leaf object-name {
             mandatory true;
             type string {
@@ -149,6 +142,13 @@ module acc-alarms {
             mandatory true;
             type acc-type:threshold-type;
             description "tca-parameter threshold-type";
+        }
+        leaf object-type {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+            description "tca-parameter object-type";
         }
         leaf threshold-value {
             type acc-type:real;

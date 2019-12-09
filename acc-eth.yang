@@ -174,15 +174,15 @@ module acc-eth {
    */
     grouping vlan-spec {
         leaf-list vlan-id {
-            when "vlan-type != 'un-tag'";
+            when "../vlan-type != 'un-tag'";
             type uint64 {
                 range "1..4094";
             }
             description "vlan id";
         }
         leaf vlan-priority {
-            mandatory true;
-            when "vlan-type != 'un-tag'";
+
+            when "../vlan-type != 'un-tag'";
             type uint64 {
                 range "0..7";
             }
@@ -193,7 +193,7 @@ module acc-eth {
             description "access action";
         }
         leaf vlan-type {
-            mandatory true;
+
             type vlan-type;
             description "vlan type";
         }

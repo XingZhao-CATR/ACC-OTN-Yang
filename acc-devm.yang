@@ -379,7 +379,7 @@ module acc-devm {
         leaf hardware-version {
             mandatory true;
             type string{
-              length "1..32";
+              length "1..64";
             }
             config false;
             description "Hardware version";

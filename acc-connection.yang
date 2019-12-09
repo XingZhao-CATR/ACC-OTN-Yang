@@ -33,18 +33,25 @@ module acc-connection {
     */
     grouping capacity {
         leaf total-size {
-            mandatory true;
             type uint64;
             description "total size";
-        }     
+        }
+        leaf cbs {
+            type uint64;
+            description "cbs";
+        }
         leaf cir {
             mandatory true;
             type uint64;
             description "cir";
-        }      
-        leaf eir {
+        }
+        leaf pbs {
             type uint64;
-            description "eir";
+            description "pbs";
+        }
+        leaf pir {
+            type uint64;
+            description "pir";
         }
         description "capacity";
     }
