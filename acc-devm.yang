@@ -338,12 +338,14 @@ module acc-devm {
     */
     container me {
         leaf name {
+	    mandatory true;
             type string{
               length "1..64";
             }            
             description "name";
         }
         leaf uuid {
+	    mandatory true;
             type string;
             config false;
             description "Universal unique identifier, MAC address is suggested.";
@@ -693,7 +695,7 @@ module acc-devm {
          }
     }
 	
-	rpc get-object-time {
+	rpc get-managed-element-time {
         output {
             leaf date-time {
                 type yang:date-and-time;
