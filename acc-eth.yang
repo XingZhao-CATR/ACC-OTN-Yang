@@ -224,34 +224,6 @@ module acc-eth {
         }
     }
 
-    augment "/acc-devm:eqs/acc-devm:eq" {
-        container eq-eth-pac {
-            leaf supported-mapping-type {
-                type eth-mapping-type;
-                description
-                  "none";
-            }
-            choice supported-server-switch-capability {
-                case odu-switch-capability-case {
-                    when "supported-mapping-type = 'EoO'";
-                    leaf-list odu-switch-capability {
-                        type identityref {
-                            base otn-types:odu-type;
-                        }
-                        description "ODU Switch capability";
-                    }
-                }
-                case sdh-switch-capability-case {
-                    when "supported-mapping-type = 'EoS'";
-                    leaf-list sdh-switch-capability {
-                        type acc-sdh:switch-type;
-                        description "SDH Switch capability";
-                    }
-                }
-            }
-            description "none";
-        }
-    }
     augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ptp-pac {
@@ -314,6 +286,33 @@ module acc-eth {
                 config false;
                 type string {
                     length 1..64;
+                }
+            }
+            description "none";
+        }
+	
+	      container eth-mapping-pac {
+            leaf supported-mapping-type {
+                type eth-mapping-type;
+                description
+                  "none";
+            }
+            choice supported-server-switch-capability {
+                case odu-switch-capability-case {
+                    when "supported-mapping-type = 'EoO'";
+                    leaf-list odu-switch-capability {
+                        type identityref {
+                            base otn-types:odu-type;
+                        }
+                        description "ODU Switch capability";
+                    }
+                }
+                case sdh-switch-capability-case {
+                    when "supported-mapping-type = 'EoS'";
+                    leaf-list sdh-switch-capability {
+                        type acc-sdh:switch-type;
+                        description "SDH Switch capability";
+                    }
                 }
             }
             description "none";
