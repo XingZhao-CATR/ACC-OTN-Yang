@@ -291,7 +291,7 @@ module acc-eth {
             description "none";
         }
 	
-	container eth-mapping-pac {
+	      container eth-mapping-pac {
             leaf supported-mapping-type {
                 type eth-mapping-type;
                 description
