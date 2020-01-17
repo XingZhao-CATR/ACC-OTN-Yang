@@ -234,7 +234,22 @@ module acc-devm {
             }
         }
     }
-
+    typedef eq-types {
+      type enumeration {
+          enum power {
+	   value 0;
+	   }
+	   enum fan {
+	   value 1;
+	   }
+	   enum service {
+	   value 2;
+	   }
+	   enum system-control {
+	   value 3;
+	   }
+     }
+    }
     /*
     * groupings
     */
@@ -292,6 +307,7 @@ module acc-devm {
 
     grouping ctp {
         leaf name {
+	    mandatory true;
             type string{
             length "1..64";
             }
@@ -415,11 +431,7 @@ module acc-devm {
             type boolean;
             description "Support ntp or not.";
         }
-        leaf ntp-state {
-            type ntp-state;
-            config false;
-            description "Ntp state";
-        }
+        
         container ntp-servers {
             list ntp-server {
                 key 'name';
@@ -445,6 +457,11 @@ module acc-devm {
                     }
                     description "Ntp version";
                 }
+		leaf ntp-state {
+            		type ntp-state;
+            		config false;
+            		description "Ntp state";
+        	}
                 description "ntp";
             }
         }
@@ -458,6 +475,7 @@ module acc-devm {
             description "Gat way2(ipv4)";
         }
         leaf-list eq {
+	    mandatory true;
             type leafref {
                 path '/acc-devm:eqs/acc-devm:eq/acc-devm:name';
             }
@@ -582,6 +600,7 @@ module acc-devm {
             key 'name';
             min-elements 1;
             leaf name {
+	        mandatory true;
                 type string {
                 length "1..64";
                 }
@@ -593,8 +612,12 @@ module acc-devm {
                 config false;
                 description "Plug state of eq";
             }
+	    leaf eq-type {
+	    	mandatory true;
+                type eq-types;
+            }
             leaf software-version {
-                mandatory true;
+                
                 type string{
                     length "1..32";
                 }
@@ -602,7 +625,6 @@ module acc-devm {
                 description "Software version of eq";
             }
             leaf hardware-version {
-                mandatory true;
                 type string{
                     length "1..32";
                 }
