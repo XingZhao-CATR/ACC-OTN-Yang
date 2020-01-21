@@ -34,7 +34,7 @@ module acc-connection {
     grouping capacity {
         leaf total-size {
             type uint64;
-            description "total size";
+            description "total size, When ODU,SDH,  mandatory must to be true, others must not exists";
         }
         leaf cbs {
             type uint64;
@@ -43,7 +43,7 @@ module acc-connection {
         leaf cir {
             mandatory true;
             type uint64;
-            description "cir";
+            description "Imortant , When ETH,EOS   mandatory must to be true, total-size must not exists";
         }
         leaf pbs {
             type uint64;
@@ -51,19 +51,20 @@ module acc-connection {
         }
         leaf pir {
             type uint64;
-            description "pir";
+            description "Imortant , When ETH,EOS   mandatory must to be true, total-size must not exists";
         }
         description "capacity";
     }
     grouping connection {
-        description
-        "connection";
+       
         leaf name {
+            mandatory true;
             type string;
             description
-            "connection name";
+            "connection name must be unique in one device";
         }
         container state-pac {
+            mandatory true;
             description
             "connectionstate pac";
             uses acc-devm:state-pac;
@@ -77,11 +78,13 @@ module acc-connection {
                 "layer protocol name";
         }
         container requested-capacity {
+            mandatory true;
             uses capacity;
             description
                 "requested capacity";
         }
         leaf-list ctp {
+        mandatory true;
             type leafref {
                 path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
             }
