@@ -160,21 +160,24 @@ module acc-protection-group {
         description
             "pg";
         leaf pg-id {
+            mandatory true;
+            config false;
             type uint16;
-            description
-                "pg id";
         }
         leaf protection-type {
+            mandatory true;
             type protection-type;
             description
                 "protection type";
         }
         leaf switch-type {
+            mandatory true;
             type switch-type;
             description
                 "switch type";
         }
         leaf reversion-mode {
+            mandatory true;
             type reversion-mode;
             description
                 "reversion mode";
@@ -185,12 +188,14 @@ module acc-protection-group {
                 "sd protection";
         }
         leaf switch-reason {
+        mandatory true;
             type switch-reason;
             config false;
             description
-                "switch reason";
+                "switch reason, default NO SWITCH";
         }
         leaf wait-to-restore-time {
+        mandatory true;
             type uint64;
             units seconds;
             description
@@ -210,6 +215,7 @@ module acc-protection-group {
                 "protection direction";
         }
         leaf primary-port {
+        mandatory true;
             type leafref {
                 path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
             }
@@ -217,6 +223,7 @@ module acc-protection-group {
                 "primary port";
         }
         leaf secondary-port {
+        mandatory true;
             type leafref {
                 path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
             }
@@ -224,6 +231,7 @@ module acc-protection-group {
                 "secondary port";
         }
         leaf selected-port {
+        mandatory true;
             type leafref {
                 path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
             }
