@@ -36,7 +36,6 @@ module acc-otn {
     */
     identity ODU {
         base acc-type:layer-protocol-name;
-        description "";
     }
 
     identity OTN-ODU0 {
@@ -387,7 +386,6 @@ module acc-otn {
                 description "Number of tributary slots.";
             }
             leaf pmtrail-trace-actual-tx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
@@ -395,7 +393,6 @@ module acc-otn {
                 description "The ODU PM trail trace identifier(TTI) transmitted.";
             }
             leaf pmtrail-trace-actual-rx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
@@ -403,7 +400,6 @@ module acc-otn {
                 description "The ODU PM trail trace identifier(TTI) received.";
             }
             leaf pmtrail-trace-expected-rx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
@@ -440,8 +436,6 @@ module acc-otn {
         }
         output {
             container connection {
-                description
-                    "";
                 uses acc-con:connection;
             }           
         }
@@ -469,13 +463,6 @@ module acc-otn {
                 type modify-action;
                 description
                     "The Action of the modification.";
-            }
-            leaf switch-capability {
-                mandatory true;
-                type identityref {
-                    base otn-types:odu-type;
-                }
-                description "Switch capability";
             }
             leaf current-number-of-tributary-slots {
                 mandatory true;
