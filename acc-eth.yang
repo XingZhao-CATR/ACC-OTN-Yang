@@ -37,7 +37,6 @@ module acc-eth {
    */
     identity ETH {
         base acc-type:layer-protocol-name;
-        description "";
     }
     typedef vlan-type {
         type enumeration {
@@ -107,11 +106,9 @@ module acc-eth {
         type enumeration {
             enum electrical {
                 value 0;
-                description "none";
             }
             enum optical {
                 value 1;
-                description "none";
             }
         }
         description "none";
@@ -120,40 +117,31 @@ module acc-eth {
         type enumeration {
             enum auto {
                 value 0;
-                description "none";
             }
             enum 100MFullDuplex {
                 value 1;
-                description "none";
             }
             enum 1000MFullDuplex {
                 value 2;
-                description "none";
             }
             enum 10GEFullDuplex {
                 value 3;
-                description "none";
             }
         }
-        description "none";
     }
 
     typedef service-mapping-mode {
         type enumeration {
             enum GFP-F {
                 value 0;
-                description "none";
             }
             enum GMP {
                 value 1;
-                description "none";
             }
             enum BMP {
                 value 2;
-                description "none";
             }
         }
-        description "none";
     }
 
     typedef eth-mapping-type {
@@ -228,59 +216,51 @@ module acc-eth {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ptp-pac {
             leaf-list supported-working-mode {
+	        mandatory true;
                 type working-mode;
                 config false;
-                description "none";
             }
 
             leaf current-working-mode {
                 mandatory true;
                 type working-mode;
-                description "none";
             }
             leaf supported-mtu {
                 mandatory true;
                 type uint64;
                 config false;
-                description "none";
             }
             leaf current-mtu {
                 mandatory true;
                 type uint64;
-                description "none";
             }
             leaf pause-control {
                 mandatory true;
                 type boolean;
-                description "none";
             }
             leaf mac-address {
                 type yang:mac-address;
-                description "none";
             }
             leaf port-type {
                 mandatory true;
                 type port-type;
                 config false;
-                description "none";
             }
             leaf lldp-enable {
                 type boolean;
-                description "none";
             }
             leaf lldp-peer-chassis-id {
                 config false;
                 type string {
                     length 1..255;
                 }
-                description "none";
             }
             leaf lldp-peer-port-id {
                 config false;
                 type string {
                     length 1..255;
                 }
-                description "none";
+                description "hex ascii number without 0x，not normal string";
             }
             leaf lldp-peer-system-name {
                 config false;
@@ -288,14 +268,11 @@ module acc-eth {
                     length 1..64;
                 }
             }
-            description "none";
         }
 	
 	      container eth-mapping-pac {
             leaf supported-mapping-type {
                 type eth-mapping-type;
-                description
-                  "none";
             }
             choice supported-server-switch-capability {
                 case odu-switch-capability-case {
@@ -315,20 +292,14 @@ module acc-eth {
                     }
                 }
             }
-            description "none";
         }
-
-        description "none";
     }
 
     augment "/acc-devm:ftps/acc-devm:ftp" {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ftp-pac {
             uses eth-ftp-pac;
-            description "none";
         }
-
-        description "none";
     }
 
     augment "/acc-devm:ctps/acc-devm:ctp" {
@@ -369,7 +340,6 @@ module acc-eth {
                     description "rx bytes";
                 }
                 config false;
-                description "none";
             }
             container oam-state-pac {
                 leaf dm-state {
@@ -400,18 +370,15 @@ module acc-eth {
                     type uint16 {
                         range "1..8191";
                     }
-                    description "";
                 }
                 leaf remote-mep-id {
                     type uint16 {
                         range "1..8191";
                     }
-                    description "";
                 }
                 leaf meg-id {
                     mandatory true;
                     type string;
-                    description "";
                 }
                 leaf md-name {
                     type string {
@@ -424,7 +391,6 @@ module acc-eth {
                     type uint8 {
                         range "0..7";
                     }
-                    description "";
                 }
                 leaf cc-interval {
                     mandatory true;
@@ -443,9 +409,7 @@ module acc-eth {
                 }
                 description "ethernet oam parameters: mep id, meg id, mel, cc interval, etc";
             }
-            description "none";
         }
-        description "none";
     }
 
     grouping eth-nni {
@@ -453,11 +417,9 @@ module acc-eth {
             type string {
                 length 1..64;
             }
-            description "";
         }
         leaf nni-ts-detail {
             type string;
-            description "";
         }
     }
 
@@ -478,27 +440,23 @@ module acc-eth {
             type string {
                 length 1..64;
             }
-            description "none";
         }
         leaf lldp-peer-port-id {
         	  mandatory true;
             type string {
                 length 1..64;
             }
-            description "none";
         }
         leaf lldp-peer-system-name {
         	  mandatory true;
             type string {
                 length 1..64;
             }
-            description "none";
         }
         description "LLDP change notification";
     }
 
     rpc create-eth-connection {
-        description "";
         input {
             uses acc-con:create-connection;
 
@@ -508,8 +466,9 @@ module acc-eth {
                     description "uni ptp name";
                 }
                 container client-vlan-spec {
+		    when "../service-type == 'EVPL'";
                     uses vlan-spec;
-                    description "client side vlan spec";
+                    description "client side vlan spec， only for EVPL";
                 }
                 container uni-vlan-spec {
                     uses vlan-spec;
@@ -519,11 +478,10 @@ module acc-eth {
                     uses vlan-spec;
                     description "ftp vlan spec";
                 }
-                description
-                    "eth uni";
             }
 
             container primary-nni {
+	        mandatory true;
                 uses acc-otn:nni;
             }
             container secondary-nni {
@@ -532,19 +490,13 @@ module acc-eth {
         }
         output {
             container connection {
-                description
-                    "";
                 uses acc-con:connection;
             }
             container create-component {
-                description
-                    "";
                 leaf-list ftp-name {
                     type string {
                         length "1..64";
                     }
-                    description
-                        "";
                 }
                 leaf-list ctp-name {
                     type string {
