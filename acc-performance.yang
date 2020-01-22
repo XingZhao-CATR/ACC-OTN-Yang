@@ -22,7 +22,7 @@ module acc-performance {
     */   
     grouping performances {
         list performance {
-            key 'pm-parameter-name start-time';
+            key 'pm-parameter-name start-time object-name';
             leaf pm-parameter-name {
                 type string {
                     length "1..64";
@@ -54,29 +54,35 @@ module acc-performance {
                 config false;
                 description "granularity";
             }
-            leaf digital-pm-value {
-                type acc-type:real;
-                config false;
-                description "digital-pm-value";
-            }
-            container analog-pm-value {
-                leaf max-value {
+            choice digital-or-analog  {
+                case digital {
+                  leaf digital-pm-value {
                     type acc-type:real;
-                    description "max-value";
+                    config false;
+                    description "digital-pm-value";
+                    }
                 }
-                leaf min-value {
-                    type acc-type:real;
-                    description "min-value";
+                case analog {
+                    container analog-pm-value {
+                        leaf max-value {
+                            type acc-type:real;
+                            description "max-value";
+                        }
+                        leaf min-value {
+                            type acc-type:real;
+                            description "min-value";
+                        }
+                        leaf average-value {
+                            type acc-type:real;
+                            description "average-value";
+                        }
+                        leaf current-value {
+                            type acc-type:real;
+                            description "current-value";
+                        }
+                        description "analog-pm-value";
+                    }
                 }
-                leaf average-value {
-                    type acc-type:real;
-                    description "average-value";
-                }
-                leaf current-value {
-                    type acc-type:real;
-                    description "current-value";
-                }
-                description "analog-pm-value";
             }
             description "performance list";
         }
@@ -120,13 +126,11 @@ module acc-performance {
                     type string {
                         length "1..64";
                     }
-                    description "none";
                 }
             }
             output {
                 container performances {
                     uses performances;
-                    description "none";
                 } 
             }
     }
