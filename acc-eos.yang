@@ -54,7 +54,7 @@ module acc-eos {
                 }
                 container client-vlan-spec {
                     uses acc-eth:vlan-spec;
-                    description "client side vlan spec";
+                    description "client side vlan spec， only for EVPL";
                 }
                 container uni-vlan-spec {
                     uses acc-eth:vlan-spec;
@@ -64,10 +64,9 @@ module acc-eos {
                     uses acc-eth:vlan-spec;
                     description "ftp vlan spec";
                 }
-                description
-                    "eth uni";
             }
             container primary-nni {
+                mandatory true;
                 uses acc-otn:nni;
                 description "primary nni";
             }
@@ -101,7 +100,6 @@ module acc-eos {
                 leaf lcas {
                     type boolean;
                     default false;
-                    description "none";
                 }
                 leaf hold-off {
                     type uint32;
@@ -116,19 +114,14 @@ module acc-eos {
                 leaf tsd {
                     type boolean;
                     default false;
-                    description "none";
                 }
             }
         }
         output {
             container connection {
-                description
-                    "";
                 uses acc-con:connection;
             }
             container create-component {
-                description
-                    "";
                 leaf-list vc-connection-name {
                     type string;
                 }
@@ -136,8 +129,6 @@ module acc-eos {
                     type string {
                         length "1..64";
                     }
-                    description
-                        "";
                 }
                 leaf-list ctp-name {
                     type string {
@@ -146,7 +137,6 @@ module acc-eos {
                 }              
             }
         }
-        description "";
     }
     rpc modify-vcg-connection-capacity {
         input {
