@@ -233,34 +233,35 @@ module acc-otn {
     */
     grouping nni {
         leaf nni-ptp-name {
+            mandatory true;
             type string{
               length "1..64";
             }
-            description "none";
         }
         leaf nni-ts-detail {
+            mandatory true;
             type string{
               length "1..64";
             }
-            description "none";
         }
         leaf adaptation-type {
+            mandatory true;
             type adaptation-type;
-            description "Adaptation type";
         }
         leaf client-signal-type {
+            mandatory true;
             type identityref {
                 base otn-types:client-signal;
             }
             description "Client signal type";
         }
         leaf switch-capability {
+            mandatory true;
             type identityref {
                 base otn-types:odu-type;
             }
             description "Switch capability";
         }
-        description "none";
     }
 
     /*
@@ -310,7 +311,6 @@ module acc-otn {
                 description "The OTU SM trail trace identifier(TTI) transmitted.";
             }
             leaf smtrail-trace-actual-rx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
@@ -318,21 +318,18 @@ module acc-otn {
                 description "The OTU SM trail trace identifier(TTI) received.";
             }
             leaf smtrail-trace-expected-rx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
                 description "The OTU SM trail trace identifier(TTI) expected.";
             }
             leaf pmtrail-trace-actual-tx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
                 description "The ODU PM trail trace identifier(TTI) transmitted.";
             }
             leaf pmtrail-trace-actual-rx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
@@ -340,13 +337,11 @@ module acc-otn {
                 description "The ODU PM trail trace identifier(TTI) received.";
             }
             leaf pmtrail-trace-expected-rx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }
                 description "The ODU PM trail trace identifier(TTI) expected.";
             }
-            description "none";
         }
     }
 
@@ -378,7 +373,6 @@ module acc-otn {
                 type string{
                 length "1..64";
                 }
-                description "none";
             }
             leaf-list current-number-of-tributary-slots {
                 type uint64;
@@ -410,7 +404,6 @@ module acc-otn {
                 config false;
                 description "The status of G.HAO";
             }
-            description "none";
         }
     }
 

@@ -32,28 +32,31 @@ module acc-connection {
     * groupings
     */
     grouping capacity {
-        leaf total-size {
-            type uint64;
-            description "total size, When ODU,SDH,  mandatory must to be true and others must not exists";
+        choice for-odu-or-eth {
+            case odu {
+                leaf total-size {
+                type uint64;
+                description "total size, When ODU,SDH,  mandatory must to be true and others must not exists";
+                }
+            }
+            case eth {
+                leaf cir {
+                    mandatory true;
+                    type uint64;
+                    description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
+                }
+                leaf pir {
+                    type uint64;
+                    description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
+                }
+                leaf cbs {
+                    type uint64;
+                }
+                leaf pbs {
+                    type uint64;
+                }
+            }
         }
-        leaf cbs {
-            type uint64;
-            description "cbs";
-        }
-        leaf cir {
-            mandatory true;
-            type uint64;
-            description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
-        }
-        leaf pbs {
-            type uint64;
-            description "pbs";
-        }
-        leaf pir {
-            type uint64;
-            description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
-        }
-        description "capacity";
     }
     grouping connection {
        

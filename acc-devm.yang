@@ -506,6 +506,24 @@ module acc-devm {
                 default non-loopback;
                 description "Loop back type of ptp";
             }
+            list remote-ptp {
+                key 'name';
+                leaf name {
+                    mandatory true;
+                    type string{
+                        length "1..64";
+                    }
+                }
+                container state-pac {
+                    uses state-pac;
+                }
+                leaf layer-protocol-name {
+                    mandatory true;
+                    type identityref {
+                    base acc-type:layer-protocol-name;
+                }
+                }
+            }
             container optical-power-pac {
                 leaf input-power {
                     mandatory true;
@@ -534,7 +552,6 @@ module acc-devm {
             }
 
         }
-        description "ptps";
     }
     container ftps {
         list ftp {
@@ -586,6 +603,7 @@ module acc-devm {
                 description "Hardware version of eq";
             }
             leaf-list ptp {
+                min-elements 0;
                 type leafref {
                     path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
                 }
@@ -593,6 +611,7 @@ module acc-devm {
                 description "Ptps of eq";
             }
 	     leaf-list ftp {
+                min-elements 0;
                 type leafref {
                     path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
                 }
@@ -638,12 +657,14 @@ module acc-devm {
         description "reset";
         input {
             leaf eq-name {
+                mandatory true;
                 type string{
                   length "1..64";
                 }
                 description "Name of eq";
             }
             leaf reset-type {
+                mandatory true;
                 type reset-type;
                 description "Reset type";
             }
@@ -653,12 +674,14 @@ module acc-devm {
     rpc modify-user-password {
         input {
             leaf old-password {
+                mandatory true;
                 type string {
                     length "8..16";
                 }
                 description "Old password.";
             }
             leaf new-password {
+                mandatory true;
                 type string {
                     length "8..16";
                 }
@@ -670,6 +693,7 @@ module acc-devm {
     rpc set-managed-element-time {
         input {
             leaf new-time {
+                mandatory true;
                 type yang:date-and-time;
                 }
          }
@@ -678,6 +702,7 @@ module acc-devm {
     rpc get-managed-element-time {
         output {
             leaf date-time {
+                mandatory true;
                 type yang:date-and-time;
                 }
         }

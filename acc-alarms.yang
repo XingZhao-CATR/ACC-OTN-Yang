@@ -91,6 +91,7 @@ module acc-alarms {
             description "alarm alarm-state";
         }
         leaf perceived-severity {
+            mandatory true;
             type perceived-severity;
             description "alarm perceived-severity";
         }
@@ -129,12 +130,14 @@ module acc-alarms {
             description "tca-parameter object-name";
         }
         leaf pm-parameter-name {
+            mandatory true;
             type string {
                 length "1..64";
             }
             description "tca-parameter pm-parameter-name";
         }
         leaf granularity {
+            mandatory true;
             type acc-type:granularity;
             description "tca-parameter granularity";
         }
@@ -151,6 +154,7 @@ module acc-alarms {
             description "tca-parameter object-type";
         }
         leaf threshold-value {
+            mandatory true;
             type acc-type:real;
             description "tca-parameter threshold-value";
         }
@@ -278,10 +282,12 @@ module acc-alarms {
         description "get-history-alarms";
         input {
             leaf start-time {
+                mandatory true;
                 type yang:date-and-time;
                 description "start-time";
             }
             leaf end-time {
+                mandatory true;
                 type yang:date-and-time;
                 description "end-time";
             }

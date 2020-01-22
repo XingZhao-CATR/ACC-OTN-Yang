@@ -166,6 +166,7 @@ module acc-eth {
             type uint64 {
                 range "1..4094";
             }
+            min-elements 1;
             description "vlan id";
         }
         leaf vlan-priority {
@@ -181,7 +182,7 @@ module acc-eth {
             description "access action";
         }
         leaf vlan-type {
-
+            mandatory true;
             type vlan-type;
             description "vlan type";
         }
@@ -371,6 +372,7 @@ module acc-eth {
                     }
                 }
                 leaf remote-mep-id {
+                    mandatory true;
                     type uint16 {
                         range "1..8191";
                     }
@@ -380,6 +382,7 @@ module acc-eth {
                     type string;
                 }
                 leaf md-name {
+                    mandatory true;
                     type string {
                         length "1..43";
                     }
@@ -418,6 +421,7 @@ module acc-eth {
             }
         }
         leaf nni-ts-detail {
+            mandatory true;
             type string;
         }
     }
