@@ -30,134 +30,106 @@ module acc-devm {
         type enumeration {
             enum up {
                 value 0;
-                description "Up";
             }
             enum down {
                 value 1;
-                description "Down";
             }
         }
-        description "Operational state";
     }
     typedef admin-state {
         type enumeration {
             enum enabled {
                 value 0;
-                description "Enable";
             }
             enum disabled {
                 value 1;
-                description "Disable";
             }
         }
-        description "Admin state";
     }
     typedef laser-status {
         type enumeration {
             enum laser-on {
-                description "Laser on";
+                value 0;
             }
             enum laser-off {
-                description "Laser off";
+                value 1;
             }
             enum no-optical-module {
-                description "No optical module";
+                value 2;
             }
         }
-        description "none";
     }
 
     typedef loopback-type {
         type enumeration {
             enum facility-loopback {
                 value 0;
-                description "Facility loopback";
             }
             enum terminal-loopback {
                 value 1;
-                description "Terminal loopback";
             }    
             enum non-loopback {
                 value 2;
-                description "Non loopback";
             }
         }
-        description "none";
     }
 
     typedef interface-type {
         type enumeration {
             enum UNI {
                 value 0;
-                description "none";
             }
             enum NNI {
                 value 1;
-                description "none";
             }
         }
-        description "none";
     }
     typedef service-type {
         type enumeration {
             enum ODU {
                 value 0;
-                description "none";
             }
             enum SDH {
                 value 1;
-                description "none";
             }
             enum EPL {
                 value 2;
-                description "none";
             }
             enum EVPL {
                 value 3;
-                description "none";
             }
         }
-        description "none";
     }
     typedef me-status {
         type enumeration {
             enum installing {
                 value 0;
-                description "none";
             }
             enum running {
                 value 1;
-                description "none";
             }
             enum maintenance  {
                 value 2;
-                description "none";
             }
         }
-        description "none";
     }
 
     typedef ntp-state {
         type enumeration {
             enum clock-never-set {
                 value 0;
-                description "none";
             }
             enum freq-set-from-file {
                 value 1;
-                description "none";
             }
             enum spike-detected {
                 value 2;
-                description "none";
             }
             enum frequency-mode {
                 value 3;
-                description "none";
             }
             enum clock-synchronized {
                 value 4;
-                description "none";
             }
         }
         description "rfc 5905";
@@ -166,11 +138,9 @@ module acc-devm {
         type enumeration {
             enum soft-reset {
                 value 0;
-                description "Soft reset";
             }
             enum hard-reset {
                 value 1;
-                description "Hard reset";
             }
         }
         description "Reset type";
@@ -179,37 +149,29 @@ module acc-devm {
         type enumeration {
             enum otm-box {
                 value 0;
-                description "none";
             }
             enum po-box {
                 value 1;
-                description "none";
             }
             enum otm-pnp {
                 value 2;
-                description "none";
             }
             enum po-pnp {
                 value 3;
-                description "none";
             }
         }
-        description "none";
     }
 
     typedef port-role {
         type enumeration {
             enum symmetric {
                 value 0;
-                description "";
             }
             enum root {
                 value 1;
-                description "";
             }
             enum leaf-node {
                 value 2;
-                description "";
             }
         }
     }
@@ -218,23 +180,40 @@ module acc-devm {
         type enumeration {
             enum null {
                 value 0;
-                description "";
             }
             enum protected {
                 value 1;
-                description "";
             }
             enum primary {
                 value 2;
-                description "";
             }
             enum secondary {
                 value 3;
-                description "";
             }
         }
     }
 
+    typedef eq-type {
+    	type enumeration {
+		enum power {
+			value 0;
+		}
+		enum fan {
+			value 1;
+		}
+		enum service {
+			value 2;
+		}
+		enum system-control {
+			value 3;
+			description "system main control or cross"
+		}
+		enum timer {
+			value 4;
+		}
+	}
+    }
+		
     /*
     * groupings
     */
@@ -243,29 +222,31 @@ module acc-devm {
             mandatory true;
             type operational-state;
             config false;
-            description "Operational state";
         }
         leaf admin-state {
             mandatory true;
             type admin-state;
-            description "Admin state";
         }
-        description "none";
     }
 
     grouping ftp {
         leaf name {
+	    mandatory true;
+	    config false;
             type string{
             length "1..64";
             }
                 description "Name of ftp";
         }
         container state-pac {
+	    mandatory true;
+	    config false;
             uses state-pac;
                 description "State of ftp";
         }
         leaf layer-protocol-name {
             mandatory true;
+	    config false;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
@@ -283,26 +264,26 @@ module acc-devm {
             }
             description "Server ctps";
         }
-        leaf loop-back {
-            type loopback-type;
-            default non-loopback;
-            description "Loop back type of ftp";
-        }
     }
 
     grouping ctp {
         leaf name {
+	     mandatory true;
+	    config false;
             type string{
             length "1..64";
             }
                 description "Name of ctp";
         }
         container state-pac {
+	 mandatory true;
+	    config false;
             uses state-pac;
                 description "State of ctp";
         }
         leaf layer-protocol-name {
             mandatory true;
+	    config false;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
@@ -342,13 +323,13 @@ module acc-devm {
             type string{
               length "1..64";
             }            
-            description "name";
+            description "for UMS, it's a label";
         }
         leaf uuid {
 	    mandatory true;
             type string;
             config false;
-            description "Universal unique identifier, MAC address is suggested.";
+            description "Universal unique identifier, MAC address is suggested. for UMS,it's real name";
         }
         leaf status {
             type me-status;
@@ -415,11 +396,7 @@ module acc-devm {
             type boolean;
             description "Support ntp or not.";
         }
-        leaf ntp-state {
-            type ntp-state;
-            config false;
-            description "Ntp state";
-        }
+      
         container ntp-servers {
             list ntp-server {
                 key 'name';
@@ -443,9 +420,13 @@ module acc-devm {
                     type string {
                         length "1..64";
                     }
-                    description "Ntp version";
+                    description "Ntp version default value: V3";
                 }
-                description "ntp";
+		  leaf ntp-state {
+		    type ntp-state;
+		    config false;
+		    description "Ntp state";
+		}
             }
         }
         leaf gate-way1 {
@@ -558,7 +539,6 @@ module acc-devm {
                 description "Optical power of ptp";
             }
 
-            description "ptp";
         }
         description "ptps";
     }
@@ -566,22 +546,21 @@ module acc-devm {
         list ftp {
             key 'name';
             uses ftp;
-            description "none";
         }
-        description "none";
     }    
     container ctps {
         list ctp {
             key 'name';
             uses ctp;
         }
-        description "none";
     }    
     container eqs {
         list eq {
             key 'name';
             min-elements 1;
             leaf name {
+		    mandatory true;
+		    config false;
                 type string {
                 length "1..64";
                 }
@@ -593,8 +572,13 @@ module acc-devm {
                 config false;
                 description "Plug state of eq";
             }
+	    leaf eq-type {
+	    	mandatory true;
+		config false;
+		type eq-type;
+		description "eq type: power,fan,service,system-control,timer";
+	    }
             leaf software-version {
-                mandatory true;
                 type string{
                     length "1..32";
                 }
@@ -602,7 +586,6 @@ module acc-devm {
                 description "Software version of eq";
             }
             leaf hardware-version {
-                mandatory true;
                 type string{
                     length "1..32";
                 }
@@ -613,13 +596,17 @@ module acc-devm {
                 type leafref {
                     path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
                 }
-                min-elements 1;
                 config false;
                 description "Ptps of eq";
             }
-            description "eq";
+	     leaf-list ftp {
+                type leafref {
+                    path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
+                }
+                config false;
+                description "Ptps of eq";
+            }
         }
-        description "eqs";
     }
 
     /*
@@ -695,7 +682,7 @@ module acc-devm {
          }
     }
 	
-	rpc get-managed-element-time {
+    rpc get-managed-element-time {
         output {
             leaf date-time {
                 type yang:date-and-time;
