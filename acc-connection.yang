@@ -34,7 +34,7 @@ module acc-connection {
     grouping capacity {
         leaf total-size {
             type uint64;
-            description "total size, When ODU,SDH,  mandatory must to be true, others must not exists";
+            description "total size, When ODU,SDH,  mandatory must to be true and others must not exists";
         }
         leaf cbs {
             type uint64;
@@ -43,7 +43,7 @@ module acc-connection {
         leaf cir {
             mandatory true;
             type uint64;
-            description "Imortant , When ETH,EOS   mandatory must to be true, total-size must not exists";
+            description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
         }
         leaf pbs {
             type uint64;
@@ -51,7 +51,7 @@ module acc-connection {
         }
         leaf pir {
             type uint64;
-            description "Imortant , When ETH,EOS   mandatory must to be true, total-size must not exists";
+            description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
         }
         description "capacity";
     }
