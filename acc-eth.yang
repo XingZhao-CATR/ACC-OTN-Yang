@@ -216,7 +216,6 @@ module acc-eth {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ptp-pac {
             leaf-list supported-working-mode {
-	        mandatory true;
                 type working-mode;
                 config false;
             }
@@ -481,7 +480,6 @@ module acc-eth {
             }
 
             container primary-nni {
-	        mandatory true;
                 uses acc-otn:nni;
             }
             container secondary-nni {

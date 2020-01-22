@@ -161,7 +161,6 @@ module acc-protection-group {
             "pg";
         leaf pg-id {
             mandatory true;
-            config false;
             type uint16;
         }
         leaf protection-type {

@@ -60,13 +60,9 @@ module acc-connection {
         leaf name {
             mandatory true;
             type string;
-            description
-            "connection name must be unique in one device";
+            description "connection name must be unique in one device";
         }
         container state-pac {
-            mandatory true;
-            description
-            "connectionstate pac";
             uses acc-devm:state-pac;
         }
         leaf layer-protocol-name {
@@ -74,29 +70,19 @@ module acc-connection {
             type identityref {
                 base acc-type:layer-protocol-name;
             }
-            description
-                "layer protocol name";
         }
         container requested-capacity {
-            mandatory true;
             uses capacity;
-            description
-                "requested capacity";
         }
         leaf-list ctp {
-        mandatory true;
             type leafref {
                 path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
             }
             min-elements 2;
-            description
-                "ctp list";
         }
         leaf service-type {
             mandatory true;
             type acc-devm:service-type;
-            description
-                "service type";
         }
         leaf pg-id {
             type uint16;
@@ -108,27 +94,20 @@ module acc-connection {
     grouping create-connection {
         leaf connection-name {
             type string;
-            description
-                "connection name";
+            description "connection name must be unique in device";
         }
         leaf service-type {
             mandatory true;
             type acc-devm:service-type;
-            description
-                "service type";
         }
         leaf layer-protocol-name {
             mandatory true;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
-            description
-                "layer protocol name";
         }
         container requested-capacity {
             uses capacity;
-            description
-                "requested capacity";
         }
         description "create connection";
     }

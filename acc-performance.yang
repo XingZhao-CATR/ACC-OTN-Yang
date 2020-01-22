@@ -38,7 +38,6 @@ module acc-performance {
                 type string {
                     length "1..64";
                 }
-                config false;
                 description "object-name";
             }
             leaf object-type {

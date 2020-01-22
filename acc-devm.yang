@@ -206,7 +206,7 @@ module acc-devm {
 		}
 		enum system-control {
 			value 3;
-			description "system main control or cross"
+			description "system main control or cross";
 		}
 		enum timer {
 			value 4;
@@ -231,16 +231,13 @@ module acc-devm {
 
     grouping ftp {
         leaf name {
-	    mandatory true;
-	    config false;
+	        mandatory true;
             type string{
             length "1..64";
             }
                 description "Name of ftp";
         }
         container state-pac {
-	    mandatory true;
-	    config false;
             uses state-pac;
                 description "State of ftp";
         }
@@ -268,22 +265,19 @@ module acc-devm {
 
     grouping ctp {
         leaf name {
-	     mandatory true;
-	    config false;
+	        mandatory true;
             type string{
             length "1..64";
             }
-                description "Name of ctp";
+            description "Name of ctp";
         }
         container state-pac {
-	 mandatory true;
-	    config false;
             uses state-pac;
-                description "State of ctp";
+            description "State of ctp";
         }
         leaf layer-protocol-name {
             mandatory true;
-	    config false;
+	        config false;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
@@ -319,14 +313,14 @@ module acc-devm {
     */
     container me {
         leaf name {
-	    mandatory true;
+	        mandatory true;
             type string{
               length "1..64";
             }            
             description "for UMS, it's a label";
         }
         leaf uuid {
-	    mandatory true;
+	        mandatory true;
             type string;
             config false;
             description "Universal unique identifier, MAC address is suggested. for UMS,it's real name";
@@ -559,8 +553,7 @@ module acc-devm {
             key 'name';
             min-elements 1;
             leaf name {
-		    mandatory true;
-		    config false;
+		        mandatory true;
                 type string {
                 length "1..64";
                 }
@@ -573,10 +566,10 @@ module acc-devm {
                 description "Plug state of eq";
             }
 	    leaf eq-type {
-	    	mandatory true;
-		config false;
-		type eq-type;
-		description "eq type: power,fan,service,system-control,timer";
+	    	  mandatory true;
+		      config false;
+		      type eq-type;
+		      description "eq type: power,fan,service,system-control,timer";
 	    }
             leaf software-version {
                 type string{

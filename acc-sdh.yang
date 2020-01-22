@@ -274,7 +274,6 @@ module acc-sdh {
                 }
             }
             container primary-nni {
-                mandatory true;
                 uses acc-otn:nni;
             }
             container secondary-nni {
@@ -287,13 +286,13 @@ module acc-sdh {
             }
             container create-component {
                 leaf-list ftp-name {
-                    mandatory true;
+                    min-elements 1;
                     type string {
                         length "1..64";
                     }
                 }
                 leaf-list ctp-name {
-                    mandatory true;
+                    min-elements 1;
                     type string {
                         length "1..64";
                     }

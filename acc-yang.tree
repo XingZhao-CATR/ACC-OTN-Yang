@@ -1,68 +1,3 @@
-module: acc-eth
-
-  rpcs:
-    +---x create-eth-connection
-       +---w input
-       |  +---w connection-name?       string
-       |  +---w service-type           acc-devm:service-type
-       |  +---w layer-protocol-name    identityref
-       |  +---w requested-capacity
-       |  |  +---w total-size    uint64
-       |  |  +---w cir           uint64
-       |  |  +---w eir?          uint64
-       |  +---w eth-uni
-       |  |  +---w uni-ptp-name?       string
-       |  |  +---w client-vlan-spec
-       |  |  |  +---w vlan-id*         uint64
-       |  |  |  +---w vlan-priority    uint64
-       |  |  |  +---w access-action?   access-action
-       |  |  |  +---w vlan-type        vlan-type
-       |  |  +---w uni-vlan-spec
-       |  |  |  +---w vlan-id*         uint64
-       |  |  |  +---w vlan-priority    uint64
-       |  |  |  +---w access-action?   access-action
-       |  |  |  +---w vlan-type        vlan-type
-       |  |  +---w ftp-vlan-spec
-       |  |     +---w vlan-id*         uint64
-       |  |     +---w vlan-priority    uint64
-       |  |     +---w access-action?   access-action
-       |  |     +---w vlan-type        vlan-type
-       |  +---w primary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
-       |  +---w secondary-nni
-       |     +---w nni-ptp-name?         string
-       |     +---w nni-ts-detail?        string
-       |     +---w adaptation-type?      adaptation-type
-       |     +---w client-signal-type?   identityref
-       |     +---w switch-capability?    identityref
-       +--ro output
-          +--ro connection
-          |  +--ro name?                  string
-          |  +--ro state-pac
-          |  |  +--ro operational-state    operational-state
-          |  |  +--ro admin-state          admin-state
-          |  +--ro layer-protocol-name    identityref
-          |  +--ro requested-capacity
-          |  |  +--ro total-size    uint64
-          |  |  +--ro cir           uint64
-          |  |  +--ro eir?          uint64
-          |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
-          |  +--ro service-type           acc-devm:service-type
-          |  +--ro pg-id?                 uint16
-          +--ro create-component
-             +--ro ftp-name*   string
-             +--ro ctp-name*   string
-
-  notifications:
-    +---n lldp-change-notification
-       +--ro ptp-name                 string
-       +--ro lldp-peer-chassis-id     string
-       +--ro lldp-peer-port-id        string
-       +--ro lldp-peer-system-name    string
 module: acc-alarms
   +--rw alarms
   |  +--ro alarm* [alarm-serial-no]
@@ -79,11 +14,11 @@ module: acc-alarms
   |  +--rw tca* [tca-serial-no]
   |     +--rw tca-serial-no    uint64
   |     +--ro tca-parameter
-  |     |  +--ro object-type          string
   |     |  +--ro object-name          string
   |     |  +--ro pm-parameter-name?   string
   |     |  +--ro granularity?         acc-type:granularity
   |     |  +--ro threshold-type       acc-type:threshold-type
+  |     |  +--ro object-type          string
   |     |  +--ro threshold-value?     acc-type:real
   |     +--ro tca-state        alarm-state
   |     +--ro current-value    acc-type:real
@@ -91,11 +26,11 @@ module: acc-alarms
   |     +--ro end-time?        yang:date-and-time
   +--rw tca-parameters
   |  +--rw tca-parameter* [object-name pm-parameter-name granularity threshold-type]
-  |     +--rw object-type          string
   |     +--rw object-name          string
   |     +--rw pm-parameter-name    string
   |     +--rw granularity          acc-type:granularity
   |     +--rw threshold-type       acc-type:threshold-type
+  |     +--rw object-type          string
   |     +--rw threshold-value?     acc-type:real
   +--rw alarm-mask-states
      +--rw alarm-mask-state* [object-name alarm-code]
@@ -125,11 +60,11 @@ module: acc-alarms
              +--ro tca* [tca-serial-no]
                 +--ro tca-serial-no    uint64
                 +--ro tca-parameter
-                |  +--ro object-type          string
                 |  +--ro object-name          string
                 |  +--ro pm-parameter-name?   string
                 |  +--ro granularity?         acc-type:granularity
                 |  +--ro threshold-type       acc-type:threshold-type
+                |  +--ro object-type          string
                 |  +--ro threshold-value?     acc-type:real
                 +--ro tca-state        alarm-state
                 +--ro current-value    acc-type:real
@@ -152,20 +87,37 @@ module: acc-alarms
        +--ro tca
           +--ro tca-serial-no?   uint64
           +--ro tca-parameter
-          |  +--ro object-type          string
           |  +--ro object-name          string
           |  +--ro pm-parameter-name?   string
           |  +--ro granularity?         acc-type:granularity
           |  +--ro threshold-type       acc-type:threshold-type
+          |  +--ro object-type          string
           |  +--ro threshold-value?     acc-type:real
           +--ro tca-state        alarm-state
           +--ro current-value    acc-type:real
           +--ro start-time       yang:date-and-time
           +--ro end-time?        yang:date-and-time
+module: acc-connection
+  +--rw connections
+     +--rw connection* [name]
+        +--rw name                   string
+        +--rw state-pac
+        |  +--ro operational-state    operational-state
+        |  +--rw admin-state          admin-state
+        +--rw layer-protocol-name    identityref
+        +--rw requested-capacity
+        |  +--rw total-size?   uint64
+        |  +--rw cbs?          uint64
+        |  +--rw cir           uint64
+        |  +--rw pbs?          uint64
+        |  +--rw pir?          uint64
+        +--rw ctp*                   -> /acc-devm:ctps/ctp/name
+        +--rw service-type           acc-devm:service-type
+        +--rw pg-id?                 uint16
 module: acc-devm
   +--rw me
-  |  +--rw name?                  string
-  |  +--ro uuid?                  string
+  |  +--rw name                   string
+  |  +--ro uuid                   string
   |  +--rw status?                me-status
   |  +--ro manufacturer           string
   |  +--ro product-name           string
@@ -176,30 +128,30 @@ module: acc-devm
   |  +--rw ip-address             inet:ipv4-address
   |  +--rw mask                   yang:dotted-quad
   |  +--rw ntp-enable             boolean
-  |  +--ro ntp-state?             ntp-state
   |  +--rw ntp-servers
   |  |  +--rw ntp-server* [name]
   |  |     +--rw name           string
   |  |     +--rw ip-address     inet:ipv4-address
   |  |     +--rw port?          inet:port-number
   |  |     +--rw ntp-version?   string
+  |  |     +--ro ntp-state?     ntp-state
   |  +--rw gate-way1              inet:ipv4-address
   |  +--rw gate-way2?             inet:ipv4-address
   |  +--ro eq*                    -> /eqs/eq/name
   +--rw ptps
   |  +--rw ptp* [name]
-  |     +--rw name                   string
+  |     +--rw name                       string
   |     +--rw state-pac
   |     |  +--ro operational-state    operational-state
   |     |  +--rw admin-state          admin-state
-  |     +--rw layer-protocol-name    identityref
-  |     +--ro peer-ip-address?       string
-  |     +--ro peer-tcp-id?           string
-  |     +--ro local-tcp-id?          string
-  |     +--rw laser-status?          laser-status
-  |     +--rw ctp*                   -> /ctps/ctp/name
-  |     +--rw interface-type         interface-type
-  |     +--rw loop-back?             loopback-type
+  |     +--rw layer-protocol-name        identityref
+  |     +--ro peer-ip-address?           string
+  |     +--ro peer-tcp-id?               string
+  |     +--ro local-tcp-id?              string
+  |     +--rw laser-status?              laser-status
+  |     +--rw ctp*                       -> /ctps/ctp/name
+  |     +--rw interface-type             interface-type
+  |     +--rw loop-back?                 loopback-type
   |     +--rw optical-power-pac
   |     |  +--ro input-power                    acc-type:real
   |     |  +--rw output-power                   acc-type:real
@@ -221,31 +173,37 @@ module: acc-devm
   |     |  +--rw acc-sdh:sdh-signal-type               sdh-signal-type
   |     |  +--ro acc-sdh:supported-sdh-signal-types*   sdh-signal-type
   |     |  +--ro acc-sdh:switch-capability*            switch-type
-  |     |  +--rw acc-sdh:j0-actual-tx                  string
-  |     |  +--rw acc-sdh:j0-expected-rx                string
-  |     |  +--ro acc-sdh:j0-actual-rx                  string
+  |     |  +--rw acc-sdh:j0-actual-tx?                 string
+  |     |  +--rw acc-sdh:j0-expected-rx?               string
+  |     |  +--ro acc-sdh:j0-actual-rx?                 string
   |     +--rw acc-eth:eth-ptp-pac
-  |        +--ro acc-eth:supported-working-mode*   working-mode
-  |        +--rw acc-eth:current-working-mode      working-mode
-  |        +--ro acc-eth:supported-mtu             uint64
-  |        +--rw acc-eth:current-mtu               uint64
-  |        +--rw acc-eth:pause-control             boolean
-  |        +--rw acc-eth:mac-address?              yang:mac-address
-  |        +--ro acc-eth:port-type                 port-type
-  |        +--rw acc-eth:lldp-enable?              boolean
-  |        +--ro acc-eth:lldp-peer-chassis-id?     string
-  |        +--ro acc-eth:lldp-peer-port-id?        string
-  |        +--ro acc-eth:lldp-peer-system-name?    string
+  |     |  +--ro acc-eth:supported-working-mode*   working-mode
+  |     |  +--rw acc-eth:current-working-mode      working-mode
+  |     |  +--ro acc-eth:supported-mtu             uint64
+  |     |  +--rw acc-eth:current-mtu               uint64
+  |     |  +--rw acc-eth:pause-control             boolean
+  |     |  +--rw acc-eth:mac-address?              yang:mac-address
+  |     |  +--ro acc-eth:port-type                 port-type
+  |     |  +--rw acc-eth:lldp-enable?              boolean
+  |     |  +--ro acc-eth:lldp-peer-chassis-id?     string
+  |     |  +--ro acc-eth:lldp-peer-port-id?        string
+  |     |  +--ro acc-eth:lldp-peer-system-name?    string
+  |     +--rw acc-eth:eth-mapping-pac
+  |        +--rw acc-eth:supported-mapping-type?        eth-mapping-type
+  |        +--rw (acc-eth:supported-server-switch-capability)?
+  |           +--:(acc-eth:odu-switch-capability-case)
+  |           |  +--rw acc-eth:odu-switch-capability*   identityref
+  |           +--:(acc-eth:sdh-switch-capability-case)
+  |              +--rw acc-eth:sdh-switch-capability*   acc-sdh:switch-type
   +--rw ftps
   |  +--rw ftp* [name]
   |     +--rw name                   string
   |     +--rw state-pac
   |     |  +--ro operational-state    operational-state
   |     |  +--rw admin-state          admin-state
-  |     +--rw layer-protocol-name    identityref
+  |     +--ro layer-protocol-name    identityref
   |     +--rw client-ctp*            -> /ctps/ctp/name
   |     +--rw server-ctp*            -> /ctps/ctp/name
-  |     +--rw loop-back?             loopback-type
   |     +--rw acc-sdh:sdh-ftp-pac
   |     |  +--rw acc-sdh:sdh-signal-type      sdh-signal-type
   |     |  +--ro acc-sdh:switch-capability*   switch-type
@@ -272,7 +230,7 @@ module: acc-devm
   |     +--rw state-pac
   |     |  +--ro operational-state    operational-state
   |     |  +--rw admin-state          admin-state
-  |     +--rw layer-protocol-name    identityref
+  |     +--ro layer-protocol-name    identityref
   |     +--ro port-role?             port-role
   |     +--ro protect-role           protect-role
   |     +--rw server-tp?             string
@@ -283,9 +241,9 @@ module: acc-devm
   |     |  +--ro acc-otn:switch-capability                    identityref
   |     |  +--rw acc-otn:ts-detail                            string
   |     |  +--ro acc-otn:current-number-of-tributary-slots*   uint64
-  |     |  +--ro acc-otn:pmtrail-trace-actual-tx              string
-  |     |  +--ro acc-otn:pmtrail-trace-actual-rx              string
-  |     |  +--rw acc-otn:pmtrail-trace-expected-rx            string
+  |     |  +--ro acc-otn:pmtrail-trace-actual-tx?             string
+  |     |  +--ro acc-otn:pmtrail-trace-actual-rx?             string
+  |     |  +--rw acc-otn:pmtrail-trace-expected-rx?           string
   |     |  +--ro acc-otn:g-hao-status?                        g-hao-status
   |     +--rw acc-sdh:vc-ctp-pac
   |     |  +--rw acc-sdh:vc-type           switch-type
@@ -296,14 +254,14 @@ module: acc-devm
   |     +--rw acc-eth:eth-ctp-pac
   |        +--rw acc-eth:vlan-spec
   |        |  +--rw acc-eth:vlan-id*         uint64
-  |        |  +--rw acc-eth:vlan-priority    uint64
+  |        |  +--rw acc-eth:vlan-priority?   uint64
   |        |  +--rw acc-eth:access-action?   access-action
-  |        |  +--rw acc-eth:vlan-type        vlan-type
+  |        |  +--rw acc-eth:vlan-type?       vlan-type
   |        +--rw acc-eth:client-vlan-spec
   |        |  +--rw acc-eth:vlan-id*         uint64
-  |        |  +--rw acc-eth:vlan-priority    uint64
+  |        |  +--rw acc-eth:vlan-priority?   uint64
   |        |  +--rw acc-eth:access-action?   access-action
-  |        |  +--rw acc-eth:vlan-type        vlan-type
+  |        |  +--rw acc-eth:vlan-type?       vlan-type
   |        +--ro acc-eth:performance
   |        |  +--ro acc-eth:delay                    uint64
   |        |  +--ro acc-eth:near-packet-loss-rate    acc-type:real
@@ -328,19 +286,14 @@ module: acc-devm
      +--rw eq* [name]
         +--rw name                  string
         +--ro plug-state            boolean
-        +--ro software-version      string
-        +--ro hardware-version      string
+        +--ro eq-type               eq-type
+        +--ro software-version?     string
+        +--ro hardware-version?     string
         +--ro ptp*                  -> /ptps/ptp/name
+        +--ro ftp*                  -> /ptps/ptp/name
         +--rw acc-sdh:eq-sdh-pac
-        |  +--ro acc-sdh:supported-sdh-signal-types*   sdh-signal-type
-        |  +--ro acc-sdh:switch-capability*            switch-type
-        +--rw acc-eth:eq-eth-pac
-           +--rw acc-eth:supported-mapping-type?        eth-mapping-type
-           +--rw (acc-eth:supported-server-switch-capability)?
-              +--:(acc-eth:odu-switch-capability-case)
-              |  +--rw acc-eth:odu-switch-capability*   identityref
-              +--:(acc-eth:sdh-switch-capability-case)
-                 +--rw acc-eth:sdh-switch-capability*   acc-sdh:switch-type
+           +--ro acc-sdh:supported-sdh-signal-types*   sdh-signal-type
+           +--ro acc-sdh:switch-capability*            switch-type
 
   rpcs:
     +---x reset
@@ -352,233 +305,17 @@ module: acc-devm
     |     +---w old-password?   string
     |     +---w new-password?   string
     +---x set-managed-element-time
-       +---w input
-          +---w new-time?   yang:date-and-time
+    |  +---w input
+    |     +---w new-time?   yang:date-and-time
+    +---x get-managed-element-time
+       +--ro output
+          +--ro date-time?   yang:date-and-time
 
   notifications:
     +---n peer-change-notification
        +--ro ptp-name           string
        +--ro peer-ip-address    string
        +--ro peer-ptp-name      string
-module: acc-notifications
-
-  notifications:
-    +---n common-notification
-    |  +--ro event
-    |     +--ro event-serial-no?   uint64
-    |     +--ro event-type?        event-type
-    |     +--ro object-name?       string
-    |     +--ro object-type?       string
-    +---n attribute-value-change-notification
-       +--ro event
-       |  +--ro event-serial-no?   uint64
-       |  +--ro event-type?        event-type
-       |  +--ro object-name?       string
-       |  +--ro object-type?       string
-       +--ro attribute-value-change
-          +--ro attribute-name?   string
-          +--ro new-value?        string
-          +--ro old-value?        string
-module: acc-performance
-  +--rw performances
-     +--rw performance* [pm-parameter-name start-time]
-        +--rw pm-parameter-name    string
-        +--rw start-time           yang:date-and-time
-        +--ro object-name          string
-        +--ro object-type          string
-        +--ro granularity?         acc-type:granularity
-        +--ro digital-pm-value?    acc-type:real
-        +--rw analog-pm-value
-           +--rw max-value?       acc-type:real
-           +--rw min-value?       acc-type:real
-           +--rw average-value?   acc-type:real
-           +--rw current-value?   acc-type:real
-
-  rpcs:
-    +---x get-history-performance-monitoring-data
-       +---w input
-       |  +---w start-time           yang:date-and-time
-       |  +---w end-time             yang:date-and-time
-       |  +---w object-name?         string
-       |  +---w granularity          acc-type:granularity
-       |  +---w pm-parameter-name?   string
-       +--ro output
-          +--ro performances
-             +--ro performance* [pm-parameter-name start-time]
-                +--ro pm-parameter-name    string
-                +--ro start-time           yang:date-and-time
-                +--ro object-name          string
-                +--ro object-type          string
-                +--ro granularity?         acc-type:granularity
-                +--ro digital-pm-value?    acc-type:real
-                +--ro analog-pm-value
-                   +--ro max-value?       acc-type:real
-                   +--ro min-value?       acc-type:real
-                   +--ro average-value?   acc-type:real
-                   +--ro current-value?   acc-type:real
-module: acc-sdh
-
-  rpcs:
-    +---x create-sdh-connection
-       +---w input
-       |  +---w connection-name?       string
-       |  +---w service-type           acc-devm:service-type
-       |  +---w layer-protocol-name    identityref
-       |  +---w requested-capacity
-       |  |  +---w total-size    uint64
-       |  |  +---w cir           uint64
-       |  |  +---w eir?          uint64
-       |  +---w sdh-uni
-       |  |  +---w uni-ptp-name          string
-       |  |  +---w vc-type               switch-type
-       |  |  +---w a-ctp-mapping-path    string
-       |  +---w sdh-nni
-       |  |  +---w sdh-type                      sdh-signal-type
-       |  |  +---w z-ctp-mapping-path            string
-       |  |  +---w sdh-type-protect?             sdh-signal-type
-       |  |  +---w z-ctp-mapping-path-protect?   string
-       |  +---w primary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
-       |  +---w secondary-nni
-       |     +---w nni-ptp-name?         string
-       |     +---w nni-ts-detail?        string
-       |     +---w adaptation-type?      adaptation-type
-       |     +---w client-signal-type?   identityref
-       |     +---w switch-capability?    identityref
-       +--ro output
-          +--ro connection
-          |  +--ro name?                  string
-          |  +--ro state-pac
-          |  |  +--ro operational-state    operational-state
-          |  |  +--ro admin-state          admin-state
-          |  +--ro layer-protocol-name    identityref
-          |  +--ro requested-capacity
-          |  |  +--ro total-size    uint64
-          |  |  +--ro cir           uint64
-          |  |  +--ro eir?          uint64
-          |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
-          |  +--ro service-type           acc-devm:service-type
-          |  +--ro pg-id?                 uint16
-          +--ro create-component
-             +--ro ftp-name*   string
-             +--ro ctp-name*   string
-module: acc-connection
-  +--rw connections
-     +--rw connection* [name]
-        +--rw name                   string
-        +--rw state-pac
-        |  +--ro operational-state    operational-state
-        |  +--rw admin-state          admin-state
-        +--rw layer-protocol-name    identityref
-        +--rw requested-capacity
-        |  +--rw total-size    uint64
-        |  +--rw cir           uint64
-        |  +--rw eir?          uint64
-        +--rw ctp*                   -> /acc-devm:ctps/ctp/name
-        +--rw service-type           acc-devm:service-type
-        +--rw pg-id?                 uint16
-module: acc-otn
-
-  rpcs:
-    +---x create-odu-connection
-    |  +---w input
-    |  |  +---w connection-name?       string
-    |  |  +---w service-type           acc-devm:service-type
-    |  |  +---w layer-protocol-name    identityref
-    |  |  +---w requested-capacity
-    |  |  |  +---w total-size    uint64
-    |  |  |  +---w cir           uint64
-    |  |  |  +---w eir?          uint64
-    |  |  +---w client-side-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
-    |  |  +---w primary-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
-    |  |  +---w secondary-nni
-    |  |     +---w nni-ptp-name?         string
-    |  |     +---w nni-ts-detail?        string
-    |  |     +---w adaptation-type?      adaptation-type
-    |  |     +---w client-signal-type?   identityref
-    |  |     +---w switch-capability?    identityref
-    |  +--ro output
-    |     +--ro connection
-    |        +--ro name?                  string
-    |        +--ro state-pac
-    |        |  +--ro operational-state    operational-state
-    |        |  +--ro admin-state          admin-state
-    |        +--ro layer-protocol-name    identityref
-    |        +--ro requested-capacity
-    |        |  +--ro total-size    uint64
-    |        |  +--ro cir           uint64
-    |        |  +--ro eir?          uint64
-    |        +--ro ctp*                   -> /acc-devm:ctps/ctp/name
-    |        +--ro service-type           acc-devm:service-type
-    |        +--ro pg-id?                 uint16
-    +---x modify-odu-connection-capacity
-       +---w input
-          +---w odu-ctp-name                         string
-          +---w position                             odu-position
-          +---w action                               modify-action
-          +---w switch-capability                    identityref
-          +---w current-number-of-tributary-slots    uint64
-          +---w ts-detail?                           string
-          +---w timeout                              uint64
-
-  notifications:
-    +---n g-hao-notification
-       +--ro g-hao-adjust-serial-no    uint64
-       +--ro ctp-name                  string
-       +--ro modify-result             g-hao-modify-result
-module: acc-protection-group
-  +--rw pgs
-     +--rw pg* [pg-id]
-        +--rw pg-id                   uint16
-        +--rw protection-type?        protection-type
-        +--rw switch-type?            switch-type
-        +--rw reversion-mode?         reversion-mode
-        +--rw sd-trigger?             sd-trigger
-        +--ro switch-reason?          switch-reason
-        +--rw wait-to-restore-time?   uint64
-        +--rw hold-off?               uint32
-        +--ro protection-direction?   protection-direction
-        +--rw primary-port?           -> /acc-devm:ptps/ptp/name
-        +--rw secondary-port?         -> /acc-devm:ptps/ptp/name
-        +--ro selected-port?          -> /acc-devm:ptps/ptp/name
-
-  rpcs:
-    +---x perform-protection-command
-       +---w input
-          +---w pg-id                   uint64
-          +---w protection-command      switch-reason
-          +---w protection-direction    protection-direction
-
-  notifications:
-    +---n protection-switch-notification
-       +--ro protection-switch-serial-no    uint64
-       +--ro pg
-          +--ro pg-id?                  uint16
-          +--ro protection-type?        protection-type
-          +--ro switch-type?            switch-type
-          +--ro reversion-mode?         reversion-mode
-          +--ro sd-trigger?             sd-trigger
-          +--ro switch-reason?          switch-reason
-          +--ro wait-to-restore-time?   uint64
-          +--ro hold-off?               uint32
-          +--ro protection-direction?   protection-direction
-          +--ro primary-port?           -> /acc-devm:ptps/ptp/name
-          +--ro secondary-port?         -> /acc-devm:ptps/ptp/name
-          +--ro selected-port?          -> /acc-devm:ptps/ptp/name
 module: acc-eos
 
   rpcs:
@@ -588,26 +325,28 @@ module: acc-eos
     |  |  +---w service-type           acc-devm:service-type
     |  |  +---w layer-protocol-name    identityref
     |  |  +---w requested-capacity
-    |  |  |  +---w total-size    uint64
+    |  |  |  +---w total-size?   uint64
+    |  |  |  +---w cbs?          uint64
     |  |  |  +---w cir           uint64
-    |  |  |  +---w eir?          uint64
+    |  |  |  +---w pbs?          uint64
+    |  |  |  +---w pir?          uint64
     |  |  +---w eth-uni
     |  |  |  +---w uni-ptp-name?       string
     |  |  |  +---w client-vlan-spec
     |  |  |  |  +---w vlan-id*         uint64
-    |  |  |  |  +---w vlan-priority    uint64
+    |  |  |  |  +---w vlan-priority?   uint64
     |  |  |  |  +---w access-action?   access-action
-    |  |  |  |  +---w vlan-type        vlan-type
+    |  |  |  |  +---w vlan-type?       vlan-type
     |  |  |  +---w uni-vlan-spec
     |  |  |  |  +---w vlan-id*         uint64
-    |  |  |  |  +---w vlan-priority    uint64
+    |  |  |  |  +---w vlan-priority?   uint64
     |  |  |  |  +---w access-action?   access-action
-    |  |  |  |  +---w vlan-type        vlan-type
+    |  |  |  |  +---w vlan-type?       vlan-type
     |  |  |  +---w ftp-vlan-spec
     |  |  |     +---w vlan-id*         uint64
-    |  |  |     +---w vlan-priority    uint64
+    |  |  |     +---w vlan-priority?   uint64
     |  |  |     +---w access-action?   access-action
-    |  |  |     +---w vlan-type        vlan-type
+    |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w primary-nni
     |  |  |  +---w nni-ptp-name?         string
     |  |  |  +---w nni-ts-detail?        string
@@ -632,15 +371,17 @@ module: acc-eos
     |  |     +---w tsd?                       boolean
     |  +--ro output
     |     +--ro connection
-    |     |  +--ro name?                  string
+    |     |  +--ro name                   string
     |     |  +--ro state-pac
     |     |  |  +--ro operational-state    operational-state
     |     |  |  +--ro admin-state          admin-state
     |     |  +--ro layer-protocol-name    identityref
     |     |  +--ro requested-capacity
-    |     |  |  +--ro total-size    uint64
+    |     |  |  +--ro total-size?   uint64
+    |     |  |  +--ro cbs?          uint64
     |     |  |  +--ro cir           uint64
-    |     |  |  +--ro eir?          uint64
+    |     |  |  +--ro pbs?          uint64
+    |     |  |  +--ro pir?          uint64
     |     |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
     |     |  +--ro service-type           acc-devm:service-type
     |     |  +--ro pg-id?                 uint16
@@ -658,3 +399,289 @@ module: acc-eos
        +--ro output
           +--ro connection-name*   string
           +--ro ctp-name*          string
+module: acc-eth
+
+  rpcs:
+    +---x create-eth-connection
+       +---w input
+       |  +---w connection-name?       string
+       |  +---w service-type           acc-devm:service-type
+       |  +---w layer-protocol-name    identityref
+       |  +---w requested-capacity
+       |  |  +---w total-size?   uint64
+       |  |  +---w cbs?          uint64
+       |  |  +---w cir           uint64
+       |  |  +---w pbs?          uint64
+       |  |  +---w pir?          uint64
+       |  +---w eth-uni
+       |  |  +---w uni-ptp-name?       string
+       |  |  +---w client-vlan-spec
+       |  |  |  +---w vlan-id*         uint64
+       |  |  |  +---w vlan-priority?   uint64
+       |  |  |  +---w access-action?   access-action
+       |  |  |  +---w vlan-type?       vlan-type
+       |  |  +---w uni-vlan-spec
+       |  |  |  +---w vlan-id*         uint64
+       |  |  |  +---w vlan-priority?   uint64
+       |  |  |  +---w access-action?   access-action
+       |  |  |  +---w vlan-type?       vlan-type
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action?   access-action
+       |  |     +---w vlan-type?       vlan-type
+       |  +---w primary-nni
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
+       |  +---w secondary-nni
+       |     +---w nni-ptp-name?         string
+       |     +---w nni-ts-detail?        string
+       |     +---w adaptation-type?      adaptation-type
+       |     +---w client-signal-type?   identityref
+       |     +---w switch-capability?    identityref
+       +--ro output
+          +--ro connection
+          |  +--ro name                   string
+          |  +--ro state-pac
+          |  |  +--ro operational-state    operational-state
+          |  |  +--ro admin-state          admin-state
+          |  +--ro layer-protocol-name    identityref
+          |  +--ro requested-capacity
+          |  |  +--ro total-size?   uint64
+          |  |  +--ro cbs?          uint64
+          |  |  +--ro cir           uint64
+          |  |  +--ro pbs?          uint64
+          |  |  +--ro pir?          uint64
+          |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
+          |  +--ro service-type           acc-devm:service-type
+          |  +--ro pg-id?                 uint16
+          +--ro create-component
+             +--ro ftp-name*   string
+             +--ro ctp-name*   string
+
+  notifications:
+    +---n lldp-change-notification
+       +--ro ptp-name                 string
+       +--ro lldp-peer-chassis-id     string
+       +--ro lldp-peer-port-id        string
+       +--ro lldp-peer-system-name    string
+module: acc-notifications
+
+  notifications:
+    +---n common-notification
+    |  +--ro event
+    |     +--ro event-serial-no?   uint64
+    |     +--ro event-type?        event-type
+    |     +--ro object-name?       string
+    |     +--ro object-type?       string
+    +---n attribute-value-change-notification
+       +--ro event
+       |  +--ro event-serial-no?   uint64
+       |  +--ro event-type?        event-type
+       |  +--ro object-name?       string
+       |  +--ro object-type?       string
+       +--ro attribute-value-change
+          +--ro attribute-name?   string
+          +--ro new-value?        string
+          +--ro old-value?        string
+module: acc-otn
+
+  rpcs:
+    +---x create-odu-connection
+    |  +---w input
+    |  |  +---w connection-name?       string
+    |  |  +---w service-type           acc-devm:service-type
+    |  |  +---w layer-protocol-name    identityref
+    |  |  +---w requested-capacity
+    |  |  |  +---w total-size?   uint64
+    |  |  |  +---w cbs?          uint64
+    |  |  |  +---w cir           uint64
+    |  |  |  +---w pbs?          uint64
+    |  |  |  +---w pir?          uint64
+    |  |  +---w client-side-nni
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
+    |  |  +---w primary-nni
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
+    |  |  +---w secondary-nni
+    |  |     +---w nni-ptp-name?         string
+    |  |     +---w nni-ts-detail?        string
+    |  |     +---w adaptation-type?      adaptation-type
+    |  |     +---w client-signal-type?   identityref
+    |  |     +---w switch-capability?    identityref
+    |  +--ro output
+    |     +--ro connection
+    |        +--ro name                   string
+    |        +--ro state-pac
+    |        |  +--ro operational-state    operational-state
+    |        |  +--ro admin-state          admin-state
+    |        +--ro layer-protocol-name    identityref
+    |        +--ro requested-capacity
+    |        |  +--ro total-size?   uint64
+    |        |  +--ro cbs?          uint64
+    |        |  +--ro cir           uint64
+    |        |  +--ro pbs?          uint64
+    |        |  +--ro pir?          uint64
+    |        +--ro ctp*                   -> /acc-devm:ctps/ctp/name
+    |        +--ro service-type           acc-devm:service-type
+    |        +--ro pg-id?                 uint16
+    +---x modify-odu-connection-capacity
+       +---w input
+          +---w odu-ctp-name                         string
+          +---w position                             odu-position
+          +---w action                               modify-action
+          +---w current-number-of-tributary-slots    uint64
+          +---w ts-detail?                           string
+          +---w timeout                              uint64
+
+  notifications:
+    +---n g-hao-notification
+       +--ro g-hao-adjust-serial-no    uint64
+       +--ro ctp-name                  string
+       +--ro modify-result             g-hao-modify-result
+module: acc-performance
+  +--rw performances
+     +--rw performance* [pm-parameter-name start-time object-name]
+        +--rw pm-parameter-name         string
+        +--rw start-time                yang:date-and-time
+        +--rw object-name               string
+        +--ro object-type               string
+        +--ro granularity?              acc-type:granularity
+        +--rw (digital-or-analog)?
+           +--:(digital)
+           |  +--ro digital-pm-value?   acc-type:real
+           +--:(analog)
+              +--rw analog-pm-value
+                 +--rw max-value?       acc-type:real
+                 +--rw min-value?       acc-type:real
+                 +--rw average-value?   acc-type:real
+                 +--rw current-value?   acc-type:real
+
+  rpcs:
+    +---x get-history-performance-monitoring-data
+       +---w input
+       |  +---w start-time           yang:date-and-time
+       |  +---w end-time             yang:date-and-time
+       |  +---w object-name?         string
+       |  +---w granularity          acc-type:granularity
+       |  +---w pm-parameter-name?   string
+       +--ro output
+          +--ro performances
+             +--ro performance* [pm-parameter-name start-time object-name]
+                +--ro pm-parameter-name         string
+                +--ro start-time                yang:date-and-time
+                +--ro object-name               string
+                +--ro object-type               string
+                +--ro granularity?              acc-type:granularity
+                +--ro (digital-or-analog)?
+                   +--:(digital)
+                   |  +--ro digital-pm-value?   acc-type:real
+                   +--:(analog)
+                      +--ro analog-pm-value
+                         +--ro max-value?       acc-type:real
+                         +--ro min-value?       acc-type:real
+                         +--ro average-value?   acc-type:real
+                         +--ro current-value?   acc-type:real
+module: acc-protection-group
+  +--rw pgs
+     +--rw pg* [pg-id]
+        +--rw pg-id                   uint16
+        +--rw protection-type         protection-type
+        +--rw switch-type             switch-type
+        +--rw reversion-mode          reversion-mode
+        +--rw sd-trigger?             sd-trigger
+        +--ro switch-reason           switch-reason
+        +--rw wait-to-restore-time    uint64
+        +--rw hold-off?               uint32
+        +--ro protection-direction?   protection-direction
+        +--rw primary-port            -> /acc-devm:ptps/ptp/name
+        +--rw secondary-port          -> /acc-devm:ptps/ptp/name
+        +--ro selected-port           -> /acc-devm:ptps/ptp/name
+
+  rpcs:
+    +---x perform-protection-command
+       +---w input
+          +---w pg-id                   uint64
+          +---w protection-command      switch-reason
+          +---w protection-direction    protection-direction
+
+  notifications:
+    +---n protection-switch-notification
+       +--ro protection-switch-serial-no    uint64
+       +--ro pg
+          +--ro pg-id                   uint16
+          +--ro protection-type         protection-type
+          +--ro switch-type             switch-type
+          +--ro reversion-mode          reversion-mode
+          +--ro sd-trigger?             sd-trigger
+          +--ro switch-reason           switch-reason
+          +--ro wait-to-restore-time    uint64
+          +--ro hold-off?               uint32
+          +--ro protection-direction?   protection-direction
+          +--ro primary-port            -> /acc-devm:ptps/ptp/name
+          +--ro secondary-port          -> /acc-devm:ptps/ptp/name
+          +--ro selected-port           -> /acc-devm:ptps/ptp/name
+module: acc-sdh
+
+  rpcs:
+    +---x create-sdh-connection
+       +---w input
+       |  +---w connection-name?       string
+       |  +---w service-type           acc-devm:service-type
+       |  +---w layer-protocol-name    identityref
+       |  +---w requested-capacity
+       |  |  +---w total-size?   uint64
+       |  |  +---w cbs?          uint64
+       |  |  +---w cir           uint64
+       |  |  +---w pbs?          uint64
+       |  |  +---w pir?          uint64
+       |  +---w sdh-uni
+       |  |  +---w uni-ptp-name          string
+       |  |  +---w vc-type               switch-type
+       |  |  +---w a-ctp-mapping-path    string
+       |  +---w sdh-nni
+       |  |  +---w sdh-type                      sdh-signal-type
+       |  |  +---w z-ctp-mapping-path            string
+       |  |  +---w sdh-type-protect?             sdh-signal-type
+       |  |  +---w z-ctp-mapping-path-protect?   string
+       |  +---w primary-nni
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
+       |  +---w secondary-nni
+       |     +---w nni-ptp-name?         string
+       |     +---w nni-ts-detail?        string
+       |     +---w adaptation-type?      adaptation-type
+       |     +---w client-signal-type?   identityref
+       |     +---w switch-capability?    identityref
+       +--ro output
+          +--ro connection
+          |  +--ro name                   string
+          |  +--ro state-pac
+          |  |  +--ro operational-state    operational-state
+          |  |  +--ro admin-state          admin-state
+          |  +--ro layer-protocol-name    identityref
+          |  +--ro requested-capacity
+          |  |  +--ro total-size?   uint64
+          |  |  +--ro cbs?          uint64
+          |  |  +--ro cir           uint64
+          |  |  +--ro pbs?          uint64
+          |  |  +--ro pir?          uint64
+          |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
+          |  +--ro service-type           acc-devm:service-type
+          |  +--ro pg-id?                 uint16
+          +--ro create-component
+             +--ro ftp-name*   string
+             +--ro ctp-name*   string
