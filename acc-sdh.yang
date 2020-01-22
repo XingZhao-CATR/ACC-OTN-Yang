@@ -33,21 +33,17 @@ module acc-sdh {
     }
     identity SDH {
         base acc-type:layer-protocol-name;
-        description "";
     }
     typedef switch-type {
         type enumeration {
             enum VC12 {
                 value 0;
-                description "none";
             }
             enum VC3 {
                 value 1;
-                description "none";
             }
             enum VC4 {
                 value 2;
-                description "none";
             }
         }
     }
@@ -55,42 +51,33 @@ module acc-sdh {
         type enumeration {
             enum STM1 {
                 value 0;
-                description "none";
             }
             enum STM4 {
                 value 1;
-                description "none";
             }
             enum STM16 {
                 value 2;
-                description "none";
             }
             enum STM64 {
                 value 3;
-                description "none";
             }
             enum STM256 {
                 value 4;
-                description "none";
             }
             enum NO-SERVICE {
                 value 5;
-                description "none";
             }
         }
-        description "none";
     }
 
     grouping vcg-pac {
         leaf vc-type {
             mandatory true;
             type acc-sdh:switch-type;
-            description "none";
         }
         leaf lcas {
             type boolean;
             default false;
-            description "none";
         }
         leaf hold-off {
             type uint32;
@@ -105,7 +92,6 @@ module acc-sdh {
         leaf tsd {
             type boolean;
             default false;
-            description "none";
         }
         leaf tx-number {
             type uint64;
@@ -125,7 +111,6 @@ module acc-sdh {
             config false;
             description "The handshake state of the source end.";
         }
-        description "none";
     }
 
     augment "/acc-devm:eqs/acc-devm:eq" {
@@ -133,14 +118,11 @@ module acc-sdh {
             leaf-list supported-sdh-signal-types {
                 type sdh-signal-type;
                 config false;
-                description "none";
             }
             leaf-list switch-capability {
                 type switch-type;
                 config false;
-                description "none";
             }
-            description "none";
         }
     }
 
@@ -150,42 +132,32 @@ module acc-sdh {
             leaf sdh-signal-type {
                 mandatory true;
                 type sdh-signal-type;
-                description "none";
             }
             leaf-list supported-sdh-signal-types {
                 type sdh-signal-type;
                 config false;
-                description "none";
             }
             leaf-list switch-capability {
                 min-elements 1;
                 type switch-type;
                 config false;
-                description "none";
             }
             leaf j0-actual-tx {
-                mandatory true;
                 type string {
                     length "1..64";
                 }
-                description "none";
             }
             leaf j0-expected-rx {
-                mandatory true;
                 type string {
                     length "1..64";
                 }
-                description "none";
             }
             leaf j0-actual-rx {
-                mandatory true;
                 type string {
                     length "1..64";
                 }
                 config false;
-                description "none";
             }
-            description "none";
         }
     }
 
@@ -201,28 +173,23 @@ module acc-sdh {
                 min-elements 1;
                 type switch-type;
                 config false;
-                description "none";
             }
             leaf j0-actual-tx {
                 type string {
                     length "1..64";
                 }
-                description "none";
             }
             leaf j0-expected-rx {
                 type string {
                     length "1..64";
                 }
-                description "none";
             }
             leaf j0-actual-rx {
                 type string {
                     length "1..64";
                 }
                 config false;
-                description "none";
             }
-            description "none";
         }
     }
 
@@ -243,7 +210,6 @@ module acc-sdh {
                 type string {
                     length "1..64";
                 }
-                description "none";
             }
             leaf j1-expected-rx {
                 type string {
@@ -256,9 +222,7 @@ module acc-sdh {
                     length "1..64";
                 }
                 config false;
-                description "none";
             }
-            description "none";
         }
     }
 
@@ -287,7 +251,6 @@ module acc-sdh {
                     type string {
                         length "1..64";
                     }
-                description "";
                 }
             }
             container sdh-nni {
@@ -311,6 +274,7 @@ module acc-sdh {
                 }
             }
             container primary-nni {
+                mandatory true;
                 uses acc-otn:nni;
             }
             container secondary-nni {
@@ -319,21 +283,17 @@ module acc-sdh {
         }
         output {
             container connection {
-                description
-                    "";
                 uses acc-con:connection;
             }
             container create-component {
-                description
-                    "";
                 leaf-list ftp-name {
+                    mandatory true;
                     type string {
                         length "1..64";
                     }
-                    description
-                        "";
                 }
                 leaf-list ctp-name {
+                    mandatory true;
                     type string {
                         length "1..64";
                     }
