@@ -113,7 +113,7 @@ module acc-sdh {
         }
     }
 
-    augment "/acc-devm:eqs/acc-devm:eq" {
+    /*augment "/acc-devm:eqs/acc-devm:eq" {
         container eq-sdh-pac {
             leaf-list supported-sdh-signal-types {
                 type sdh-signal-type;
@@ -124,7 +124,7 @@ module acc-sdh {
                 config false;
             }
         }
-    }
+    }*/
 
     augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = acc-type:SDH";
@@ -158,6 +158,17 @@ module acc-sdh {
                 }
                 config false;
             }
+        }
+
+        container sdh-mapping-pac {
+                leaf-list supported-sdh-signal-types {
+                    type sdh-signal-type;
+                    min-elements 1;
+                }
+                leaf-list switch-capability {
+                    type switch-type;
+                    min-elements 1;
+                }
         }
     }
 

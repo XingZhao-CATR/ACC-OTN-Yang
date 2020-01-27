@@ -11,17 +11,7 @@ module acc-connection {
         prefix acc-type;
     }
 
-    organization
-        "xxx";
-    contact
-        "xxx";
-    description
-        "xxx";
     revision 2019-02-13 {
-        description
-            "Initial revision.";
-        reference
-            "xxx";
     }
 
     /*
@@ -33,19 +23,21 @@ module acc-connection {
     */
     grouping capacity {
         choice for-odu-or-eth {
-            case odu {
+            case for-odu {
                 leaf total-size {
-                type uint64;
-                description "total size, When ODU,SDH,  mandatory must to be true and others must not exists";
+                    mandatory true;
+                    type uint64;
+                    description "total size, When ODU,SDH,  mandatory must to be true and others must not exists";
                 }
             }
-            case eth {
+            case for-eth {
                 leaf cir {
                     mandatory true;
                     type uint64;
                     description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
                 }
                 leaf pir {
+                    mandatory true;
                     type uint64;
                     description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
                 }
@@ -58,8 +50,8 @@ module acc-connection {
             }
         }
     }
+
     grouping connection {
-       
         leaf name {
             mandatory true;
             type string;
@@ -89,8 +81,7 @@ module acc-connection {
         }
         leaf pg-id {
             type uint16;
-            description
-                "pg id";
+            description "pg id";
         }
     }
 

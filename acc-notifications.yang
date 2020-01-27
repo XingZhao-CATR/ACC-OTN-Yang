@@ -3,15 +3,7 @@ module acc-notifications {
     namespace "urn:ccsa:yang:acc-notifications";
     prefix acc-ntf;
 
-    organization "xxx";
-    contact "xxx";
-    description "This module defines a YANG data model for use with the
-        NETCONF protocol that allows the NETCONF client to
-        receive event notifications.";
-    revision 2019-02-13 {
-        description "Initial revision.";
-        reference "RFC xxx";
-    }
+
     /*
     * Common types
     */
@@ -19,40 +11,35 @@ module acc-notifications {
         type enumeration {
             enum object-creation {
                 value 0;
-                description "event-type object-creation";
             }
             enum object-deletion {
                 value 1;
-                description "event-type object-deletion";
             }
             enum attribute-value-change {
                 value 2;
-                description "event-type attribute-value-change";
             }
         }
-        description "event-type";
     }   
     /*
     * Groupings
     */    
     grouping event {
         leaf event-serial-no {
+            mandatory true;
             type uint64;
-            description "event event-serial-no";
         }
         leaf event-type {
+            mandatory true;
             type event-type;
-            description "event event-type";
         }
         leaf object-name {
+            mandatory true;
             type string;
-            description "event object-name";
         }
         leaf object-type {
+            mandatory true;
             type string;
-            description "event object-type";
         }
-        description "event";
     }
 
     /*
@@ -61,31 +48,25 @@ module acc-notifications {
     notification common-notification {
         container event {
             uses event;
-            description "common-notification";
         }
-        description "common-notification";
     }
     notification attribute-value-change-notification {
         container event {
             uses event;
-            description "event";
         }
         container attribute-value-change {
             leaf attribute-name {
+                mandatory true;
                 type string;
-                description "attribute-value-change attribute-name";
             }
             leaf new-value {
+                mandatory true;
                 type string;
-                description "attribute-value-change new-attribute-value";
             }
             leaf old-value {
                 type string;
-                description "attribute-value-change old-attribute-value";
             }
-            description "attribute-value-change";
         }
-        description "attribute-value-change-notification";
     }
 
 }

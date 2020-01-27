@@ -8,15 +8,15 @@ module acc-eth {
     import acc-yang-types {
          prefix acc-type; 
     }
+
     import ietf-otn-types {
         prefix otn-types;
     }
+    
     import acc-devm {
         prefix acc-devm;
     }
-    import acc-sdh {
-        prefix acc-sdh;
-    }
+    
     import acc-connection {
         prefix acc-con;
     }
@@ -25,12 +25,15 @@ module acc-eth {
         prefix acc-otn;
     }
 
+
+    import acc-sdh {
+        prefix acc-sdh;
+    }
+
     organization "xxx";
     contact "xxx";
     description "xxx";
     revision 2019-02-13 {
-        description "xxx";
-        reference "xxx";
     }
     /*
    * common types
@@ -268,31 +271,33 @@ module acc-eth {
                     length 1..64;
                 }
             }
+
+            container eth-mapping-pac {
+                leaf supported-mapping-type {
+                    type eth-mapping-type;
+                }
+                choice supported-server-switch-capability {
+                    case odu-switch-capability-case {
+                        when "supported-mapping-type = 'EoO'";
+                        leaf-list odu-switch-capability {
+                            type identityref {
+                                base otn-types:odu-type;
+                            }
+                            description "ODU Switch capability";
+                        }
+                    }
+                    case sdh-switch-capability-case {
+                        when "supported-mapping-type = 'EoS'";
+                        leaf-list sdh-switch-capability {
+                            type acc-sdh:switch-type;
+                            description "SDH Switch capability";
+                        }
+                    }
+                }
+            }
         }
 	
-	      container eth-mapping-pac {
-            leaf supported-mapping-type {
-                type eth-mapping-type;
-            }
-            choice supported-server-switch-capability {
-                case odu-switch-capability-case {
-                    when "supported-mapping-type = 'EoO'";
-                    leaf-list odu-switch-capability {
-                        type identityref {
-                            base otn-types:odu-type;
-                        }
-                        description "ODU Switch capability";
-                    }
-                }
-                case sdh-switch-capability-case {
-                    when "supported-mapping-type = 'EoS'";
-                    leaf-list sdh-switch-capability {
-                        type acc-sdh:switch-type;
-                        description "SDH Switch capability";
-                    }
-                }
-            }
-        }
+	    
     }
 
     augment "/acc-devm:ftps/acc-devm:ftp" {
@@ -474,11 +479,19 @@ module acc-eth {
                     description "client side vlan spec， only for EVPL";
                 }
                 container uni-vlan-spec {
-                    uses vlan-spec;
+                    uses vlan-spec{
+                     refine "access-action"{
+                        mandatory true;
+                     }
+                    }
                     description "uni vlan spec";
                 }
                 container ftp-vlan-spec {
-                    uses vlan-spec;
+                    uses vlan-spec{
+                     refine "access-action"{
+                        mandatory true;
+                     }
+                    }
                     description "ftp vlan spec";
                 }
             }

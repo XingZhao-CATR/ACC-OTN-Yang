@@ -107,11 +107,11 @@ module: acc-connection
         +--rw layer-protocol-name    identityref
         +--rw requested-capacity
         |  +--rw (for-odu-or-eth)?
-        |     +--:(odu)
-        |     |  +--rw total-size?   uint64
-        |     +--:(eth)
+        |     +--:(for-odu)
+        |     |  +--rw total-size    uint64
+        |     +--:(for-eth)
         |        +--rw cir           uint64
-        |        +--rw pir?          uint64
+        |        +--rw pir           uint64
         |        +--rw cbs?          uint64
         |        +--rw pbs?          uint64
         +--rw ctp*                   -> /acc-devm:ctps/ctp/name
@@ -151,16 +151,20 @@ module: acc-devm
   |     +--ro peer-ip-address?           string
   |     +--ro peer-tcp-id?               string
   |     +--ro local-tcp-id?              string
-  |     +--rw laser-status?              laser-status
+  |     +--rw laser-status               laser-status
   |     +--rw ctp*                       -> /ctps/ctp/name
   |     +--rw interface-type             interface-type
-  |     +--rw loop-back?                 loopback-type
+  |     +--rw loop-back                  loopback-type
   |     +--rw remote-ptp* [name]
-  |     |  +--rw name                   string
+  |     |  +--rw name                           string
   |     |  +--rw state-pac
   |     |  |  +--ro operational-state    operational-state
   |     |  |  +--rw admin-state          admin-state
-  |     |  +--rw layer-protocol-name    identityref
+  |     |  +--ro input-power                    acc-type:real
+  |     |  +--rw output-power                   acc-type:real
+  |     |  +--ro input-power-upper-threshold    acc-type:real
+  |     |  +--ro input-power-lower-threshold    acc-type:real
+  |     |  +--rw laser-status                   laser-status
   |     +--rw optical-power-pac
   |     |  +--ro input-power                    acc-type:real
   |     |  +--rw output-power                   acc-type:real
@@ -185,25 +189,28 @@ module: acc-devm
   |     |  +--rw acc-sdh:j0-actual-tx?                 string
   |     |  +--rw acc-sdh:j0-expected-rx?               string
   |     |  +--ro acc-sdh:j0-actual-rx?                 string
+  |     +--rw acc-sdh:sdh-mapping-pac
+  |     |  +--rw acc-sdh:supported-sdh-signal-types*   sdh-signal-type
+  |     |  +--rw acc-sdh:switch-capability*            switch-type
   |     +--rw acc-eth:eth-ptp-pac
-  |     |  +--ro acc-eth:supported-working-mode*   working-mode
-  |     |  +--rw acc-eth:current-working-mode      working-mode
-  |     |  +--ro acc-eth:supported-mtu             uint64
-  |     |  +--rw acc-eth:current-mtu               uint64
-  |     |  +--rw acc-eth:pause-control             boolean
-  |     |  +--rw acc-eth:mac-address?              yang:mac-address
-  |     |  +--ro acc-eth:port-type                 port-type
-  |     |  +--rw acc-eth:lldp-enable?              boolean
-  |     |  +--ro acc-eth:lldp-peer-chassis-id?     string
-  |     |  +--ro acc-eth:lldp-peer-port-id?        string
-  |     |  +--ro acc-eth:lldp-peer-system-name?    string
-  |     +--rw acc-eth:eth-mapping-pac
-  |        +--rw acc-eth:supported-mapping-type?        eth-mapping-type
-  |        +--rw (acc-eth:supported-server-switch-capability)?
-  |           +--:(acc-eth:odu-switch-capability-case)
-  |           |  +--rw acc-eth:odu-switch-capability*   identityref
-  |           +--:(acc-eth:sdh-switch-capability-case)
-  |              +--rw acc-eth:sdh-switch-capability*   acc-sdh:switch-type
+  |        +--ro acc-eth:supported-working-mode*   working-mode
+  |        +--rw acc-eth:current-working-mode      working-mode
+  |        +--ro acc-eth:supported-mtu             uint64
+  |        +--rw acc-eth:current-mtu               uint64
+  |        +--rw acc-eth:pause-control             boolean
+  |        +--rw acc-eth:mac-address?              yang:mac-address
+  |        +--ro acc-eth:port-type                 port-type
+  |        +--rw acc-eth:lldp-enable?              boolean
+  |        +--ro acc-eth:lldp-peer-chassis-id?     string
+  |        +--ro acc-eth:lldp-peer-port-id?        string
+  |        +--ro acc-eth:lldp-peer-system-name?    string
+  |        +--rw acc-eth:eth-mapping-pac
+  |           +--rw acc-eth:supported-mapping-type?        eth-mapping-type
+  |           +--rw (acc-eth:supported-server-switch-capability)?
+  |              +--:(acc-eth:odu-switch-capability-case)
+  |              |  +--rw acc-eth:odu-switch-capability*   identityref
+  |              +--:(acc-eth:sdh-switch-capability-case)
+  |                 +--rw acc-eth:sdh-switch-capability*   acc-sdh:switch-type
   +--rw ftps
   |  +--rw ftp* [name]
   |     +--rw name                   string
@@ -242,8 +249,8 @@ module: acc-devm
   |     +--ro layer-protocol-name    identityref
   |     +--ro port-role?             port-role
   |     +--ro protect-role           protect-role
-  |     +--rw server-tp?             string
-  |     +--rw loop-back?             loopback-type
+  |     +--rw server-tp              string
+  |     +--rw loop-back              loopback-type
   |     +--rw acc-otn:odu-ctp-pac
   |     |  +--rw acc-otn:odu-signal-type                      identityref
   |     |  +--rw acc-otn:adaptation-type                      adaptation-type
@@ -293,16 +300,13 @@ module: acc-devm
   |           +--rw acc-eth:dm-interval      oam-transmit-interval
   +--rw eqs
      +--rw eq* [name]
-        +--rw name                  string
-        +--ro plug-state            boolean
-        +--ro eq-type               eq-type
-        +--ro software-version?     string
-        +--ro hardware-version?     string
-        +--ro ptp*                  -> /ptps/ptp/name
-        +--ro ftp*                  -> /ptps/ptp/name
-        +--rw acc-sdh:eq-sdh-pac
-           +--ro acc-sdh:supported-sdh-signal-types*   sdh-signal-type
-           +--ro acc-sdh:switch-capability*            switch-type
+        +--rw name                string
+        +--ro plug-state          boolean
+        +--ro eq-type             eq-type
+        +--ro software-version?   string
+        +--ro hardware-version?   string
+        +--ro ptp*                -> /ptps/ptp/name
+        +--ro ftp*                -> /ptps/ptp/name
 
   rpcs:
     +---x reset
@@ -335,11 +339,11 @@ module: acc-eos
     |  |  +---w layer-protocol-name    identityref
     |  |  +---w requested-capacity
     |  |  |  +---w (for-odu-or-eth)?
-    |  |  |     +--:(odu)
-    |  |  |     |  +---w total-size?   uint64
-    |  |  |     +--:(eth)
+    |  |  |     +--:(for-odu)
+    |  |  |     |  +---w total-size    uint64
+    |  |  |     +--:(for-eth)
     |  |  |        +---w cir           uint64
-    |  |  |        +---w pir?          uint64
+    |  |  |        +---w pir           uint64
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
     |  |  +---w eth-uni
@@ -390,11 +394,11 @@ module: acc-eos
     |     |  +--ro layer-protocol-name    identityref
     |     |  +--ro requested-capacity
     |     |  |  +--ro (for-odu-or-eth)?
-    |     |  |     +--:(odu)
-    |     |  |     |  +--ro total-size?   uint64
-    |     |  |     +--:(eth)
+    |     |  |     +--:(for-odu)
+    |     |  |     |  +--ro total-size    uint64
+    |     |  |     +--:(for-eth)
     |     |  |        +--ro cir           uint64
-    |     |  |        +--ro pir?          uint64
+    |     |  |        +--ro pir           uint64
     |     |  |        +--ro cbs?          uint64
     |     |  |        +--ro pbs?          uint64
     |     |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
@@ -424,11 +428,11 @@ module: acc-eth
        |  +---w layer-protocol-name    identityref
        |  +---w requested-capacity
        |  |  +---w (for-odu-or-eth)?
-       |  |     +--:(odu)
-       |  |     |  +---w total-size?   uint64
-       |  |     +--:(eth)
+       |  |     +--:(for-odu)
+       |  |     |  +---w total-size    uint64
+       |  |     +--:(for-eth)
        |  |        +---w cir           uint64
-       |  |        +---w pir?          uint64
+       |  |        +---w pir           uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
        |  +---w eth-uni
@@ -441,12 +445,12 @@ module: acc-eth
        |  |  +---w uni-vlan-spec
        |  |  |  +---w vlan-id*         uint64
        |  |  |  +---w vlan-priority?   uint64
-       |  |  |  +---w access-action?   access-action
+       |  |  |  +---w access-action    access-action
        |  |  |  +---w vlan-type        vlan-type
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
-       |  |     +---w access-action?   access-action
+       |  |     +---w access-action    access-action
        |  |     +---w vlan-type        vlan-type
        |  +---w primary-nni
        |  |  +---w nni-ptp-name          string
@@ -469,11 +473,11 @@ module: acc-eth
           |  +--ro layer-protocol-name    identityref
           |  +--ro requested-capacity
           |  |  +--ro (for-odu-or-eth)?
-          |  |     +--:(odu)
-          |  |     |  +--ro total-size?   uint64
-          |  |     +--:(eth)
+          |  |     +--:(for-odu)
+          |  |     |  +--ro total-size    uint64
+          |  |     +--:(for-eth)
           |  |        +--ro cir           uint64
-          |  |        +--ro pir?          uint64
+          |  |        +--ro pir           uint64
           |  |        +--ro cbs?          uint64
           |  |        +--ro pbs?          uint64
           |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
@@ -494,19 +498,19 @@ module: acc-notifications
   notifications:
     +---n common-notification
     |  +--ro event
-    |     +--ro event-serial-no?   uint64
-    |     +--ro event-type?        event-type
-    |     +--ro object-name?       string
-    |     +--ro object-type?       string
+    |     +--ro event-serial-no    uint64
+    |     +--ro event-type         event-type
+    |     +--ro object-name        string
+    |     +--ro object-type        string
     +---n attribute-value-change-notification
        +--ro event
-       |  +--ro event-serial-no?   uint64
-       |  +--ro event-type?        event-type
-       |  +--ro object-name?       string
-       |  +--ro object-type?       string
+       |  +--ro event-serial-no    uint64
+       |  +--ro event-type         event-type
+       |  +--ro object-name        string
+       |  +--ro object-type        string
        +--ro attribute-value-change
-          +--ro attribute-name?   string
-          +--ro new-value?        string
+          +--ro attribute-name    string
+          +--ro new-value         string
           +--ro old-value?        string
 module: acc-otn
 
@@ -518,11 +522,11 @@ module: acc-otn
     |  |  +---w layer-protocol-name    identityref
     |  |  +---w requested-capacity
     |  |  |  +---w (for-odu-or-eth)?
-    |  |  |     +--:(odu)
-    |  |  |     |  +---w total-size?   uint64
-    |  |  |     +--:(eth)
+    |  |  |     +--:(for-odu)
+    |  |  |     |  +---w total-size    uint64
+    |  |  |     +--:(for-eth)
     |  |  |        +---w cir           uint64
-    |  |  |        +---w pir?          uint64
+    |  |  |        +---w pir           uint64
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
     |  |  +---w client-side-nni
@@ -552,11 +556,11 @@ module: acc-otn
     |        +--ro layer-protocol-name    identityref
     |        +--ro requested-capacity
     |        |  +--ro (for-odu-or-eth)?
-    |        |     +--:(odu)
-    |        |     |  +--ro total-size?   uint64
-    |        |     +--:(eth)
+    |        |     +--:(for-odu)
+    |        |     |  +--ro total-size    uint64
+    |        |     +--:(for-eth)
     |        |        +--ro cir           uint64
-    |        |        +--ro pir?          uint64
+    |        |        +--ro pir           uint64
     |        |        +--ro cbs?          uint64
     |        |        +--ro pbs?          uint64
     |        +--ro ctp*                   -> /acc-devm:ctps/ctp/name
@@ -668,11 +672,11 @@ module: acc-sdh
        |  +---w layer-protocol-name    identityref
        |  +---w requested-capacity
        |  |  +---w (for-odu-or-eth)?
-       |  |     +--:(odu)
-       |  |     |  +---w total-size?   uint64
-       |  |     +--:(eth)
+       |  |     +--:(for-odu)
+       |  |     |  +---w total-size    uint64
+       |  |     +--:(for-eth)
        |  |        +---w cir           uint64
-       |  |        +---w pir?          uint64
+       |  |        +---w pir           uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
        |  +---w sdh-uni
@@ -705,11 +709,11 @@ module: acc-sdh
           |  +--ro layer-protocol-name    identityref
           |  +--ro requested-capacity
           |  |  +--ro (for-odu-or-eth)?
-          |  |     +--:(odu)
-          |  |     |  +--ro total-size?   uint64
-          |  |     +--:(eth)
+          |  |     +--:(for-odu)
+          |  |     |  +--ro total-size    uint64
+          |  |     +--:(for-eth)
           |  |        +--ro cir           uint64
-          |  |        +--ro pir?          uint64
+          |  |        +--ro pir           uint64
           |  |        +--ro cbs?          uint64
           |  |        +--ro pbs?          uint64
           |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name

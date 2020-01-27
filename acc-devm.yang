@@ -15,13 +15,7 @@ module acc-devm {
         prefix inet;
     }
 
-    organization "xxx";
-    contact "xxx";
-    description "xxx";
     revision 2019-02-13 {
-        description "";
-        reference 
-          "";
     }
     /*
     * common types
@@ -143,7 +137,7 @@ module acc-devm {
                 value 1;
             }
         }
-        description "Reset type";
+        description "soft-reset doesn't affect service";
     }
     typedef device-type {
         type enumeration {
@@ -213,6 +207,8 @@ module acc-devm {
 		}
 	}
     }
+
+    
 		
     /*
     * groupings
@@ -235,31 +231,26 @@ module acc-devm {
             type string{
             length "1..64";
             }
-                description "Name of ftp";
         }
         container state-pac {
             uses state-pac;
-                description "State of ftp";
         }
         leaf layer-protocol-name {
             mandatory true;
-	    config false;
+	       config false;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
-                description "Layer protocol name of ftp";
         }
         leaf-list client-ctp {
             type leafref {
                 path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
             }
-                description "Client ctps";
         }
         leaf-list server-ctp {
             type leafref {
                 path '/acc-devm:ctps/acc-devm:ctp/acc-devm:name';
             }
-            description "Server ctps";
         }
     }
 
@@ -281,32 +272,29 @@ module acc-devm {
             type identityref {
                 base acc-type:layer-protocol-name;
             }
-            description "Layer protocol name of ctp";
         }
         leaf port-role {
             type port-role;
             default symmetric;
             config false;
-            description "The port role.";
         }
         leaf protect-role {
             mandatory true;
             type protect-role;
             config false;
-            description "The protect role.";
         }
         leaf server-tp {
+            mandatory true;
             type string{
             length "1..64";
             }
-                description "Server tp";
+            description "parent PTP name";
         }
         leaf loop-back {
+            mandatory true;
             type loopback-type;
-            default non-loopback;
-            description "Loop back type of ctp";
+            description "Loop back type of ctp,default non-loopback";
         }
-        description "ctp";
     }
     /*
     * the data tree
@@ -416,11 +404,11 @@ module acc-devm {
                     }
                     description "Ntp version default value: V3";
                 }
-		  leaf ntp-state {
-		    type ntp-state;
-		    config false;
-		    description "Ntp state";
-		}
+        		  leaf ntp-state {
+        		    type ntp-state;
+        		    config false;
+        		    description "Ntp state";
+        		}
             }
         }
         leaf gate-way1 {
@@ -486,9 +474,9 @@ module acc-devm {
                 description "Local ptp tcp-id";
             }
             leaf laser-status {
+                mandatory true;
                 type laser-status;
-                default laser-on;
-                description "Laser status of ptp";
+                description "Laser status of ptp,default laser-on";
             }
             leaf-list ctp {
                 type leafref {
@@ -502,9 +490,9 @@ module acc-devm {
                 description "Interface type of ptp";
             }
             leaf loop-back {
+                mandatory true;
                 type loopback-type;
-                default non-loopback;
-                description "Loop back type of ptp";
+                description "Loop back type of ptp,default non-loopback";
             }
             list remote-ptp {
                 key 'name';
@@ -517,12 +505,32 @@ module acc-devm {
                 container state-pac {
                     uses state-pac;
                 }
-                leaf layer-protocol-name {
+                
+                leaf input-power {
                     mandatory true;
-                    type identityref {
-                    base acc-type:layer-protocol-name;
+                    type acc-type:real;
+                    config false;
                 }
+                leaf output-power {
+                    mandatory true;
+                    type acc-type:real;
                 }
+                leaf input-power-upper-threshold {
+                    mandatory true;
+                    type acc-type:real;
+                    config false;
+                }
+                leaf input-power-lower-threshold {
+                    mandatory true;
+                    type acc-type:real;
+                    config false;
+                }
+                leaf laser-status {
+                    mandatory true;
+                    type laser-status;
+                    description "default laser-on";
+                }    
+                
             }
             container optical-power-pac {
                 leaf input-power {
@@ -548,11 +556,14 @@ module acc-devm {
                     config false;
                     description "Input power lower threshold of ptp";
                 }
-                description "Optical power of ptp";
+                
             }
-
+            
+            
+            
         }
     }
+
     container ftps {
         list ftp {
             key 'name';
@@ -574,33 +585,29 @@ module acc-devm {
                 type string {
                 length "1..64";
                 }
-                description "Name of eq";
             }
             leaf plug-state {
                 mandatory true;
                 type boolean;
                 config false;
-                description "Plug state of eq";
             }
-	    leaf eq-type {
-	    	  mandatory true;
-		      config false;
-		      type eq-type;
-		      description "eq type: power,fan,service,system-control,timer";
-	    }
+    	    leaf eq-type {
+    	    	  mandatory true;
+    		      config false;
+    		      type eq-type;
+    		      description "eq type: power,fan,service,system-control,timer";
+    	    }
             leaf software-version {
                 type string{
                     length "1..32";
                 }
                 config false;
-                description "Software version of eq";
             }
             leaf hardware-version {
                 type string{
                     length "1..32";
                 }
                 config false;
-                description "Hardware version of eq";
             }
             leaf-list ptp {
                 min-elements 0;
@@ -608,7 +615,6 @@ module acc-devm {
                     path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
                 }
                 config false;
-                description "Ptps of eq";
             }
 	     leaf-list ftp {
                 min-elements 0;
@@ -616,7 +622,6 @@ module acc-devm {
                     path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
                 }
                 config false;
-                description "Ptps of eq";
             }
         }
     }
@@ -630,43 +635,35 @@ module acc-devm {
             type string {
                 length 1..64;
             }
-            description
-                "PTP name.";
         }
         leaf peer-ip-address {
         	  mandatory true;
             type string {
                 length 1..16;
             }
-            description "Peer ip address";
         }
         leaf peer-ptp-name {
         	  mandatory true;
             type string {
                 length 1..64;
             }
-            description "Peer ptp name";
         }
-        description "Peer change notification";
     } 
     
     /*
-    * operations
+    * RPCs
     */
     rpc reset {
-        description "reset";
         input {
             leaf eq-name {
                 mandatory true;
                 type string{
                   length "1..64";
                 }
-                description "Name of eq";
             }
             leaf reset-type {
                 mandatory true;
                 type reset-type;
-                description "Reset type";
             }
         }
     }
@@ -678,14 +675,12 @@ module acc-devm {
                 type string {
                     length "8..16";
                 }
-                description "Old password.";
             }
             leaf new-password {
                 mandatory true;
                 type string {
                     length "8..16";
                 }
-                description "New password.";
             }
         }
     }
