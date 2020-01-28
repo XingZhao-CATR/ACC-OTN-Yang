@@ -30,11 +30,6 @@ module acc-eth {
         prefix acc-sdh;
     }
 
-    organization "xxx";
-    contact "xxx";
-    description "xxx";
-    revision 2019-02-13 {
-    }
     /*
    * common types
    */
@@ -133,19 +128,7 @@ module acc-eth {
         }
     }
 
-    typedef service-mapping-mode {
-        type enumeration {
-            enum GFP-F {
-                value 0;
-            }
-            enum GMP {
-                value 1;
-            }
-            enum BMP {
-                value 2;
-            }
-        }
-    }
+    
 
     typedef eth-mapping-type {
         type enumeration {
@@ -170,7 +153,6 @@ module acc-eth {
                 range "1..4094";
             }
             min-elements 1;
-            description "vlan id";
         }
         leaf vlan-priority {
 
@@ -178,18 +160,15 @@ module acc-eth {
             type uint64 {
                 range "0..7";
             }
-            description "vlan priority";
+            description "default 0";
         }
         leaf access-action {
             type access-action;
-            description "access action";
         }
         leaf vlan-type {
             mandatory true;
             type vlan-type;
-            description "vlan type";
         }
-        description "vlan spec";
     }
 
     grouping eth-ftp-pac {
@@ -197,22 +176,18 @@ module acc-eth {
             mandatory true;
             type uint64;
             config false;
-            description "none";
         }
         leaf current-mtu {
             mandatory true;
             type uint64;
-            description "none";
         }
         leaf service-mapping-mode {
             mandatory true;
-            type service-mapping-mode;
-            description "none";
+            type acc-con:adaptation-mode;
         }
         leaf mapping-type {
             mandatory true;
             type eth-mapping-type;
-            description "none";
         }
     }
 
@@ -271,31 +246,31 @@ module acc-eth {
                     length 1..64;
                 }
             }
-
-            container eth-mapping-pac {
-                leaf supported-mapping-type {
-                    type eth-mapping-type;
-                }
-                choice supported-server-switch-capability {
-                    case odu-switch-capability-case {
-                        when "supported-mapping-type = 'EoO'";
-                        leaf-list odu-switch-capability {
-                            type identityref {
-                                base otn-types:odu-type;
-                            }
-                            description "ODU Switch capability";
+        }
+        container eth-mapping-pac {
+            leaf supported-mapping-type {
+                type eth-mapping-type;
+            }
+            choice supported-server-switch-capability {
+                case odu-switch-capability-case {
+                    when "supported-mapping-type = 'EoO'";
+                    leaf-list odu-switch-capability {
+                        type identityref {
+                            base otn-types:odu-type;
                         }
+                        description "ODU Switch capability";
                     }
-                    case sdh-switch-capability-case {
-                        when "supported-mapping-type = 'EoS'";
-                        leaf-list sdh-switch-capability {
-                            type acc-sdh:switch-type;
-                            description "SDH Switch capability";
-                        }
+                }
+                case sdh-switch-capability-case {
+                    when "supported-mapping-type = 'EoS'";
+                    leaf-list sdh-switch-capability {
+                        type acc-sdh:switch-type;
+                        description "SDH Switch capability";
                     }
                 }
             }
         }
+        
 	
 	    
     }
@@ -391,7 +366,6 @@ module acc-eth {
                     type string {
                         length "1..43";
                     }
-                    description "MD name.";
                 }
                 leaf mel {
                     mandatory true;
@@ -467,14 +441,15 @@ module acc-eth {
     rpc create-eth-connection {
         input {
             uses acc-con:create-connection;
-
+            leaf adaptation-mode {
+                type acc-con:adaptation-mode;
+            }
             container eth-uni {
                 leaf uni-ptp-name {
                     type string;
-                    description "uni ptp name";
                 }
                 container client-vlan-spec {
-		    when "../service-type == 'EVPL'";
+		          when "../service-type == 'EVPL'";
                     uses vlan-spec;
                     description "client side vlan spec， only for EVPL";
                 }
@@ -484,7 +459,7 @@ module acc-eth {
                         mandatory true;
                      }
                     }
-                    description "uni vlan spec";
+                    description "uni vlan spec,only for EVPL";
                 }
                 container ftp-vlan-spec {
                     uses vlan-spec{

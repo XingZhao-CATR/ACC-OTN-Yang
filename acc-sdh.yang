@@ -16,21 +16,6 @@ module acc-sdh {
         prefix acc-type;
     }
 
-    organization
-        "xxx";
-
-    contact
-        "xxx";
-
-    description
-        "xxx";
-
-    revision 2019-02-13 {
-        description
-            "Initial revision.";
-        reference
-            "xxx";
-    }
     identity SDH {
         base acc-type:layer-protocol-name;
     }
@@ -178,7 +163,6 @@ module acc-sdh {
             leaf sdh-signal-type {
                 mandatory true;
                 type sdh-signal-type;
-                description "none";
             }
             leaf-list switch-capability {
                 min-elements 1;
@@ -226,7 +210,6 @@ module acc-sdh {
                 type string {
                     length "1..64";
                 }
-                description "none";
             }
             leaf j1-actual-rx {
                 type string {
@@ -242,10 +225,11 @@ module acc-sdh {
     */
 
     rpc create-sdh-connection {
-        description "";
         input {
             uses acc-con:create-connection;
-
+            leaf adaptation-mode {
+                type acc-con:adaptation-mode;
+            }
             container sdh-uni {
                 leaf uni-ptp-name {
                     mandatory true;

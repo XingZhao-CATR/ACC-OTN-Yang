@@ -13,7 +13,20 @@ module acc-connection {
 
     revision 2019-02-13 {
     }
-
+    
+    typedef adaptation-mode {
+        type enumeration {
+            enum GFP-F {
+                value 0;
+            }
+            enum GMP {
+                value 1;
+            }
+            enum BMP {
+                value 2;
+            }
+        }
+    }
     /*
     * common types
     */

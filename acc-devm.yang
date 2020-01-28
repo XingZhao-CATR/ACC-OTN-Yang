@@ -314,8 +314,8 @@ module acc-devm {
             description "Universal unique identifier, MAC address is suggested. for UMS,it's real name";
         }
         leaf status {
+            mandatory true;
             type me-status;
-            description "";
         }
         leaf manufacturer {
             mandatory true;

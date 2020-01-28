@@ -121,7 +121,7 @@ module: acc-devm
   +--rw me
   |  +--rw name                   string
   |  +--ro uuid                   string
-  |  +--rw status?                me-status
+  |  +--rw status                 me-status
   |  +--ro manufacturer           string
   |  +--ro product-name           string
   |  +--ro software-version       string
@@ -193,24 +193,24 @@ module: acc-devm
   |     |  +--rw acc-sdh:supported-sdh-signal-types*   sdh-signal-type
   |     |  +--rw acc-sdh:switch-capability*            switch-type
   |     +--rw acc-eth:eth-ptp-pac
-  |        +--ro acc-eth:supported-working-mode*   working-mode
-  |        +--rw acc-eth:current-working-mode      working-mode
-  |        +--ro acc-eth:supported-mtu             uint64
-  |        +--rw acc-eth:current-mtu               uint64
-  |        +--rw acc-eth:pause-control             boolean
-  |        +--rw acc-eth:mac-address?              yang:mac-address
-  |        +--ro acc-eth:port-type                 port-type
-  |        +--rw acc-eth:lldp-enable?              boolean
-  |        +--ro acc-eth:lldp-peer-chassis-id?     string
-  |        +--ro acc-eth:lldp-peer-port-id?        string
-  |        +--ro acc-eth:lldp-peer-system-name?    string
-  |        +--rw acc-eth:eth-mapping-pac
-  |           +--rw acc-eth:supported-mapping-type?        eth-mapping-type
-  |           +--rw (acc-eth:supported-server-switch-capability)?
-  |              +--:(acc-eth:odu-switch-capability-case)
-  |              |  +--rw acc-eth:odu-switch-capability*   identityref
-  |              +--:(acc-eth:sdh-switch-capability-case)
-  |                 +--rw acc-eth:sdh-switch-capability*   acc-sdh:switch-type
+  |     |  +--ro acc-eth:supported-working-mode*   working-mode
+  |     |  +--rw acc-eth:current-working-mode      working-mode
+  |     |  +--ro acc-eth:supported-mtu             uint64
+  |     |  +--rw acc-eth:current-mtu               uint64
+  |     |  +--rw acc-eth:pause-control             boolean
+  |     |  +--rw acc-eth:mac-address?              yang:mac-address
+  |     |  +--ro acc-eth:port-type                 port-type
+  |     |  +--rw acc-eth:lldp-enable?              boolean
+  |     |  +--ro acc-eth:lldp-peer-chassis-id?     string
+  |     |  +--ro acc-eth:lldp-peer-port-id?        string
+  |     |  +--ro acc-eth:lldp-peer-system-name?    string
+  |     +--rw acc-eth:eth-mapping-pac
+  |        +--rw acc-eth:supported-mapping-type?        eth-mapping-type
+  |        +--rw (acc-eth:supported-server-switch-capability)?
+  |           +--:(acc-eth:odu-switch-capability-case)
+  |           |  +--rw acc-eth:odu-switch-capability*   identityref
+  |           +--:(acc-eth:sdh-switch-capability-case)
+  |              +--rw acc-eth:sdh-switch-capability*   acc-sdh:switch-type
   +--rw ftps
   |  +--rw ftp* [name]
   |     +--rw name                   string
@@ -229,7 +229,7 @@ module: acc-devm
   |     +--rw acc-eth:eth-ftp-pac
   |        +--ro acc-eth:supported-mtu           uint64
   |        +--rw acc-eth:current-mtu             uint64
-  |        +--rw acc-eth:service-mapping-mode    service-mapping-mode
+  |        +--rw acc-eth:service-mapping-mode    acc-con:adaptation-mode
   |        +--rw acc-eth:mapping-type            eth-mapping-type
   |        +--rw acc-eos:vcg-pac
   |           +--rw acc-eos:vc-type               acc-sdh:switch-type
@@ -346,6 +346,7 @@ module: acc-eos
     |  |  |        +---w pir           uint64
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
+    |  |  +---w adaptation-mode?       acc-con:adaptation-mode
     |  |  +---w eth-uni
     |  |  |  +---w uni-ptp-name?       string
     |  |  |  +---w client-vlan-spec
@@ -435,6 +436,7 @@ module: acc-eth
        |  |        +---w pir           uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
+       |  +---w adaptation-mode?       acc-con:adaptation-mode
        |  +---w eth-uni
        |  |  +---w uni-ptp-name?       string
        |  |  +---w client-vlan-spec
@@ -679,6 +681,7 @@ module: acc-sdh
        |  |        +---w pir           uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
+       |  +---w adaptation-mode?       acc-con:adaptation-mode
        |  +---w sdh-uni
        |  |  +---w uni-ptp-name          string
        |  |  +---w vc-type               switch-type

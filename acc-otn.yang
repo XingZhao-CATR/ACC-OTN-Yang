@@ -90,27 +90,21 @@ module acc-otn {
             }
             enum CBRx {
                 value 6;
-                description "none";
             }
             enum TTT+GMP {
                 value 7;
-                description "none";
             }
             enum CBRX_GMP {
                 value 8;
-                description "none";
             }
             enum ODUij {
                 value 9;
-                description "none";
             }
             enum ODUj21 {
                 value 10;
-                description "none";
             }
             enum ODUk {
                 value 11;
-                description "none";
             }
         }
         description "Adaptation type";
@@ -301,7 +295,6 @@ module acc-otn {
             leaf ts-detail {
                 mandatory true;
                 type string;
-                description "none";
             }
             leaf smtrail-trace-actual-tx {
                 mandatory true;
@@ -432,7 +425,6 @@ module acc-otn {
                 uses acc-con:connection;
             }           
         }
-        description "";
     }
 
     rpc modify-odu-connection-capacity {
@@ -463,7 +455,6 @@ module acc-otn {
             }
             leaf ts-detail {
                 type string;
-                description "";
             }
             leaf timeout {
                 mandatory true;

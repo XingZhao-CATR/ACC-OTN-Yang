@@ -19,14 +19,7 @@ module acc-eos {
         prefix acc-otn;
     }
 
-    organization
-        "xxx";
-
-    contact
-        "xxx";
-
-    description
-        "xxx";
+    
 
     revision 2019-02-13 {
         description
@@ -41,12 +34,13 @@ module acc-eos {
             uses acc-sdh:vcg-pac;
             description "Virtual concatenation group";
         }
-        description "none";
     }
     rpc create-eos-connection {
         input {
             uses acc-con:create-connection;
-
+            leaf adaptation-mode {
+                type acc-con:adaptation-mode;
+            }
             container eth-uni {
                 leaf uni-ptp-name {
                     type string;
@@ -80,7 +74,6 @@ module acc-eos {
                 leaf vc-type {
                     mandatory true;
                     type acc-sdh:switch-type;
-                    description "none";
                 }
                 leaf-list mapping-path {
                     min-elements 1;
