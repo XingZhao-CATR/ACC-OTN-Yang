@@ -297,7 +297,6 @@ module acc-otn {
                 type string;
             }
             leaf smtrail-trace-actual-tx {
-                mandatory true;
                 type string{
                 length "1..128";
                 }

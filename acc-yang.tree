@@ -111,7 +111,7 @@ module: acc-connection
         |     |  +--rw total-size    uint64
         |     +--:(for-eth)
         |        +--rw cir           uint64
-        |        +--rw pir           uint64
+        |        +--rw pir?          uint64
         |        +--rw cbs?          uint64
         |        +--rw pbs?          uint64
         +--rw ctp*                   -> /acc-devm:ctps/ctp/name
@@ -155,16 +155,7 @@ module: acc-devm
   |     +--rw ctp*                       -> /ctps/ctp/name
   |     +--rw interface-type             interface-type
   |     +--rw loop-back                  loopback-type
-  |     +--rw remote-ptp* [name]
-  |     |  +--rw name                           string
-  |     |  +--rw state-pac
-  |     |  |  +--ro operational-state    operational-state
-  |     |  |  +--rw admin-state          admin-state
-  |     |  +--ro input-power                    acc-type:real
-  |     |  +--rw output-power                   acc-type:real
-  |     |  +--ro input-power-upper-threshold    acc-type:real
-  |     |  +--ro input-power-lower-threshold    acc-type:real
-  |     |  +--rw laser-status                   laser-status
+  |     +--ro remote-ptp*                -> /ptps/ptp/name
   |     +--rw optical-power-pac
   |     |  +--ro input-power                    acc-type:real
   |     |  +--rw output-power                   acc-type:real
@@ -176,7 +167,7 @@ module: acc-devm
   |     |  +--ro acc-otn:adaptation-type*             adaptation-type
   |     |  +--ro acc-otn:switch-capability*           identityref
   |     |  +--rw acc-otn:ts-detail                    string
-  |     |  +--rw acc-otn:smtrail-trace-actual-tx      string
+  |     |  +--rw acc-otn:smtrail-trace-actual-tx?     string
   |     |  +--ro acc-otn:smtrail-trace-actual-rx?     string
   |     |  +--rw acc-otn:smtrail-trace-expected-rx?   string
   |     |  +--rw acc-otn:pmtrail-trace-actual-tx?     string
@@ -343,7 +334,7 @@ module: acc-eos
     |  |  |     |  +---w total-size    uint64
     |  |  |     +--:(for-eth)
     |  |  |        +---w cir           uint64
-    |  |  |        +---w pir           uint64
+    |  |  |        +---w pir?          uint64
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
     |  |  +---w adaptation-mode?       acc-con:adaptation-mode
@@ -399,7 +390,7 @@ module: acc-eos
     |     |  |     |  +--ro total-size    uint64
     |     |  |     +--:(for-eth)
     |     |  |        +--ro cir           uint64
-    |     |  |        +--ro pir           uint64
+    |     |  |        +--ro pir?          uint64
     |     |  |        +--ro cbs?          uint64
     |     |  |        +--ro pbs?          uint64
     |     |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
@@ -433,7 +424,7 @@ module: acc-eth
        |  |     |  +---w total-size    uint64
        |  |     +--:(for-eth)
        |  |        +---w cir           uint64
-       |  |        +---w pir           uint64
+       |  |        +---w pir?          uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
        |  +---w adaptation-mode?       acc-con:adaptation-mode
@@ -479,7 +470,7 @@ module: acc-eth
           |  |     |  +--ro total-size    uint64
           |  |     +--:(for-eth)
           |  |        +--ro cir           uint64
-          |  |        +--ro pir           uint64
+          |  |        +--ro pir?          uint64
           |  |        +--ro cbs?          uint64
           |  |        +--ro pbs?          uint64
           |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name
@@ -528,7 +519,7 @@ module: acc-otn
     |  |  |     |  +---w total-size    uint64
     |  |  |     +--:(for-eth)
     |  |  |        +---w cir           uint64
-    |  |  |        +---w pir           uint64
+    |  |  |        +---w pir?          uint64
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
     |  |  +---w client-side-nni
@@ -562,7 +553,7 @@ module: acc-otn
     |        |     |  +--ro total-size    uint64
     |        |     +--:(for-eth)
     |        |        +--ro cir           uint64
-    |        |        +--ro pir           uint64
+    |        |        +--ro pir?          uint64
     |        |        +--ro cbs?          uint64
     |        |        +--ro pbs?          uint64
     |        +--ro ctp*                   -> /acc-devm:ctps/ctp/name
@@ -584,12 +575,12 @@ module: acc-otn
        +--ro modify-result             g-hao-modify-result
 module: acc-performance
   +--rw performances
-     +--rw performance* [pm-parameter-name start-time object-name]
-        +--rw pm-parameter-name         string
-        +--rw start-time                yang:date-and-time
+     +--rw performance* [object-name pm-parameter-name granularity start-time]
         +--rw object-name               string
+        +--rw pm-parameter-name         string
+        +--rw granularity               acc-type:granularity
+        +--rw start-time                yang:date-and-time
         +--ro object-type               string
-        +--ro granularity?              acc-type:granularity
         +--rw (digital-or-analog)?
            +--:(digital)
            |  +--ro digital-pm-value    acc-type:real
@@ -610,12 +601,12 @@ module: acc-performance
        |  +---w pm-parameter-name?   string
        +--ro output
           +--ro performances
-             +--ro performance* [pm-parameter-name start-time object-name]
-                +--ro pm-parameter-name         string
-                +--ro start-time                yang:date-and-time
+             +--ro performance* [object-name pm-parameter-name granularity start-time]
                 +--ro object-name               string
+                +--ro pm-parameter-name         string
+                +--ro granularity               acc-type:granularity
+                +--ro start-time                yang:date-and-time
                 +--ro object-type               string
-                +--ro granularity?              acc-type:granularity
                 +--ro (digital-or-analog)?
                    +--:(digital)
                    |  +--ro digital-pm-value    acc-type:real
@@ -678,7 +669,7 @@ module: acc-sdh
        |  |     |  +---w total-size    uint64
        |  |     +--:(for-eth)
        |  |        +---w cir           uint64
-       |  |        +---w pir           uint64
+       |  |        +---w pir?          uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
        |  +---w adaptation-mode?       acc-con:adaptation-mode
@@ -716,7 +707,7 @@ module: acc-sdh
           |  |     |  +--ro total-size    uint64
           |  |     +--:(for-eth)
           |  |        +--ro cir           uint64
-          |  |        +--ro pir           uint64
+          |  |        +--ro pir?          uint64
           |  |        +--ro cbs?          uint64
           |  |        +--ro pbs?          uint64
           |  +--ro ctp*                   -> /acc-devm:ctps/ctp/name

@@ -22,23 +22,27 @@ module acc-performance {
     */   
     grouping performances {
         list performance {
-            key 'pm-parameter-name start-time object-name';
-            leaf pm-parameter-name {
-                type string {
-                    length "1..64";
-                }
-                description "pm-parameter-name";
-            }
-            leaf start-time {
-                type yang:date-and-time;
-                description "start-time";
-            }
+            key 'object-name pm-parameter-name granularity start-time';
             leaf object-name {
                 mandatory true;
                 type string {
                     length "1..64";
                 }
                 description "object-name";
+            }
+            leaf pm-parameter-name {
+                type string {
+                    length "1..64";
+                }
+                description "pm-parameter-name";
+            }
+            leaf granularity {
+                type acc-type:granularity;
+                description "granularity";
+            }
+            leaf start-time {
+                type yang:date-and-time;
+                description "start-time";
             }
             leaf object-type {
                 mandatory true;
@@ -47,11 +51,6 @@ module acc-performance {
                 }
                 config false;
                 description "object-type";
-            }
-            leaf granularity {
-                type acc-type:granularity;
-                config false;
-                description "granularity";
             }
             choice digital-or-analog  {
                 case digital {

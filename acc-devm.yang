@@ -494,43 +494,11 @@ module acc-devm {
                 type loopback-type;
                 description "Loop back type of ptp,default non-loopback";
             }
-            list remote-ptp {
-                key 'name';
-                leaf name {
-                    mandatory true;
-                    type string{
-                        length "1..64";
-                    }
-                }
-                container state-pac {
-                    uses state-pac;
-                }
-                
-                leaf input-power {
-                    mandatory true;
-                    type acc-type:real;
-                    config false;
-                }
-                leaf output-power {
-                    mandatory true;
-                    type acc-type:real;
-                }
-                leaf input-power-upper-threshold {
-                    mandatory true;
-                    type acc-type:real;
-                    config false;
-                }
-                leaf input-power-lower-threshold {
-                    mandatory true;
-                    type acc-type:real;
-                    config false;
-                }
-                leaf laser-status {
-                    mandatory true;
-                    type laser-status;
-                    description "default laser-on";
-                }    
-                
+            leaf-list remote-ptp {
+                 type leafref {
+                    path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
+                 } 
+                 config false;
             }
             container optical-power-pac {
                 leaf input-power {

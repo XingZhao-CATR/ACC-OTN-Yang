@@ -19,10 +19,10 @@ module acc-connection {
             enum GFP-F {
                 value 0;
             }
-            enum GMP {
+            enum CBRx_GMP {
                 value 1;
             }
-            enum BMP {
+            enum CBR_BMP {
                 value 2;
             }
         }
@@ -50,7 +50,6 @@ module acc-connection {
                     description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
                 }
                 leaf pir {
-                    mandatory true;
                     type uint64;
                     description "Important , When ETH,EOS   mandatory must to be true and total-size must not exists";
                 }

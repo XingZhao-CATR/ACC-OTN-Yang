@@ -1,0 +1,736 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<data xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <alarms xmlns="urn:ccsa:yang:acc-alarms">
+    <alarm>
+      <!-- # keys: alarm-serial-no-->
+      <!-- # entries: 0.. -->
+      <alarm-serial-no>
+        <!-- type: uint64 -->
+      </alarm-serial-no>
+      <object-name>
+        <!-- type: string -->
+      </object-name>
+      <object-type>
+        <!-- type: string -->
+      </object-type>
+      <alarm-code>
+        <!-- type: string -->
+      </alarm-code>
+      <alarm-state>
+        <!-- type: alarm-state -->
+      </alarm-state>
+      <perceived-severity>
+        <!-- type: perceived-severity -->
+      </perceived-severity>
+      <start-time>
+        <!-- type: yang:date-and-time -->
+      </start-time>
+      <end-time>
+        <!-- type: yang:date-and-time -->
+      </end-time>
+      <additional-text>
+        <!-- type: string -->
+      </additional-text>
+    </alarm>
+  </alarms>
+  <tcas xmlns="urn:ccsa:yang:acc-alarms">
+    <tca>
+      <!-- # keys: tca-serial-no-->
+      <!-- # entries: 0.. -->
+      <tca-serial-no>
+        <!-- type: uint64 -->
+      </tca-serial-no>
+      <tca-parameter>
+        <object-name>
+          <!-- type: string -->
+        </object-name>
+        <pm-parameter-name>
+          <!-- type: string -->
+        </pm-parameter-name>
+        <granularity>
+          <!-- type: acc-type:granularity -->
+        </granularity>
+        <threshold-type>
+          <!-- type: acc-type:threshold-type -->
+        </threshold-type>
+        <object-type>
+          <!-- type: string -->
+        </object-type>
+        <threshold-value>
+          <!-- type: acc-type:real -->
+        </threshold-value>
+      </tca-parameter>
+      <tca-state>
+        <!-- type: alarm-state -->
+      </tca-state>
+      <current-value>
+        <!-- type: acc-type:real -->
+      </current-value>
+      <start-time>
+        <!-- type: yang:date-and-time -->
+      </start-time>
+      <end-time>
+        <!-- type: yang:date-and-time -->
+      </end-time>
+    </tca>
+  </tcas>
+  <tca-parameters xmlns="urn:ccsa:yang:acc-alarms">
+    <tca-parameter>
+      <!-- # keys: object-name,pm-parameter-name,granularity,threshold-type-->
+      <!-- # entries: 0.. -->
+      <object-name>
+        <!-- type: string -->
+      </object-name>
+      <pm-parameter-name>
+        <!-- type: string -->
+      </pm-parameter-name>
+      <granularity>
+        <!-- type: acc-type:granularity -->
+      </granularity>
+      <threshold-type>
+        <!-- type: acc-type:threshold-type -->
+      </threshold-type>
+      <object-type>
+        <!-- type: string -->
+      </object-type>
+      <threshold-value>
+        <!-- type: acc-type:real -->
+      </threshold-value>
+    </tca-parameter>
+  </tca-parameters>
+  <alarm-mask-states xmlns="urn:ccsa:yang:acc-alarms">
+    <alarm-mask-state>
+      <!-- # keys: object-name,alarm-code-->
+      <!-- # entries: 1.. -->
+      <object-name>
+        <!-- type: string -->
+      </object-name>
+      <alarm-code>
+        <!-- type: string -->
+      </alarm-code>
+      <object-type>
+        <!-- type: string -->
+      </object-type>
+      <mask-state>
+        <!-- type: boolean -->
+      </mask-state>
+    </alarm-mask-state>
+  </alarm-mask-states>
+  <connections xmlns="urn:ccsa:yang:acc-connection">
+    <connection>
+      <!-- # keys: name-->
+      <!-- # entries: 0.. -->
+      <name>
+        <!-- type: string -->
+      </name>
+      <state-pac>
+        <operational-state>
+          <!-- type: operational-state -->
+        </operational-state>
+        <admin-state>
+          <!-- type: admin-state -->
+        </admin-state>
+      </state-pac>
+      <layer-protocol-name>
+        <!-- type: identityref -->
+      </layer-protocol-name>
+      <requested-capacity>
+        <total-size>
+          <!-- type: uint64 -->
+        </total-size>
+        <cir>
+          <!-- type: uint64 -->
+        </cir>
+        <pir>
+          <!-- type: uint64 -->
+        </pir>
+        <cbs>
+          <!-- type: uint64 -->
+        </cbs>
+        <pbs>
+          <!-- type: uint64 -->
+        </pbs>
+      </requested-capacity>
+      <ctp>
+        <!-- # entries: 2.. -->
+      </ctp>
+      <ctp/>
+      <service-type>
+        <!-- type: acc-devm:service-type -->
+      </service-type>
+      <pg-id>
+        <!-- type: uint16 -->
+      </pg-id>
+    </connection>
+  </connections>
+  <me xmlns="urn:ccsa:yang:acc-devm">
+    <name>
+      <!-- type: string -->
+    </name>
+    <uuid>
+      <!-- type: string -->
+    </uuid>
+    <status>
+      <!-- type: me-status -->
+    </status>
+    <manufacturer>
+      <!-- type: string -->
+    </manufacturer>
+    <product-name>
+      <!-- type: string -->
+    </product-name>
+    <software-version>
+      <!-- type: string -->
+    </software-version>
+    <hardware-version>
+      <!-- type: string -->
+    </hardware-version>
+    <device-type>
+      <!-- type: device-type -->
+    </device-type>
+    <layer-protocol-name>
+      <!-- # entries: 1.. -->
+    </layer-protocol-name>
+    <ip-address>
+      <!-- type: inet:ipv4-address -->
+    </ip-address>
+    <mask>
+      <!-- type: yang:dotted-quad -->
+    </mask>
+    <ntp-enable>
+      <!-- type: boolean -->
+    </ntp-enable>
+    <ntp-servers>
+      <ntp-server>
+        <!-- # keys: name-->
+        <!-- # entries: 0.. -->
+        <name>
+          <!-- type: string -->
+        </name>
+        <ip-address>
+          <!-- type: inet:ipv4-address -->
+        </ip-address>
+        <port>123</port>
+        <ntp-version>
+          <!-- type: string -->
+        </ntp-version>
+        <ntp-state>
+          <!-- type: ntp-state -->
+        </ntp-state>
+      </ntp-server>
+    </ntp-servers>
+    <gate-way1>
+      <!-- type: inet:ipv4-address -->
+    </gate-way1>
+    <gate-way2>
+      <!-- type: inet:ipv4-address -->
+    </gate-way2>
+    <eq>
+      <!-- # entries: 1.. -->
+    </eq>
+  </me>
+  <ptps xmlns="urn:ccsa:yang:acc-devm">
+    <ptp>
+      <!-- # keys: name-->
+      <!-- # entries: 1.. -->
+      <name>
+        <!-- type: string -->
+      </name>
+      <state-pac>
+        <operational-state>
+          <!-- type: operational-state -->
+        </operational-state>
+        <admin-state>
+          <!-- type: admin-state -->
+        </admin-state>
+      </state-pac>
+      <layer-protocol-name>
+        <!-- type: identityref -->
+      </layer-protocol-name>
+      <peer-ip-address>
+        <!-- type: string -->
+      </peer-ip-address>
+      <peer-tcp-id>
+        <!-- type: string -->
+      </peer-tcp-id>
+      <local-tcp-id>
+        <!-- type: string -->
+      </local-tcp-id>
+      <laser-status>
+        <!-- type: laser-status -->
+      </laser-status>
+      <ctp>
+        <!-- # entries: 0.. -->
+      </ctp>
+      <interface-type>
+        <!-- type: interface-type -->
+      </interface-type>
+      <loop-back>
+        <!-- type: loopback-type -->
+      </loop-back>
+      <remote-ptp>
+        <!-- # entries: 0.. -->
+      </remote-ptp>
+      <optical-power-pac>
+        <input-power>
+          <!-- type: acc-type:real -->
+        </input-power>
+        <output-power>
+          <!-- type: acc-type:real -->
+        </output-power>
+        <input-power-upper-threshold>
+          <!-- type: acc-type:real -->
+        </input-power-upper-threshold>
+        <input-power-lower-threshold>
+          <!-- type: acc-type:real -->
+        </input-power-lower-threshold>
+      </optical-power-pac>
+      <odu-ptp-pac xmlns="urn:ccsa:yang:acc-otn">
+        <odu-capacity>
+          <!-- type: uint64 -->
+        </odu-capacity>
+        <odu-signal-type>
+          <!-- # entries: 1.. -->
+        </odu-signal-type>
+        <adaptation-type>
+          <!-- # entries: 1.. -->
+        </adaptation-type>
+        <switch-capability>
+          <!-- # entries: 1.. -->
+        </switch-capability>
+        <ts-detail>
+          <!-- type: string -->
+        </ts-detail>
+        <smtrail-trace-actual-tx>
+          <!-- type: string -->
+        </smtrail-trace-actual-tx>
+        <smtrail-trace-actual-rx>
+          <!-- type: string -->
+        </smtrail-trace-actual-rx>
+        <smtrail-trace-expected-rx>
+          <!-- type: string -->
+        </smtrail-trace-expected-rx>
+        <pmtrail-trace-actual-tx>
+          <!-- type: string -->
+        </pmtrail-trace-actual-tx>
+        <pmtrail-trace-actual-rx>
+          <!-- type: string -->
+        </pmtrail-trace-actual-rx>
+        <pmtrail-trace-expected-rx>
+          <!-- type: string -->
+        </pmtrail-trace-expected-rx>
+      </odu-ptp-pac>
+      <sdh-ptp-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <sdh-signal-type>
+          <!-- type: sdh-signal-type -->
+        </sdh-signal-type>
+        <supported-sdh-signal-types>
+          <!-- # entries: 0.. -->
+        </supported-sdh-signal-types>
+        <switch-capability>
+          <!-- # entries: 1.. -->
+        </switch-capability>
+        <j0-actual-tx>
+          <!-- type: string -->
+        </j0-actual-tx>
+        <j0-expected-rx>
+          <!-- type: string -->
+        </j0-expected-rx>
+        <j0-actual-rx>
+          <!-- type: string -->
+        </j0-actual-rx>
+      </sdh-ptp-pac>
+      <sdh-mapping-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <supported-sdh-signal-types>
+          <!-- # entries: 1.. -->
+        </supported-sdh-signal-types>
+        <switch-capability>
+          <!-- # entries: 1.. -->
+        </switch-capability>
+      </sdh-mapping-pac>
+      <eth-ptp-pac xmlns="urn:ccsa:yang:acc-eth">
+        <supported-working-mode>
+          <!-- # entries: 0.. -->
+        </supported-working-mode>
+        <current-working-mode>
+          <!-- type: working-mode -->
+        </current-working-mode>
+        <supported-mtu>
+          <!-- type: uint64 -->
+        </supported-mtu>
+        <current-mtu>
+          <!-- type: uint64 -->
+        </current-mtu>
+        <pause-control>
+          <!-- type: boolean -->
+        </pause-control>
+        <mac-address>
+          <!-- type: yang:mac-address -->
+        </mac-address>
+        <port-type>
+          <!-- type: port-type -->
+        </port-type>
+        <lldp-enable>
+          <!-- type: boolean -->
+        </lldp-enable>
+        <lldp-peer-chassis-id>
+          <!-- type: string -->
+        </lldp-peer-chassis-id>
+        <lldp-peer-port-id>
+          <!-- type: string -->
+        </lldp-peer-port-id>
+        <lldp-peer-system-name>
+          <!-- type: string -->
+        </lldp-peer-system-name>
+      </eth-ptp-pac>
+      <eth-mapping-pac xmlns="urn:ccsa:yang:acc-eth">
+        <supported-mapping-type>
+          <!-- type: eth-mapping-type -->
+        </supported-mapping-type>
+        <odu-switch-capability>
+          <!-- # entries: 0.. -->
+        </odu-switch-capability>
+        <sdh-switch-capability>
+          <!-- # entries: 0.. -->
+        </sdh-switch-capability>
+      </eth-mapping-pac>
+    </ptp>
+  </ptps>
+  <ftps xmlns="urn:ccsa:yang:acc-devm">
+    <ftp>
+      <!-- # keys: name-->
+      <!-- # entries: 0.. -->
+      <name>
+        <!-- type: string -->
+      </name>
+      <state-pac>
+        <operational-state>
+          <!-- type: operational-state -->
+        </operational-state>
+        <admin-state>
+          <!-- type: admin-state -->
+        </admin-state>
+      </state-pac>
+      <layer-protocol-name>
+        <!-- type: identityref -->
+      </layer-protocol-name>
+      <client-ctp>
+        <!-- # entries: 0.. -->
+      </client-ctp>
+      <server-ctp>
+        <!-- # entries: 0.. -->
+      </server-ctp>
+      <sdh-ftp-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <sdh-signal-type>
+          <!-- type: sdh-signal-type -->
+        </sdh-signal-type>
+        <switch-capability>
+          <!-- # entries: 1.. -->
+        </switch-capability>
+        <j0-actual-tx>
+          <!-- type: string -->
+        </j0-actual-tx>
+        <j0-expected-rx>
+          <!-- type: string -->
+        </j0-expected-rx>
+        <j0-actual-rx>
+          <!-- type: string -->
+        </j0-actual-rx>
+      </sdh-ftp-pac>
+      <eth-ftp-pac xmlns="urn:ccsa:yang:acc-eth">
+        <supported-mtu>
+          <!-- type: uint64 -->
+        </supported-mtu>
+        <current-mtu>
+          <!-- type: uint64 -->
+        </current-mtu>
+        <service-mapping-mode>
+          <!-- type: acc-con:adaptation-mode -->
+        </service-mapping-mode>
+        <mapping-type>
+          <!-- type: eth-mapping-type -->
+        </mapping-type>
+        <vcg-pac xmlns="urn:ccsa:yang:acc-eos">
+          <vc-type>
+            <!-- type: acc-sdh:switch-type -->
+          </vc-type>
+          <lcas>False</lcas>
+          <hold-off>0</hold-off>
+          <wtr>300</wtr>
+          <tsd>False</tsd>
+          <tx-number>0</tx-number>
+          <rx-number>0</rx-number>
+          <so-handshake-state>False</so-handshake-state>
+        </vcg-pac>
+      </eth-ftp-pac>
+    </ftp>
+  </ftps>
+  <ctps xmlns="urn:ccsa:yang:acc-devm">
+    <ctp>
+      <!-- # keys: name-->
+      <!-- # entries: 0.. -->
+      <name>
+        <!-- type: string -->
+      </name>
+      <state-pac>
+        <operational-state>
+          <!-- type: operational-state -->
+        </operational-state>
+        <admin-state>
+          <!-- type: admin-state -->
+        </admin-state>
+      </state-pac>
+      <layer-protocol-name>
+        <!-- type: identityref -->
+      </layer-protocol-name>
+      <port-role>symmetric</port-role>
+      <protect-role>
+        <!-- type: protect-role -->
+      </protect-role>
+      <server-tp>
+        <!-- type: string -->
+      </server-tp>
+      <loop-back>
+        <!-- type: loopback-type -->
+      </loop-back>
+      <odu-ctp-pac xmlns="urn:ccsa:yang:acc-otn">
+        <odu-signal-type>
+          <!-- type: identityref -->
+        </odu-signal-type>
+        <adaptation-type>
+          <!-- type: adaptation-type -->
+        </adaptation-type>
+        <switch-capability>
+          <!-- type: identityref -->
+        </switch-capability>
+        <ts-detail>
+          <!-- type: string -->
+        </ts-detail>
+        <current-number-of-tributary-slots>
+          <!-- # entries: 0.. -->
+        </current-number-of-tributary-slots>
+        <pmtrail-trace-actual-tx>
+          <!-- type: string -->
+        </pmtrail-trace-actual-tx>
+        <pmtrail-trace-actual-rx>
+          <!-- type: string -->
+        </pmtrail-trace-actual-rx>
+        <pmtrail-trace-expected-rx>
+          <!-- type: string -->
+        </pmtrail-trace-expected-rx>
+        <g-hao-status>
+          <!-- type: g-hao-status -->
+        </g-hao-status>
+      </odu-ctp-pac>
+      <vc-ctp-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <vc-type>
+          <!-- type: switch-type -->
+        </vc-type>
+        <mapping-path>
+          <!-- type: string -->
+        </mapping-path>
+        <j1-actual-tx>
+          <!-- type: string -->
+        </j1-actual-tx>
+        <j1-expected-rx>
+          <!-- type: string -->
+        </j1-expected-rx>
+        <j1-actual-rx>
+          <!-- type: string -->
+        </j1-actual-rx>
+      </vc-ctp-pac>
+      <eth-ctp-pac xmlns="urn:ccsa:yang:acc-eth">
+        <vlan-spec>
+          <vlan-id>
+            <!-- # entries: 1.. -->
+          </vlan-id>
+          <vlan-priority>
+            <!-- type: uint64 -->
+          </vlan-priority>
+          <access-action>
+            <!-- type: access-action -->
+          </access-action>
+          <vlan-type>
+            <!-- type: vlan-type -->
+          </vlan-type>
+        </vlan-spec>
+        <client-vlan-spec>
+          <vlan-id>
+            <!-- # entries: 1.. -->
+          </vlan-id>
+          <vlan-priority>
+            <!-- type: uint64 -->
+          </vlan-priority>
+          <access-action>
+            <!-- type: access-action -->
+          </access-action>
+          <vlan-type>
+            <!-- type: vlan-type -->
+          </vlan-type>
+        </client-vlan-spec>
+        <performance>
+          <delay>
+            <!-- type: uint64 -->
+          </delay>
+          <near-packet-loss-rate>
+            <!-- type: acc-type:real -->
+          </near-packet-loss-rate>
+          <far-packet-loss-rate>
+            <!-- type: acc-type:real -->
+          </far-packet-loss-rate>
+          <tx-bytes>
+            <!-- type: uint64 -->
+          </tx-bytes>
+          <rx-bytes>
+            <!-- type: uint64 -->
+          </rx-bytes>
+        </performance>
+        <oam-state-pac>
+          <dm-state>
+            <!-- type: boolean -->
+          </dm-state>
+          <tm-state>
+            <!-- type: boolean -->
+          </tm-state>
+          <lm-state>
+            <!-- type: boolean -->
+          </lm-state>
+          <cc-state>
+            <!-- type: boolean -->
+          </cc-state>
+        </oam-state-pac>
+        <oam-config>
+          <mep-id>
+            <!-- type: uint16 -->
+          </mep-id>
+          <remote-mep-id>
+            <!-- type: uint16 -->
+          </remote-mep-id>
+          <meg-id>
+            <!-- type: string -->
+          </meg-id>
+          <md-name>
+            <!-- type: string -->
+          </md-name>
+          <mel>
+            <!-- type: uint8 -->
+          </mel>
+          <cc-interval>
+            <!-- type: oam-transmit-interval -->
+          </cc-interval>
+          <lm-interval>
+            <!-- type: oam-transmit-interval -->
+          </lm-interval>
+          <dm-interval>
+            <!-- type: oam-transmit-interval -->
+          </dm-interval>
+        </oam-config>
+      </eth-ctp-pac>
+    </ctp>
+  </ctps>
+  <eqs xmlns="urn:ccsa:yang:acc-devm">
+    <eq>
+      <!-- # keys: name-->
+      <!-- # entries: 1.. -->
+      <name>
+        <!-- type: string -->
+      </name>
+      <plug-state>
+        <!-- type: boolean -->
+      </plug-state>
+      <eq-type>
+        <!-- type: eq-type -->
+      </eq-type>
+      <software-version>
+        <!-- type: string -->
+      </software-version>
+      <hardware-version>
+        <!-- type: string -->
+      </hardware-version>
+      <ptp>
+        <!-- # entries: 0.. -->
+      </ptp>
+      <ftp>
+        <!-- # entries: 0.. -->
+      </ftp>
+    </eq>
+  </eqs>
+  <performances xmlns="urn:ccsa:yang:acc-performance">
+    <performance>
+      <!-- # keys: object-name,pm-parameter-name,granularity,start-time-->
+      <!-- # entries: 0.. -->
+      <object-name>
+        <!-- type: string -->
+      </object-name>
+      <pm-parameter-name>
+        <!-- type: string -->
+      </pm-parameter-name>
+      <granularity>
+        <!-- type: acc-type:granularity -->
+      </granularity>
+      <start-time>
+        <!-- type: yang:date-and-time -->
+      </start-time>
+      <object-type>
+        <!-- type: string -->
+      </object-type>
+      <digital-pm-value>
+        <!-- type: acc-type:real -->
+      </digital-pm-value>
+      <analog-pm-value>
+        <max-value>
+          <!-- type: acc-type:real -->
+        </max-value>
+        <min-value>
+          <!-- type: acc-type:real -->
+        </min-value>
+        <average-value>
+          <!-- type: acc-type:real -->
+        </average-value>
+        <current-value>
+          <!-- type: acc-type:real -->
+        </current-value>
+      </analog-pm-value>
+    </performance>
+  </performances>
+  <pgs xmlns="urn:ccsa:yang:acc-protection-group">
+    <pg>
+      <!-- # keys: pg-id-->
+      <!-- # entries: 0.. -->
+      <pg-id>
+        <!-- type: uint16 -->
+      </pg-id>
+      <protection-type>
+        <!-- type: protection-type -->
+      </protection-type>
+      <switch-type>
+        <!-- type: switch-type -->
+      </switch-type>
+      <reversion-mode>
+        <!-- type: reversion-mode -->
+      </reversion-mode>
+      <sd-trigger>
+        <!-- type: sd-trigger -->
+      </sd-trigger>
+      <switch-reason>
+        <!-- type: switch-reason -->
+      </switch-reason>
+      <wait-to-restore-time>
+        <!-- type: uint64 -->
+      </wait-to-restore-time>
+      <hold-off>0</hold-off>
+      <protection-direction>
+        <!-- type: protection-direction -->
+      </protection-direction>
+      <primary-port>
+        <!-- type: leafref -->
+      </primary-port>
+      <secondary-port>
+        <!-- type: leafref -->
+      </secondary-port>
+      <selected-port>
+        <!-- type: leafref -->
+      </selected-port>
+    </pg>
+  </pgs>
+</data>
