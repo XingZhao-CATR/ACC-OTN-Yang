@@ -36,14 +36,14 @@ module acc-connection {
     */
     grouping capacity {
         choice for-odu-or-eth {
-            case for-odu {
+            case for-odu-or-sdh {
                 leaf total-size {
                     mandatory true;
                     type uint64;
                     description "total size, When ODU,SDH,  mandatory must to be true and others must not exists";
                 }
             }
-            case for-eth {
+            case for-eth-or-eos {
                 leaf cir {
                     mandatory true;
                     type uint64;

@@ -107,9 +107,9 @@ module: acc-connection
         +--rw layer-protocol-name    identityref
         +--rw requested-capacity
         |  +--rw (for-odu-or-eth)?
-        |     +--:(for-odu)
+        |     +--:(for-odu-or-sdh)
         |     |  +--rw total-size    uint64
-        |     +--:(for-eth)
+        |     +--:(for-eth-or-eos)
         |        +--rw cir           uint64
         |        +--rw pir?          uint64
         |        +--rw cbs?          uint64
@@ -330,9 +330,9 @@ module: acc-eos
     |  |  +---w layer-protocol-name    identityref
     |  |  +---w requested-capacity
     |  |  |  +---w (for-odu-or-eth)?
-    |  |  |     +--:(for-odu)
+    |  |  |     +--:(for-odu-or-sdh)
     |  |  |     |  +---w total-size    uint64
-    |  |  |     +--:(for-eth)
+    |  |  |     +--:(for-eth-or-eos)
     |  |  |        +---w cir           uint64
     |  |  |        +---w pir?          uint64
     |  |  |        +---w cbs?          uint64
@@ -386,9 +386,9 @@ module: acc-eos
     |     |  +--ro layer-protocol-name    identityref
     |     |  +--ro requested-capacity
     |     |  |  +--ro (for-odu-or-eth)?
-    |     |  |     +--:(for-odu)
+    |     |  |     +--:(for-odu-or-sdh)
     |     |  |     |  +--ro total-size    uint64
-    |     |  |     +--:(for-eth)
+    |     |  |     +--:(for-eth-or-eos)
     |     |  |        +--ro cir           uint64
     |     |  |        +--ro pir?          uint64
     |     |  |        +--ro cbs?          uint64
@@ -420,9 +420,9 @@ module: acc-eth
        |  +---w layer-protocol-name    identityref
        |  +---w requested-capacity
        |  |  +---w (for-odu-or-eth)?
-       |  |     +--:(for-odu)
+       |  |     +--:(for-odu-or-sdh)
        |  |     |  +---w total-size    uint64
-       |  |     +--:(for-eth)
+       |  |     +--:(for-eth-or-eos)
        |  |        +---w cir           uint64
        |  |        +---w pir?          uint64
        |  |        +---w cbs?          uint64
@@ -466,9 +466,9 @@ module: acc-eth
           |  +--ro layer-protocol-name    identityref
           |  +--ro requested-capacity
           |  |  +--ro (for-odu-or-eth)?
-          |  |     +--:(for-odu)
+          |  |     +--:(for-odu-or-sdh)
           |  |     |  +--ro total-size    uint64
-          |  |     +--:(for-eth)
+          |  |     +--:(for-eth-or-eos)
           |  |        +--ro cir           uint64
           |  |        +--ro pir?          uint64
           |  |        +--ro cbs?          uint64
@@ -515,9 +515,9 @@ module: acc-otn
     |  |  +---w layer-protocol-name    identityref
     |  |  +---w requested-capacity
     |  |  |  +---w (for-odu-or-eth)?
-    |  |  |     +--:(for-odu)
+    |  |  |     +--:(for-odu-or-sdh)
     |  |  |     |  +---w total-size    uint64
-    |  |  |     +--:(for-eth)
+    |  |  |     +--:(for-eth-or-eos)
     |  |  |        +---w cir           uint64
     |  |  |        +---w pir?          uint64
     |  |  |        +---w cbs?          uint64
@@ -549,9 +549,9 @@ module: acc-otn
     |        +--ro layer-protocol-name    identityref
     |        +--ro requested-capacity
     |        |  +--ro (for-odu-or-eth)?
-    |        |     +--:(for-odu)
+    |        |     +--:(for-odu-or-sdh)
     |        |     |  +--ro total-size    uint64
-    |        |     +--:(for-eth)
+    |        |     +--:(for-eth-or-eos)
     |        |        +--ro cir           uint64
     |        |        +--ro pir?          uint64
     |        |        +--ro cbs?          uint64
@@ -665,9 +665,9 @@ module: acc-sdh
        |  +---w layer-protocol-name    identityref
        |  +---w requested-capacity
        |  |  +---w (for-odu-or-eth)?
-       |  |     +--:(for-odu)
+       |  |     +--:(for-odu-or-sdh)
        |  |     |  +---w total-size    uint64
-       |  |     +--:(for-eth)
+       |  |     +--:(for-eth-or-eos)
        |  |        +---w cir           uint64
        |  |        +---w pir?          uint64
        |  |        +---w cbs?          uint64
@@ -703,9 +703,9 @@ module: acc-sdh
           |  +--ro layer-protocol-name    identityref
           |  +--ro requested-capacity
           |  |  +--ro (for-odu-or-eth)?
-          |  |     +--:(for-odu)
+          |  |     +--:(for-odu-or-sdh)
           |  |     |  +--ro total-size    uint64
-          |  |     +--:(for-eth)
+          |  |     +--:(for-eth-or-eos)
           |  |        +--ro cir           uint64
           |  |        +--ro pir?          uint64
           |  |        +--ro cbs?          uint64
