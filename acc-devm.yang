@@ -14,7 +14,7 @@ module acc-devm {
     import ietf-inet-types {
         prefix inet;
     }
-
+	
     revision 2019-02-13 {
     }
     /*
@@ -450,7 +450,14 @@ module acc-devm {
                 type identityref {
                 base acc-type:layer-protocol-name;
             }
-                description "Layer protocol name of ptp";
+                description "current protocol setting value";
+            }
+            leaf-list supported-layer-protocol-name {
+                config false;
+                type identityref {
+                    base acc-type:layer-protocol-name;
+            }
+                description "all supported abilities of protocol";
             }
             leaf peer-ip-address {
                 type string {
@@ -527,8 +534,6 @@ module acc-devm {
                 
             }
             
-            
-            
         }
     }
 
@@ -594,9 +599,7 @@ module acc-devm {
         }
     }
 
-    /*
-    * notifications
-    */
+ 
     notification peer-change-notification {
         leaf ptp-name {
             mandatory true;
@@ -605,13 +608,13 @@ module acc-devm {
             }
         }
         leaf peer-ip-address {
-        	  mandatory true;
+              mandatory true;
             type string {
                 length 1..16;
             }
         }
         leaf peer-ptp-name {
-        	  mandatory true;
+              mandatory true;
             type string {
                 length 1..64;
             }

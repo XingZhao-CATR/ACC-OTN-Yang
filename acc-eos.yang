@@ -44,28 +44,45 @@ module acc-eos {
             container eth-uni {
                 leaf uni-ptp-name {
                     type string;
-                    description "uni ptp name";
                 }
                 container client-vlan-spec {
+                  when "../service-type == 'EVPL'";
                     uses acc-eth:vlan-spec;
-                    description "client side vlan spec， only for EVPL";
+                    description "client side vlan spec， only for EVPL  and C-TAG mode, accessAction should not be given";
                 }
                 container uni-vlan-spec {
-                    uses acc-eth:vlan-spec;
-                    description "uni vlan spec";
+                    when "../service-type == 'EVPL'";
+                    uses acc-eth:vlan-spec{
+                     refine "access-action"{
+                        mandatory true;
+                     }
+                    }
+                    description "uni vlan spec,only for EVPL and C-TAG mode";
                 }
                 container ftp-vlan-spec {
-                    uses acc-eth:vlan-spec;
-                    description "ftp vlan spec";
+                    uses acc-eth:vlan-spec{
+                     refine "access-action"{
+                        mandatory true;
+                     }
+                    }
+                    description "any type of service must set value for it with S-TAG mode";
                 }
             }
             container primary-nni {
                 uses acc-otn:nni;
-                description "primary nni";
+                description "primary nni, mandatory true";
             }
             container secondary-nni {
                 uses acc-otn:nni;
-                description "secondary nni";
+                description "only for service with protection. Optional";
+            }
+            container primary-nni2 {
+                uses acc-otn:nni;
+                description "only NNI2NNI mode, optional!";
+            }
+            container secondary-nni2 {
+                uses acc-otn:nni;
+                description "only NNI2NNI mode and with protection. optional";
             }
             container eos-pac {
                 leaf sdh-signal-type {

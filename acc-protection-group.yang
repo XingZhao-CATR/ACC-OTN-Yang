@@ -252,20 +252,13 @@ module acc-protection-group {
         description "pgs";
     }
 
-    /*
-    * notifications
-    */
-    notification protection-switch-notification {
+   notification protection-switch-notification {
         leaf protection-switch-serial-no {
             mandatory true;
             type uint64;
-            description
-                "protection switch serial no";
         }
         container pg {
             uses pg;
-            description
-                "pg";
         }
         description "protection switch notification";
     }

@@ -222,6 +222,24 @@ module acc-otn {
         }
     }
 
+    notification g-hao-notification {
+        leaf g-hao-adjust-serial-no {
+            mandatory true;
+            type uint64;
+            description "g.hao adjust serial No.";
+        }
+        leaf ctp-name {
+            mandatory true;
+            type string {
+                length "1..64";
+            }
+        }
+        leaf modify-result {
+            mandatory true;
+            type g-hao-modify-result;
+        }
+    }
+
     /*
     * groupings
     */
@@ -463,21 +481,5 @@ module acc-otn {
         }
     }
 
-    notification g-hao-notification {
-        leaf g-hao-adjust-serial-no {
-            mandatory true;
-            type uint64;
-            description "g.hao adjust serial No.";
-        }
-        leaf ctp-name {
-            mandatory true;
-            type string {
-                length "1..64";
-            }
-        }
-        leaf modify-result {
-            mandatory true;
-            type g-hao-modify-result;
-        }
-    }
+    
 }

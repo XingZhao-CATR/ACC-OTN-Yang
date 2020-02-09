@@ -405,9 +405,6 @@ module acc-eth {
         }
     }
 
-    /*
-    * notifications
-    */
     notification lldp-change-notification {
         leaf ptp-name {
             mandatory true;
@@ -418,19 +415,19 @@ module acc-eth {
                 "PTP name.";
         }
         leaf lldp-peer-chassis-id {
-        	  mandatory true;
+              mandatory true;
             type string {
                 length 1..64;
             }
         }
         leaf lldp-peer-port-id {
-        	  mandatory true;
+              mandatory true;
             type string {
                 length 1..64;
             }
         }
         leaf lldp-peer-system-name {
-        	  mandatory true;
+              mandatory true;
             type string {
                 length 1..64;
             }
@@ -451,15 +448,16 @@ module acc-eth {
                 container client-vlan-spec {
 		          when "../service-type == 'EVPL'";
                     uses vlan-spec;
-                    description "client side vlan spec， only for EVPL";
+                    description "only for EVPL and C-TAG mode, accessAction should not be given";
                 }
                 container uni-vlan-spec {
+                    when "../service-type == 'EVPL'";
                     uses vlan-spec{
                      refine "access-action"{
                         mandatory true;
                      }
                     }
-                    description "uni vlan spec,only for EVPL";
+                    description "uni vlan spec,only for EVPL and C-TAG mode";
                 }
                 container ftp-vlan-spec {
                     uses vlan-spec{
@@ -467,15 +465,26 @@ module acc-eth {
                         mandatory true;
                      }
                     }
-                    description "ftp vlan spec";
+                    description "any type of service must set value for it with S-TAG mode";
                 }
+
             }
 
             container primary-nni {
                 uses acc-otn:nni;
+                description "primary nni, mandatory true";
             }
             container secondary-nni {
                 uses acc-otn:nni;
+                description "only for service with protection";
+            }
+            container primary-nni2 {
+                uses acc-otn:nni;
+                description "only for NNI2NNI mode";
+            }
+            container secondary-nni2 {
+                uses acc-otn:nni;
+                description "only for NNI2NNI mode and with protection";
             }
         }
         output {

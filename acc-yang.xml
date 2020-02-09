@@ -247,6 +247,9 @@
       <layer-protocol-name>
         <!-- type: identityref -->
       </layer-protocol-name>
+      <supported-layer-protocol-name>
+        <!-- # entries: 0.. -->
+      </supported-layer-protocol-name>
       <peer-ip-address>
         <!-- type: string -->
       </peer-ip-address>
