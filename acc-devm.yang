@@ -237,7 +237,6 @@ module acc-devm {
         }
         leaf layer-protocol-name {
             mandatory true;
-	       config false;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
@@ -268,7 +267,6 @@ module acc-devm {
         }
         leaf layer-protocol-name {
             mandatory true;
-	        config false;
             type identityref {
                 base acc-type:layer-protocol-name;
             }
