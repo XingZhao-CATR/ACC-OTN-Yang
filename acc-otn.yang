@@ -274,14 +274,6 @@ module acc-otn {
             }
             description "Switch capability";
         }
-        container ftp-vlan-spec {
-            uses acc-con:vlan-spec{
-             refine "access-action"{
-                mandatory true;
-             }
-            }
-            description "only for EVPL";
-        }
     }
 
     /*

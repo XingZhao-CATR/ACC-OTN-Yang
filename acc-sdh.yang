@@ -248,40 +248,69 @@ module acc-sdh {
                     }
                 }
             }
-            container sdh-nni {
-                leaf sdh-type {
-                    mandatory true;
-                    type sdh-signal-type;
-                }
-                leaf z-ctp-mapping-path {
-                    mandatory true;
-                    type string {
-                        length "1..64";
-                    }
-                }
-                leaf sdh-type-protect {
-                    type sdh-signal-type;
-                }
-                leaf z-ctp-mapping-path-protect {
-                    type string {
-                        length "1..64";
-                    }
-                }
-            }
+            
             container primary-nni {
                 uses acc-otn:nni;
+                container sdh-ftp {
+                    leaf sdh-type {
+                        mandatory true;
+                        type sdh-signal-type;
+                    }
+                    leaf z-ctp-mapping-path {
+                        mandatory true;
+                        type string {
+                            length "1..64";
+                        }
+                    }
+                }
                 description "primary nni, mandatory true";
             }
             container secondary-nni {
                 uses acc-otn:nni;
+                container sdh-ftp {
+                    leaf sdh-type {
+                        mandatory true;
+                        type sdh-signal-type;
+                    }
+                    leaf z-ctp-mapping-path {
+                        mandatory true;
+                        type string {
+                            length "1..64";
+                        }
+                    }
+                }
                 description "only for service with protection. Optional";
             }
             container primary-nni2 {
                 uses acc-otn:nni;
+                container sdh-ftp {
+                    leaf sdh-type {
+                        mandatory true;
+                        type sdh-signal-type;
+                    }
+                    leaf z-ctp-mapping-path {
+                        mandatory true;
+                        type string {
+                            length "1..64";
+                        }
+                    }
+                }
                 description "only NNI2NNI mode, optional!";
             }
             container secondary-nni2 {
                 uses acc-otn:nni;
+                container sdh-ftp {
+                    leaf sdh-type {
+                        mandatory true;
+                        type sdh-signal-type;
+                    }
+                    leaf z-ctp-mapping-path {
+                        mandatory true;
+                        type string {
+                            length "1..64";
+                        }
+                    }
+                }
                 description "only NNI2NNI mode and with protection. optional";
             }
         }
