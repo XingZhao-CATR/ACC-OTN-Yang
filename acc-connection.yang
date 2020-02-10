@@ -11,9 +11,71 @@ module acc-connection {
         prefix acc-type;
     }
 
-    revision 2019-02-13 {
+    revision 2020-02-09 {
+        description "move vlan-type, access-action from acc-eth";
     }
-    
+
+     typedef vlan-type {
+        type enumeration {
+            enum c-tag {
+                value 0;
+                description "c-tag";
+            }
+            enum s-tag {
+                value 1;
+                description "s-tag";
+            }
+            enum un-tag {
+                value 2;
+                description "no-tag";
+            }
+        }
+        description "vlan type";
+    }
+
+    typedef access-action {
+        type enumeration {
+            enum keep {
+                value 0;
+                description "keep vlan";
+            }
+            enum push_pop {
+                value 1;
+                description "push-pop vlan";
+            }
+            enum exchange {
+                value 2;
+                description "exchange vlan";
+            }
+        }
+        description "vlan access action";
+    }
+
+    grouping vlan-spec {
+        leaf-list vlan-id {
+            when "../vlan-type != 'un-tag'";
+            type uint64 {
+                range "1..4094";
+            }
+            min-elements 1;
+        }
+        leaf vlan-priority {
+
+            when "../vlan-type != 'un-tag'";
+            type uint64 {
+                range "0..7";
+            }
+            description "default 0";
+        }
+        leaf access-action {
+            type access-action;
+        }
+        leaf vlan-type {
+            mandatory true;
+            type vlan-type;
+        }
+    }
+
     typedef adaptation-mode {
         type enumeration {
             enum GFP-F {

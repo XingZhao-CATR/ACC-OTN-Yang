@@ -270,9 +270,19 @@ module acc-sdh {
             }
             container primary-nni {
                 uses acc-otn:nni;
+                description "primary nni, mandatory true";
             }
             container secondary-nni {
                 uses acc-otn:nni;
+                description "only for service with protection. Optional";
+            }
+            container primary-nni2 {
+                uses acc-otn:nni;
+                description "only NNI2NNI mode, optional!";
+            }
+            container secondary-nni2 {
+                uses acc-otn:nni;
+                description "only NNI2NNI mode and with protection. optional";
             }
         }
         output {

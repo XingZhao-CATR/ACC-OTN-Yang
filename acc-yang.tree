@@ -347,11 +347,6 @@ module: acc-eos
     |  |  |  |  +---w access-action?   access-action
     |  |  |  |  +---w vlan-type        vlan-type
     |  |  |  +---w uni-vlan-spec
-    |  |  |  |  +---w vlan-id*         uint64
-    |  |  |  |  +---w vlan-priority?   uint64
-    |  |  |  |  +---w access-action    access-action
-    |  |  |  |  +---w vlan-type        vlan-type
-    |  |  |  +---w ftp-vlan-spec
     |  |  |     +---w vlan-id*         uint64
     |  |  |     +---w vlan-priority?   uint64
     |  |  |     +---w access-action    access-action
@@ -362,24 +357,22 @@ module: acc-eos
     |  |  |  +---w adaptation-type       adaptation-type
     |  |  |  +---w client-signal-type    identityref
     |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id*         uint64
+    |  |  |     +---w vlan-priority?   uint64
+    |  |  |     +---w access-action    access-action
+    |  |  |     +---w vlan-type        vlan-type
     |  |  +---w secondary-nni
     |  |  |  +---w nni-ptp-name          string
     |  |  |  +---w nni-ts-detail         string
     |  |  |  +---w adaptation-type       adaptation-type
     |  |  |  +---w client-signal-type    identityref
     |  |  |  +---w switch-capability     identityref
-    |  |  +---w primary-nni2
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
-    |  |  +---w secondary-nni2
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id*         uint64
+    |  |  |     +---w vlan-priority?   uint64
+    |  |  |     +---w access-action    access-action
+    |  |  |     +---w vlan-type        vlan-type
     |  |  +---w eos-pac
     |  |     +---w sdh-signal-type?           acc-sdh:sdh-signal-type
     |  |     +---w vc-type                    acc-sdh:switch-type
@@ -449,11 +442,6 @@ module: acc-eth
        |  |  |  +---w access-action?   access-action
        |  |  |  +---w vlan-type        vlan-type
        |  |  +---w uni-vlan-spec
-       |  |  |  +---w vlan-id*         uint64
-       |  |  |  +---w vlan-priority?   uint64
-       |  |  |  +---w access-action    access-action
-       |  |  |  +---w vlan-type        vlan-type
-       |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action    access-action
@@ -464,24 +452,44 @@ module: acc-eth
        |  |  +---w adaptation-type       adaptation-type
        |  |  +---w client-signal-type    identityref
        |  |  +---w switch-capability     identityref
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action    access-action
+       |  |     +---w vlan-type        vlan-type
        |  +---w secondary-nni
        |  |  +---w nni-ptp-name          string
        |  |  +---w nni-ts-detail         string
        |  |  +---w adaptation-type       adaptation-type
        |  |  +---w client-signal-type    identityref
        |  |  +---w switch-capability     identityref
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action    access-action
+       |  |     +---w vlan-type        vlan-type
        |  +---w primary-nni2
        |  |  +---w nni-ptp-name          string
        |  |  +---w nni-ts-detail         string
        |  |  +---w adaptation-type       adaptation-type
        |  |  +---w client-signal-type    identityref
        |  |  +---w switch-capability     identityref
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action    access-action
+       |  |     +---w vlan-type        vlan-type
        |  +---w secondary-nni2
        |     +---w nni-ptp-name          string
        |     +---w nni-ts-detail         string
        |     +---w adaptation-type       adaptation-type
        |     +---w client-signal-type    identityref
        |     +---w switch-capability     identityref
+       |     +---w ftp-vlan-spec
+       |        +---w vlan-id*         uint64
+       |        +---w vlan-priority?   uint64
+       |        +---w access-action    access-action
+       |        +---w vlan-type        vlan-type
        +--ro output
           +--ro connection
           |  +--ro name                   string
@@ -553,18 +561,55 @@ module: acc-otn
     |  |  |  +---w adaptation-type       adaptation-type
     |  |  |  +---w client-signal-type    identityref
     |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id*         uint64
+    |  |  |     +---w vlan-priority?   uint64
+    |  |  |     +---w access-action    access-action
+    |  |  |     +---w vlan-type        vlan-type
     |  |  +---w primary-nni
     |  |  |  +---w nni-ptp-name          string
     |  |  |  +---w nni-ts-detail         string
     |  |  |  +---w adaptation-type       adaptation-type
     |  |  |  +---w client-signal-type    identityref
     |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id*         uint64
+    |  |  |     +---w vlan-priority?   uint64
+    |  |  |     +---w access-action    access-action
+    |  |  |     +---w vlan-type        vlan-type
     |  |  +---w secondary-nni
+    |  |  |  +---w nni-ptp-name          string
+    |  |  |  +---w nni-ts-detail         string
+    |  |  |  +---w adaptation-type       adaptation-type
+    |  |  |  +---w client-signal-type    identityref
+    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id*         uint64
+    |  |  |     +---w vlan-priority?   uint64
+    |  |  |     +---w access-action    access-action
+    |  |  |     +---w vlan-type        vlan-type
+    |  |  +---w primary-nni2
+    |  |  |  +---w nni-ptp-name          string
+    |  |  |  +---w nni-ts-detail         string
+    |  |  |  +---w adaptation-type       adaptation-type
+    |  |  |  +---w client-signal-type    identityref
+    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w ftp-vlan-spec
+    |  |  |     +---w vlan-id*         uint64
+    |  |  |     +---w vlan-priority?   uint64
+    |  |  |     +---w access-action    access-action
+    |  |  |     +---w vlan-type        vlan-type
+    |  |  +---w secondary-nni2
     |  |     +---w nni-ptp-name          string
     |  |     +---w nni-ts-detail         string
     |  |     +---w adaptation-type       adaptation-type
     |  |     +---w client-signal-type    identityref
     |  |     +---w switch-capability     identityref
+    |  |     +---w ftp-vlan-spec
+    |  |        +---w vlan-id*         uint64
+    |  |        +---w vlan-priority?   uint64
+    |  |        +---w access-action    access-action
+    |  |        +---w vlan-type        vlan-type
     |  +--ro output
     |     +--ro connection
     |        +--ro name                   string
@@ -713,12 +758,44 @@ module: acc-sdh
        |  |  +---w adaptation-type       adaptation-type
        |  |  +---w client-signal-type    identityref
        |  |  +---w switch-capability     identityref
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action    access-action
+       |  |     +---w vlan-type        vlan-type
        |  +---w secondary-nni
+       |  |  +---w nni-ptp-name          string
+       |  |  +---w nni-ts-detail         string
+       |  |  +---w adaptation-type       adaptation-type
+       |  |  +---w client-signal-type    identityref
+       |  |  +---w switch-capability     identityref
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action    access-action
+       |  |     +---w vlan-type        vlan-type
+       |  +---w primary-nni2
+       |  |  +---w nni-ptp-name          string
+       |  |  +---w nni-ts-detail         string
+       |  |  +---w adaptation-type       adaptation-type
+       |  |  +---w client-signal-type    identityref
+       |  |  +---w switch-capability     identityref
+       |  |  +---w ftp-vlan-spec
+       |  |     +---w vlan-id*         uint64
+       |  |     +---w vlan-priority?   uint64
+       |  |     +---w access-action    access-action
+       |  |     +---w vlan-type        vlan-type
+       |  +---w secondary-nni2
        |     +---w nni-ptp-name          string
        |     +---w nni-ts-detail         string
        |     +---w adaptation-type       adaptation-type
        |     +---w client-signal-type    identityref
        |     +---w switch-capability     identityref
+       |     +---w ftp-vlan-spec
+       |        +---w vlan-id*         uint64
+       |        +---w vlan-priority?   uint64
+       |        +---w access-action    access-action
+       |        +---w vlan-type        vlan-type
        +--ro output
           +--ro connection
           |  +--ro name                   string

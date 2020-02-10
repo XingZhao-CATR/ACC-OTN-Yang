@@ -274,6 +274,14 @@ module acc-otn {
             }
             description "Switch capability";
         }
+        container ftp-vlan-spec {
+            uses acc-con:vlan-spec{
+             refine "access-action"{
+                mandatory true;
+             }
+            }
+            description "only for EVPL";
+        }
     }
 
     /*
@@ -430,11 +438,19 @@ module acc-otn {
             }
             container primary-nni {
                 uses nni;
-                description "primary nni";
+                description "primary nni, mandatory true";
             }
             container secondary-nni {
                 uses nni;
-                description "secondary nni";
+                description "only for service with protection. Optional";
+            }
+            container primary-nni2 {
+                uses nni;
+                description "only NNI2NNI mode, optional!";
+            }
+            container secondary-nni2 {
+                uses nni;
+                description "only NNI2NNI mode and with protection. optional";
             }
         }
         output {

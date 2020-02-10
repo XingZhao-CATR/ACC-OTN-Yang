@@ -30,29 +30,17 @@ module acc-eth {
         prefix acc-sdh;
     }
 
+    revision 2020-02-09 {
+        description "remove useless grouping eth-nni";
+    }
+
     /*
    * common types
    */
     identity ETH {
         base acc-type:layer-protocol-name;
     }
-    typedef vlan-type {
-        type enumeration {
-            enum c-tag {
-                value 0;
-                description "c-tag";
-            }
-            enum s-tag {
-                value 1;
-                description "s-tag";
-            }
-            enum un-tag {
-                value 2;
-                description "no-tag";
-            }
-        }
-        description "vlan type";
-    }
+   
     typedef oam-transmit-interval {
         type enumeration {
             enum interval-3ms33 {
@@ -82,23 +70,7 @@ module acc-eth {
         }
         description "oam transmit interval";
     }
-    typedef access-action {
-        type enumeration {
-            enum keep {
-                value 0;
-                description "keep vlan";
-            }
-            enum push_pop {
-                value 1;
-                description "push-pop vlan";
-            }
-            enum exchange {
-                value 2;
-                description "exchange vlan";
-            }
-        }
-        description "vlan access action";
-    }
+    
 
         typedef port-type {
         type enumeration {
@@ -146,30 +118,7 @@ module acc-eth {
     /*
    * groupings
    */
-    grouping vlan-spec {
-        leaf-list vlan-id {
-            when "../vlan-type != 'un-tag'";
-            type uint64 {
-                range "1..4094";
-            }
-            min-elements 1;
-        }
-        leaf vlan-priority {
-
-            when "../vlan-type != 'un-tag'";
-            type uint64 {
-                range "0..7";
-            }
-            description "default 0";
-        }
-        leaf access-action {
-            type access-action;
-        }
-        leaf vlan-type {
-            mandatory true;
-            type vlan-type;
-        }
-    }
+    
 
     grouping eth-ftp-pac {
         leaf supported-mtu {
@@ -286,11 +235,11 @@ module acc-eth {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ctp-pac {
             container vlan-spec {
-                uses vlan-spec;
+                uses acc-con:vlan-spec;
                 description "vlan spec";
             }
             container client-vlan-spec {
-                uses vlan-spec;
+                uses acc-con:vlan-spec;
                 description "client vlan spec";
             }
             container performance {
@@ -393,18 +342,6 @@ module acc-eth {
         }
     }
 
-    grouping eth-nni {
-        leaf nni-ptp-name {
-            type string {
-                length 1..64;
-            }
-        }
-        leaf nni-ts-detail {
-            mandatory true;
-            type string;
-        }
-    }
-
     notification lldp-change-notification {
         leaf ptp-name {
             mandatory true;
@@ -447,27 +384,18 @@ module acc-eth {
                 }
                 container client-vlan-spec {
 		          when "../service-type == 'EVPL'";
-                    uses vlan-spec;
+                    uses acc-con:vlan-spec;
                     description "only for EVPL and C-TAG mode, accessAction should not be given";
                 }
                 container uni-vlan-spec {
                     when "../service-type == 'EVPL'";
-                    uses vlan-spec{
+                    uses acc-con:vlan-spec{
                      refine "access-action"{
                         mandatory true;
                      }
                     }
                     description "uni vlan spec,only for EVPL and C-TAG mode";
                 }
-                container ftp-vlan-spec {
-                    uses vlan-spec{
-                     refine "access-action"{
-                        mandatory true;
-                     }
-                    }
-                    description "any type of service must set value for it with S-TAG mode";
-                }
-
             }
 
             container primary-nni {
