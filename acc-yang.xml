@@ -457,13 +457,13 @@
           <vc-type>
             <!-- type: acc-sdh:switch-type -->
           </vc-type>
-          <lcas>False</lcas>
+          <lcas>false</lcas>
           <hold-off>0</hold-off>
           <wtr>300</wtr>
-          <tsd>False</tsd>
+          <tsd>false</tsd>
           <tx-number>0</tx-number>
           <rx-number>0</rx-number>
-          <so-handshake-state>False</so-handshake-state>
+          <so-handshake-state>false</so-handshake-state>
         </vcg-pac>
       </eth-ftp-pac>
     </ftp>
