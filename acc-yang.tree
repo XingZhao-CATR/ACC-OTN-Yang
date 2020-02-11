@@ -344,7 +344,7 @@ module: acc-eos
     |  |  |  +---w client-vlan-spec
     |  |  |  |  +---w vlan-id*         uint64
     |  |  |  |  +---w vlan-priority?   uint64
-    |  |  |  |  +---w access-action?   access-action
+    |  |  |  |  +---w access-action    access-action
     |  |  |  |  +---w vlan-type        vlan-type
     |  |  |  +---w uni-vlan-spec
     |  |  |     +---w vlan-id*         uint64

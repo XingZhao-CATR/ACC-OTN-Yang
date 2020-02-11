@@ -389,7 +389,11 @@ module acc-eth {
                 }
                 container uni-vlan-spec {
                     when "../service-type = 'EVPL'";
-                    uses acc-con:vlan-spec;
+                    uses acc-con:vlan-spec{
+                         refine "access-action"{
+                            mandatory true;
+                         }
+                     }
                     description "只适用于EVPL，可选。用于在客户VLAN交换的情况下，指定C-VLAN的交换值";
                 }
             }
@@ -397,7 +401,11 @@ module acc-eth {
             container primary-nni {
                 uses acc-otn:nni;
                 container ftp-vlan-spec {
-                    uses acc-con:vlan-spec;
+                    uses acc-con:vlan-spec {
+                         refine "access-action" {
+                            mandatory true;
+                         }
+                     }
                     description "EVPL必须下发，对于其它业务可选";
                 }
                 description "primary nni, mandatory true";
@@ -405,7 +413,11 @@ module acc-eth {
             container secondary-nni {
                 uses acc-otn:nni;
                 container ftp-vlan-spec {
-                    uses acc-con:vlan-spec;
+                    uses acc-con:vlan-spec{
+                         refine "access-action"{
+                            mandatory true;
+                         }
+                     }
                     description "EVPL必须下发，对于其它业务可选";
                 }
                 description "only for service with protection";
