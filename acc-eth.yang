@@ -385,42 +385,28 @@ module acc-eth {
                 container client-vlan-spec {
 		          when "../service-type = 'EVPL'";
                     uses acc-con:vlan-spec;
-                    description "only for EVPL and C-TAG mode, accessAction should not be given";
+                    description "只适用于EVPL，指定C-VLAN，用于客户Vlan与运营商Vlan的匹配，无需携带accessAction。不携带该参数时表示端口匹配";
                 }
                 container uni-vlan-spec {
                     when "../service-type = 'EVPL'";
-                    uses acc-con:vlan-spec{
-                     refine "access-action"{
-                        mandatory true;
-                     }
-                    }
-                    description "uni vlan spec,only for EVPL and C-TAG mode";
+                    uses acc-con:vlan-spec;
+                    description "只适用于EVPL，可选。用于在客户VLAN交换的情况下，指定C-VLAN的交换值";
                 }
             }
 
             container primary-nni {
                 uses acc-otn:nni;
                 container ftp-vlan-spec {
-                    when "../service-type = 'EVPL'";
-                    uses acc-con:vlan-spec{
-                     refine "access-action"{
-                        mandatory true;
-                     }
-                    }
-                    description "only for EVPL";
+                    uses acc-con:vlan-spec;
+                    description "EVPL必须下发，对于其它业务可选";
                 }
                 description "primary nni, mandatory true";
             }
             container secondary-nni {
                 uses acc-otn:nni;
                 container ftp-vlan-spec {
-                    when "../service-type = 'EVPL'";
-                    uses acc-con:vlan-spec{
-                     refine "access-action"{
-                        mandatory true;
-                     }
-                    }
-                    description "only for EVPL";
+                    uses acc-con:vlan-spec;
+                    description "EVPL必须下发，对于其它业务可选";
                 }
                 description "only for service with protection";
             }
