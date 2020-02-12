@@ -141,6 +141,25 @@ module acc-eth {
     }
 
     augment "/acc-devm:ptps/acc-devm:ptp" {
+        container eth-mapping-pac {
+            leaf-list supported-mapping-type {
+                type eth-mapping-type;
+                description "EoO,EoS  1..*";
+            }
+            leaf-list odu-switch-capability {
+                type identityref {
+                    base otn-types:odu-type;
+                }
+                description "ODU能力上报，支持什么就上报什么";
+            }
+            leaf-list sdh-switch-capability {
+                type acc-sdh:switch-type;
+                description "SDH能力上报，支持什么就上报什么";
+            }
+        }
+    }
+
+    augment "/acc-devm:ptps/acc-devm:ptp" {
         when "acc-devm:layer-protocol-name = 'ETH'";
         container eth-ptp-pac {
             leaf-list supported-working-mode {
@@ -196,29 +215,7 @@ module acc-eth {
                 }
             }
         }
-        container eth-mapping-pac {
-            leaf supported-mapping-type {
-                type eth-mapping-type;
-            }
-            choice supported-server-switch-capability {
-                case odu-switch-capability-case {
-                    when "supported-mapping-type = 'EoO'";
-                    leaf-list odu-switch-capability {
-                        type identityref {
-                            base otn-types:odu-type;
-                        }
-                        description "ODU Switch capability";
-                    }
-                }
-                case sdh-switch-capability-case {
-                    when "supported-mapping-type = 'EoS'";
-                    leaf-list sdh-switch-capability {
-                        type acc-sdh:switch-type;
-                        description "SDH Switch capability";
-                    }
-                }
-            }
-        }
+        
         
 	
 	    
@@ -389,46 +386,42 @@ module acc-eth {
                 }
                 container uni-vlan-spec {
                     when "../service-type = 'EVPL'";
-                    uses acc-con:vlan-spec{
-                         refine "access-action"{
-                            mandatory true;
-                         }
-                     }
-                    description "只适用于EVPL，可选。用于在客户VLAN交换的情况下，指定C-VLAN的交换值";
+                    uses acc-con:vlan-spec;
+                    description "只适用于EVPL，可选。用于在客户VLAN交换的情况下，指定C-VLAN的交换值，accessAction=KEEP";
                 }
             }
 
             container primary-nni {
                 uses acc-otn:nni;
                 container ftp-vlan-spec {
-                    uses acc-con:vlan-spec {
-                         refine "access-action" {
-                            mandatory true;
-                         }
-                     }
-                    description "EVPL必须下发，对于其它业务可选";
+                    uses acc-con:vlan-spec;
+                    description "EVPL必须下发，对于其它业务可选。对于UNI-NNI业务， accessAction=PUSH_POP";
                 }
-                description "primary nni, mandatory true";
+                description "primary nni,必选";
             }
             container secondary-nni {
                 uses acc-otn:nni;
                 container ftp-vlan-spec {
-                    uses acc-con:vlan-spec{
-                         refine "access-action"{
-                            mandatory true;
-                         }
-                     }
-                    description "EVPL必须下发，对于其它业务可选";
+                    uses acc-con:vlan-spec;
+                    description "EVPL必须下发，对于其它业务可选,对于UNI-NNI业务， accessAction=PUSH_POP";
                 }
-                description "only for service with protection";
+                description "ETH带保护模式，可选";
             }
             container primary-nni2 {
                 uses acc-otn:nni;
-                description "only for NNI2NNI mode";
+                container ftp-vlan-spec {
+                    uses acc-con:vlan-spec;
+                    description "EVPL必须下发，对于其它业务可选。对于NNI-NNI业务，accessAction=KEEP或EXCHANGE";
+                }
+                description "NNI-NNI不带保护，可选";
             }
             container secondary-nni2 {
                 uses acc-otn:nni;
-                description "only for NNI2NNI mode and with protection";
+                container ftp-vlan-spec {
+                    uses acc-con:vlan-spec;
+                    description "EVPL必须下发，对于其它业务可选,对于NNI-NNI业务，accessAction=KEEP或EXCHANGE";
+                }
+                description "NNI-NNI带保护，可选";
             }
         }
         output {

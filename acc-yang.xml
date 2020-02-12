@@ -351,6 +351,17 @@
           <!-- # entries: 1.. -->
         </switch-capability>
       </sdh-mapping-pac>
+      <eth-mapping-pac xmlns="urn:ccsa:yang:acc-eth">
+        <supported-mapping-type>
+          <!-- # entries: 0.. -->
+        </supported-mapping-type>
+        <odu-switch-capability>
+          <!-- # entries: 0.. -->
+        </odu-switch-capability>
+        <sdh-switch-capability>
+          <!-- # entries: 0.. -->
+        </sdh-switch-capability>
+      </eth-mapping-pac>
       <eth-ptp-pac xmlns="urn:ccsa:yang:acc-eth">
         <supported-working-mode>
           <!-- # entries: 0.. -->
@@ -386,17 +397,6 @@
           <!-- type: string -->
         </lldp-peer-system-name>
       </eth-ptp-pac>
-      <eth-mapping-pac xmlns="urn:ccsa:yang:acc-eth">
-        <supported-mapping-type>
-          <!-- type: eth-mapping-type -->
-        </supported-mapping-type>
-        <odu-switch-capability>
-          <!-- # entries: 0.. -->
-        </odu-switch-capability>
-        <sdh-switch-capability>
-          <!-- # entries: 0.. -->
-        </sdh-switch-capability>
-      </eth-mapping-pac>
     </ptp>
   </ptps>
   <ftps xmlns="urn:ccsa:yang:acc-devm">
@@ -457,13 +457,13 @@
           <vc-type>
             <!-- type: acc-sdh:switch-type -->
           </vc-type>
-          <lcas>false</lcas>
+          <lcas>False</lcas>
           <hold-off>0</hold-off>
           <wtr>300</wtr>
-          <tsd>false</tsd>
+          <tsd>False</tsd>
           <tx-number>0</tx-number>
           <rx-number>0</rx-number>
-          <so-handshake-state>false</so-handshake-state>
+          <so-handshake-state>False</so-handshake-state>
         </vcg-pac>
       </eth-ftp-pac>
     </ftp>
