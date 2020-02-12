@@ -16,11 +16,7 @@ This project defines the YANG files used in access-OTN network to accomplish the
 - ietf-otn-types
 - ietf-yang-types
 
-This project is created by CAICT(China Academy of Information Communications Technology) and mainly maintained by the following companies:
-- China Telecom
-- Huawei;
-- ZTE;
-- Other contributers include China Telecom, China Mobile, China Unicom, China information and communication technology group co. LTD, Raisecom, Greenway, Shanshui Optoelectronic, and GAOKE COMMUNICATIONS. 
+This project is mainly created by CAICT、China Telecom、China Mobile, China Unicom、 Huawei、ZTE、Raisecom、Greenway、 Huahuan，Shanshui Optoelectronic 、GAOKE and other communication technology group co. LTD ;
 
-Any questions about this repository, please contact zhaoxing@caict.ac.cn or xuyunbin@caict.ac.cn.
+
 
