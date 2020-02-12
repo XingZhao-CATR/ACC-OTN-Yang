@@ -270,11 +270,9 @@ module acc-sdh {
                 uses acc-otn:nni;
                 container sdh-ftp {
                     leaf sdh-type {
-                        mandatory true;
                         type sdh-signal-type;
                     }
                     leaf z-ctp-mapping-path {
-                        mandatory true;
                         type string {
                             length "1..64";
                         }
@@ -286,11 +284,9 @@ module acc-sdh {
                 uses acc-otn:nni;
                 container sdh-ftp {
                     leaf sdh-type {
-                        mandatory true;
                         type sdh-signal-type;
                     }
                     leaf z-ctp-mapping-path {
-                        mandatory true;
                         type string {
                             length "1..64";
                         }
@@ -302,11 +298,9 @@ module acc-sdh {
                 uses acc-otn:nni;
                 container sdh-ftp {
                     leaf sdh-type {
-                        mandatory true;
                         type sdh-signal-type;
                     }
                     leaf z-ctp-mapping-path {
-                        mandatory true;
                         type string {
                             length "1..64";
                         }
