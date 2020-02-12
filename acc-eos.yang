@@ -46,12 +46,12 @@ module acc-eos {
                     type string;
                 }
                 container client-vlan-spec {
-                  when "../service-type = 'EVPL'";
+                  when "../../service-type = 'EVPL'";
                     uses acc-con:vlan-spec;
                     description "只适用于EVPL，指定C-VLAN，用于客户Vlan与运营商Vlan的匹配，无需携带accessAction。不携带该参数时表示端口匹配";
                 }
                 container uni-vlan-spec {
-                    when "../service-type = 'EVPL'";
+                    when "../../service-type = 'EVPL'";
                     uses acc-con:vlan-spec;
                     description "只适用于EVPL，可选。用于在客户VLAN交换的情况下，指定C-VLAN的交换值，accessAction=KEEP";
                 }
