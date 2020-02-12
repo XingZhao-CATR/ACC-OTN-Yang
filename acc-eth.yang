@@ -143,16 +143,19 @@ module acc-eth {
     augment "/acc-devm:ptps/acc-devm:ptp" {
         container eth-mapping-pac {
             leaf-list supported-mapping-type {
+                config false;
                 type eth-mapping-type;
                 description "EoO,EoS  1..*";
             }
             leaf-list odu-switch-capability {
+                config false;
                 type identityref {
                     base otn-types:odu-type;
                 }
                 description "ODU能力上报，支持什么就上报什么";
             }
             leaf-list sdh-switch-capability {
+                config false;
                 type acc-sdh:switch-type;
                 description "SDH能力上报，支持什么就上报什么";
             }

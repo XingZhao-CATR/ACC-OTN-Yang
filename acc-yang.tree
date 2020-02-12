@@ -185,9 +185,9 @@ module: acc-devm
   |     |  +--rw acc-sdh:j0-expected-rx?               string
   |     |  +--ro acc-sdh:j0-actual-rx?                 string
   |     +--rw acc-eth:eth-mapping-pac
-  |     |  +--rw acc-eth:supported-mapping-type*   eth-mapping-type
-  |     |  +--rw acc-eth:odu-switch-capability*    identityref
-  |     |  +--rw acc-eth:sdh-switch-capability*    acc-sdh:switch-type
+  |     |  +--ro acc-eth:supported-mapping-type*   eth-mapping-type
+  |     |  +--ro acc-eth:odu-switch-capability*    identityref
+  |     |  +--ro acc-eth:sdh-switch-capability*    acc-sdh:switch-type
   |     +--rw acc-eth:eth-ptp-pac
   |        +--ro acc-eth:supported-working-mode*   working-mode
   |        +--rw acc-eth:current-working-mode      working-mode
@@ -735,8 +735,8 @@ module: acc-sdh
        |  |  +---w client-signal-type?   identityref
        |  |  +---w switch-capability?    identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type              sdh-signal-type
-       |  |     +---w z-ctp-mapping-path    string
+       |  |     +---w sdh-type?             sdh-signal-type
+       |  |     +---w z-ctp-mapping-path?   string
        |  +---w primary-nni2
        |  |  +---w nni-ptp-name?         string
        |  |  +---w nni-ts-detail?        string
@@ -744,8 +744,8 @@ module: acc-sdh
        |  |  +---w client-signal-type?   identityref
        |  |  +---w switch-capability?    identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type              sdh-signal-type
-       |  |     +---w z-ctp-mapping-path    string
+       |  |     +---w sdh-type?             sdh-signal-type
+       |  |     +---w z-ctp-mapping-path?   string
        |  +---w secondary-nni2
        |     +---w nni-ptp-name?         string
        |     +---w nni-ts-detail?        string
@@ -753,8 +753,8 @@ module: acc-sdh
        |     +---w client-signal-type?   identityref
        |     +---w switch-capability?    identityref
        |     +---w sdh-ftp
-       |        +---w sdh-type              sdh-signal-type
-       |        +---w z-ctp-mapping-path    string
+       |        +---w sdh-type?             sdh-signal-type
+       |        +---w z-ctp-mapping-path?   string
        +--ro output
           +--ro connection
           |  +--ro name                   string
