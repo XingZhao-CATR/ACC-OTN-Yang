@@ -323,6 +323,14 @@
           <!-- type: string -->
         </pmtrail-trace-expected-rx>
       </odu-ptp-pac>
+      <sdh-mapping-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <supported-sdh-signal-types>
+          <!-- # entries: 0.. -->
+        </supported-sdh-signal-types>
+        <switch-capability>
+          <!-- # entries: 0.. -->
+        </switch-capability>
+      </sdh-mapping-pac>
       <sdh-ptp-pac xmlns="urn:ccsa:yang:acc-sdh">
         <sdh-signal-type>
           <!-- type: sdh-signal-type -->
@@ -343,14 +351,6 @@
           <!-- type: string -->
         </j0-actual-rx>
       </sdh-ptp-pac>
-      <sdh-mapping-pac xmlns="urn:ccsa:yang:acc-sdh">
-        <supported-sdh-signal-types>
-          <!-- # entries: 1.. -->
-        </supported-sdh-signal-types>
-        <switch-capability>
-          <!-- # entries: 1.. -->
-        </switch-capability>
-      </sdh-mapping-pac>
       <eth-mapping-pac xmlns="urn:ccsa:yang:acc-eth">
         <supported-mapping-type>
           <!-- # entries: 0.. -->

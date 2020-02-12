@@ -245,35 +245,31 @@ module acc-otn {
     */
     grouping nni {
         leaf nni-ptp-name {
-            mandatory true;
             type string{
               length "1..64";
             }
         }
         leaf nni-ts-detail {
-            mandatory true;
             type string{
               length "1..64";
             }
         }
         leaf adaptation-type {
-            mandatory true;
             type adaptation-type;
         }
         leaf client-signal-type {
-            mandatory true;
             type identityref {
                 base otn-types:client-signal;
             }
             description "Client signal type";
         }
         leaf switch-capability {
-            mandatory true;
             type identityref {
                 base otn-types:odu-type;
             }
             description "Switch capability";
         }
+        description "本来nni结构里面的属性都必选，但如果加上mandatory为true，同时放在secondary-nni里又因子属性必选引起父容器也跟着必选，就与secondary-nni可空矛盾了";
     }
 
     /*

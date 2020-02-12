@@ -174,6 +174,9 @@ module: acc-devm
   |     |  +--rw acc-otn:pmtrail-trace-actual-tx?     string
   |     |  +--ro acc-otn:pmtrail-trace-actual-rx?     string
   |     |  +--rw acc-otn:pmtrail-trace-expected-rx?   string
+  |     +--rw acc-sdh:sdh-mapping-pac
+  |     |  +--rw acc-sdh:supported-sdh-signal-types*   sdh-signal-type
+  |     |  +--rw acc-sdh:switch-capability*            switch-type
   |     +--rw acc-sdh:sdh-ptp-pac
   |     |  +--rw acc-sdh:sdh-signal-type               sdh-signal-type
   |     |  +--ro acc-sdh:supported-sdh-signal-types*   sdh-signal-type
@@ -181,9 +184,6 @@ module: acc-devm
   |     |  +--rw acc-sdh:j0-actual-tx?                 string
   |     |  +--rw acc-sdh:j0-expected-rx?               string
   |     |  +--ro acc-sdh:j0-actual-rx?                 string
-  |     +--rw acc-sdh:sdh-mapping-pac
-  |     |  +--rw acc-sdh:supported-sdh-signal-types*   sdh-signal-type
-  |     |  +--rw acc-sdh:switch-capability*            switch-type
   |     +--rw acc-eth:eth-mapping-pac
   |     |  +--rw acc-eth:supported-mapping-type*   eth-mapping-type
   |     |  +--rw acc-eth:odu-switch-capability*    identityref
@@ -261,12 +261,12 @@ module: acc-devm
   |        |  +--rw acc-eth:vlan-id*         uint64
   |        |  +--rw acc-eth:vlan-priority?   uint64
   |        |  +--rw acc-eth:access-action?   access-action
-  |        |  +--rw acc-eth:vlan-type        vlan-type
+  |        |  +--rw acc-eth:vlan-type?       vlan-type
   |        +--rw acc-eth:client-vlan-spec
   |        |  +--rw acc-eth:vlan-id*         uint64
   |        |  +--rw acc-eth:vlan-priority?   uint64
   |        |  +--rw acc-eth:access-action?   access-action
-  |        |  +--rw acc-eth:vlan-type        vlan-type
+  |        |  +--rw acc-eth:vlan-type?       vlan-type
   |        +--ro acc-eth:performance
   |        |  +--ro acc-eth:delay                    uint64
   |        |  +--ro acc-eth:near-packet-loss-rate    acc-type:real
@@ -342,34 +342,34 @@ module: acc-eos
     |  |  |  |  +---w vlan-id*         uint64
     |  |  |  |  +---w vlan-priority?   uint64
     |  |  |  |  +---w access-action?   access-action
-    |  |  |  |  +---w vlan-type        vlan-type
+    |  |  |  |  +---w vlan-type?       vlan-type
     |  |  |  +---w uni-vlan-spec
     |  |  |     +---w vlan-id*         uint64
     |  |  |     +---w vlan-priority?   uint64
     |  |  |     +---w access-action?   access-action
-    |  |  |     +---w vlan-type        vlan-type
+    |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w primary-nni
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
     |  |  |  +---w ftp-vlan-spec
     |  |  |     +---w vlan-id*         uint64
     |  |  |     +---w vlan-priority?   uint64
     |  |  |     +---w access-action?   access-action
-    |  |  |     +---w vlan-type        vlan-type
+    |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w secondary-nni
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
     |  |  |  +---w ftp-vlan-spec
     |  |  |     +---w vlan-id*         uint64
     |  |  |     +---w vlan-priority?   uint64
     |  |  |     +---w access-action?   access-action
-    |  |  |     +---w vlan-type        vlan-type
+    |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w eos-pac
     |  |     +---w sdh-signal-type?           acc-sdh:sdh-signal-type
     |  |     +---w vc-type                    acc-sdh:switch-type
@@ -437,56 +437,56 @@ module: acc-eth
        |  |  |  +---w vlan-id*         uint64
        |  |  |  +---w vlan-priority?   uint64
        |  |  |  +---w access-action?   access-action
-       |  |  |  +---w vlan-type        vlan-type
+       |  |  |  +---w vlan-type?       vlan-type
        |  |  +---w uni-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
-       |  |     +---w vlan-type        vlan-type
+       |  |     +---w vlan-type?       vlan-type
        |  +---w primary-nni
-       |  |  +---w nni-ptp-name          string
-       |  |  +---w nni-ts-detail         string
-       |  |  +---w adaptation-type       adaptation-type
-       |  |  +---w client-signal-type    identityref
-       |  |  +---w switch-capability     identityref
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
-       |  |     +---w vlan-type        vlan-type
+       |  |     +---w vlan-type?       vlan-type
        |  +---w secondary-nni
-       |  |  +---w nni-ptp-name          string
-       |  |  +---w nni-ts-detail         string
-       |  |  +---w adaptation-type       adaptation-type
-       |  |  +---w client-signal-type    identityref
-       |  |  +---w switch-capability     identityref
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
-       |  |     +---w vlan-type        vlan-type
+       |  |     +---w vlan-type?       vlan-type
        |  +---w primary-nni2
-       |  |  +---w nni-ptp-name          string
-       |  |  +---w nni-ts-detail         string
-       |  |  +---w adaptation-type       adaptation-type
-       |  |  +---w client-signal-type    identityref
-       |  |  +---w switch-capability     identityref
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
-       |  |     +---w vlan-type        vlan-type
+       |  |     +---w vlan-type?       vlan-type
        |  +---w secondary-nni2
-       |     +---w nni-ptp-name          string
-       |     +---w nni-ts-detail         string
-       |     +---w adaptation-type       adaptation-type
-       |     +---w client-signal-type    identityref
-       |     +---w switch-capability     identityref
+       |     +---w nni-ptp-name?         string
+       |     +---w nni-ts-detail?        string
+       |     +---w adaptation-type?      adaptation-type
+       |     +---w client-signal-type?   identityref
+       |     +---w switch-capability?    identityref
        |     +---w ftp-vlan-spec
        |        +---w vlan-id*         uint64
        |        +---w vlan-priority?   uint64
        |        +---w access-action?   access-action
-       |        +---w vlan-type        vlan-type
+       |        +---w vlan-type?       vlan-type
        +--ro output
           +--ro connection
           |  +--ro name                   string
@@ -553,35 +553,35 @@ module: acc-otn
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
     |  |  +---w client-side-nni
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
     |  |  +---w primary-nni
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
     |  |  +---w secondary-nni
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
     |  |  +---w primary-nni2
-    |  |  |  +---w nni-ptp-name          string
-    |  |  |  +---w nni-ts-detail         string
-    |  |  |  +---w adaptation-type       adaptation-type
-    |  |  |  +---w client-signal-type    identityref
-    |  |  |  +---w switch-capability     identityref
+    |  |  |  +---w nni-ptp-name?         string
+    |  |  |  +---w nni-ts-detail?        string
+    |  |  |  +---w adaptation-type?      adaptation-type
+    |  |  |  +---w client-signal-type?   identityref
+    |  |  |  +---w switch-capability?    identityref
     |  |  +---w secondary-nni2
-    |  |     +---w nni-ptp-name          string
-    |  |     +---w nni-ts-detail         string
-    |  |     +---w adaptation-type       adaptation-type
-    |  |     +---w client-signal-type    identityref
-    |  |     +---w switch-capability     identityref
+    |  |     +---w nni-ptp-name?         string
+    |  |     +---w nni-ts-detail?        string
+    |  |     +---w adaptation-type?      adaptation-type
+    |  |     +---w client-signal-type?   identityref
+    |  |     +---w switch-capability?    identityref
     |  +--ro output
     |     +--ro connection
     |        +--ro name                   string
@@ -720,38 +720,38 @@ module: acc-sdh
        |  |  +---w vc-type               switch-type
        |  |  +---w a-ctp-mapping-path    string
        |  +---w primary-nni
-       |  |  +---w nni-ptp-name          string
-       |  |  +---w nni-ts-detail         string
-       |  |  +---w adaptation-type       adaptation-type
-       |  |  +---w client-signal-type    identityref
-       |  |  +---w switch-capability     identityref
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type              sdh-signal-type
        |  |     +---w z-ctp-mapping-path    string
        |  +---w secondary-nni
-       |  |  +---w nni-ptp-name          string
-       |  |  +---w nni-ts-detail         string
-       |  |  +---w adaptation-type       adaptation-type
-       |  |  +---w client-signal-type    identityref
-       |  |  +---w switch-capability     identityref
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type              sdh-signal-type
        |  |     +---w z-ctp-mapping-path    string
        |  +---w primary-nni2
-       |  |  +---w nni-ptp-name          string
-       |  |  +---w nni-ts-detail         string
-       |  |  +---w adaptation-type       adaptation-type
-       |  |  +---w client-signal-type    identityref
-       |  |  +---w switch-capability     identityref
+       |  |  +---w nni-ptp-name?         string
+       |  |  +---w nni-ts-detail?        string
+       |  |  +---w adaptation-type?      adaptation-type
+       |  |  +---w client-signal-type?   identityref
+       |  |  +---w switch-capability?    identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type              sdh-signal-type
        |  |     +---w z-ctp-mapping-path    string
        |  +---w secondary-nni2
-       |     +---w nni-ptp-name          string
-       |     +---w nni-ts-detail         string
-       |     +---w adaptation-type       adaptation-type
-       |     +---w client-signal-type    identityref
-       |     +---w switch-capability     identityref
+       |     +---w nni-ptp-name?         string
+       |     +---w nni-ts-detail?        string
+       |     +---w adaptation-type?      adaptation-type
+       |     +---w client-signal-type?   identityref
+       |     +---w switch-capability?    identityref
        |     +---w sdh-ftp
        |        +---w sdh-type              sdh-signal-type
        |        +---w z-ctp-mapping-path    string

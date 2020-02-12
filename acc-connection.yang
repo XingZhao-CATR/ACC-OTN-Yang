@@ -71,7 +71,6 @@ module acc-connection {
             type access-action;
         }
         leaf vlan-type {
-            mandatory true;
             type vlan-type;
         }
     }
