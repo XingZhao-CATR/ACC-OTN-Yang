@@ -123,6 +123,9 @@
       <name>
         <!-- type: string -->
       </name>
+      <label>
+        <!-- type: string -->
+      </label>
       <state-pac>
         <operational-state>
           <!-- type: operational-state -->
@@ -200,6 +203,9 @@
     <ntp-enable>
       <!-- type: boolean -->
     </ntp-enable>
+    <ntp-state>
+      <!-- type: ntp-state -->
+    </ntp-state>
     <ntp-servers>
       <ntp-server>
         <!-- # keys: name-->
@@ -214,9 +220,6 @@
         <ntp-version>
           <!-- type: string -->
         </ntp-version>
-        <ntp-state>
-          <!-- type: ntp-state -->
-        </ntp-state>
       </ntp-server>
     </ntp-servers>
     <gate-way1>
@@ -355,12 +358,12 @@
         <supported-mapping-type>
           <!-- # entries: 0.. -->
         </supported-mapping-type>
-        <odu-switch-capability>
+        <supported-odu-server-switch-capability>
           <!-- # entries: 0.. -->
-        </odu-switch-capability>
-        <sdh-switch-capability>
+        </supported-odu-server-switch-capability>
+        <supported-sdh-server-switch-capability>
           <!-- # entries: 0.. -->
-        </sdh-switch-capability>
+        </supported-sdh-server-switch-capability>
       </eth-mapping-pac>
       <eth-ptp-pac xmlns="urn:ccsa:yang:acc-eth">
         <supported-working-mode>
@@ -448,7 +451,7 @@
           <!-- type: uint64 -->
         </current-mtu>
         <service-mapping-mode>
-          <!-- type: acc-con:adaptation-mode -->
+          <!-- type: acc-otn:adaptation-type -->
         </service-mapping-mode>
         <mapping-type>
           <!-- type: eth-mapping-type -->
@@ -642,7 +645,7 @@
         <!-- type: boolean -->
       </plug-state>
       <eq-type>
-        <!-- type: eq-type -->
+        <!-- # entries: 1.. -->
       </eq-type>
       <software-version>
         <!-- type: string -->

@@ -101,6 +101,7 @@ module: acc-connection
   +--rw connections
      +--rw connection* [name]
         +--rw name                   string
+        +--rw label?                 string
         +--rw state-pac
         |  +--ro operational-state    operational-state
         |  +--rw admin-state          admin-state
@@ -131,13 +132,13 @@ module: acc-devm
   |  +--rw ip-address             inet:ipv4-address
   |  +--rw mask                   yang:dotted-quad
   |  +--rw ntp-enable             boolean
+  |  +--ro ntp-state?             ntp-state
   |  +--rw ntp-servers
   |  |  +--rw ntp-server* [name]
   |  |     +--rw name           string
   |  |     +--rw ip-address     inet:ipv4-address
   |  |     +--rw port?          inet:port-number
   |  |     +--rw ntp-version?   string
-  |  |     +--ro ntp-state?     ntp-state
   |  +--rw gate-way1              inet:ipv4-address
   |  +--rw gate-way2?             inet:ipv4-address
   |  +--ro eq*                    -> /eqs/eq/name
@@ -185,9 +186,9 @@ module: acc-devm
   |     |  +--rw acc-sdh:j0-expected-rx?               string
   |     |  +--ro acc-sdh:j0-actual-rx?                 string
   |     +--rw acc-eth:eth-mapping-pac
-  |     |  +--ro acc-eth:supported-mapping-type*   eth-mapping-type
-  |     |  +--ro acc-eth:odu-switch-capability*    identityref
-  |     |  +--ro acc-eth:sdh-switch-capability*    acc-sdh:switch-type
+  |     |  +--ro acc-eth:supported-mapping-type*                   eth-mapping-type
+  |     |  +--ro acc-eth:supported-odu-server-switch-capability*   identityref
+  |     |  +--ro acc-eth:supported-sdh-server-switch-capability*   acc-sdh:switch-type
   |     +--rw acc-eth:eth-ptp-pac
   |        +--ro acc-eth:supported-working-mode*   working-mode
   |        +--rw acc-eth:current-working-mode      working-mode
@@ -218,7 +219,7 @@ module: acc-devm
   |     +--rw acc-eth:eth-ftp-pac
   |        +--ro acc-eth:supported-mtu           uint64
   |        +--rw acc-eth:current-mtu             uint64
-  |        +--rw acc-eth:service-mapping-mode    acc-con:adaptation-mode
+  |        +--rw acc-eth:service-mapping-mode    acc-otn:adaptation-type
   |        +--rw acc-eth:mapping-type            eth-mapping-type
   |        +--rw acc-eos:vcg-pac
   |           +--rw acc-eos:vc-type               acc-sdh:switch-type
@@ -291,7 +292,7 @@ module: acc-devm
      +--rw eq* [name]
         +--rw name                string
         +--ro plug-state          boolean
-        +--ro eq-type             eq-type
+        +--ro eq-type*            eq-type
         +--ro software-version?   string
         +--ro hardware-version?   string
         +--ro ptp*                -> /ptps/ptp/name
@@ -323,9 +324,9 @@ module: acc-eos
   rpcs:
     +---x create-eos-connection
     |  +---w input
-    |  |  +---w connection-name?       string
-    |  |  +---w service-type           acc-devm:service-type
-    |  |  +---w layer-protocol-name    identityref
+    |  |  +---w connection-name?        string
+    |  |  +---w service-type            acc-devm:service-type
+    |  |  +---w layer-protocol-name     identityref
     |  |  +---w requested-capacity
     |  |  |  +---w (for-odu-or-eth)?
     |  |  |     +--:(for-odu-or-sdh)
@@ -335,7 +336,7 @@ module: acc-eos
     |  |  |        +---w pir?          uint64
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
-    |  |  +---w adaptation-mode?       acc-con:adaptation-mode
+    |  |  +---w service-mapping-mode?   acc-otn:adaptation-type
     |  |  +---w eth-uni
     |  |  |  +---w uni-ptp-name?       string
     |  |  |  +---w client-vlan-spec
@@ -349,22 +350,22 @@ module: acc-eos
     |  |  |     +---w access-action?   access-action
     |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w primary-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  |  +---w nni-ptp-name?        string
+    |  |  |  +---w nni-ts-detail?       string
+    |  |  |  +---w adaptation-type?     adaptation-type
+    |  |  |  +---w odu-signal-type?     identityref
+    |  |  |  +---w switch-capability?   identityref
     |  |  |  +---w ftp-vlan-spec
     |  |  |     +---w vlan-id*         uint64
     |  |  |     +---w vlan-priority?   uint64
     |  |  |     +---w access-action?   access-action
     |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w secondary-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  |  +---w nni-ptp-name?        string
+    |  |  |  +---w nni-ts-detail?       string
+    |  |  |  +---w adaptation-type?     adaptation-type
+    |  |  |  +---w odu-signal-type?     identityref
+    |  |  |  +---w switch-capability?   identityref
     |  |  |  +---w ftp-vlan-spec
     |  |  |     +---w vlan-id*         uint64
     |  |  |     +---w vlan-priority?   uint64
@@ -383,6 +384,7 @@ module: acc-eos
     |  +--ro output
     |     +--ro connection
     |     |  +--ro name                   string
+    |     |  +--ro label?                 string
     |     |  +--ro state-pac
     |     |  |  +--ro operational-state    operational-state
     |     |  |  +--ro admin-state          admin-state
@@ -418,9 +420,9 @@ module: acc-eth
   rpcs:
     +---x create-eth-connection
        +---w input
-       |  +---w connection-name?       string
-       |  +---w service-type           acc-devm:service-type
-       |  +---w layer-protocol-name    identityref
+       |  +---w connection-name?        string
+       |  +---w service-type            acc-devm:service-type
+       |  +---w layer-protocol-name     identityref
        |  +---w requested-capacity
        |  |  +---w (for-odu-or-eth)?
        |  |     +--:(for-odu-or-sdh)
@@ -430,7 +432,7 @@ module: acc-eth
        |  |        +---w pir?          uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
-       |  +---w adaptation-mode?       acc-con:adaptation-mode
+       |  +---w service-mapping-mode?   acc-otn:adaptation-type
        |  +---w eth-uni
        |  |  +---w uni-ptp-name?       string
        |  |  +---w client-vlan-spec
@@ -444,44 +446,44 @@ module: acc-eth
        |  |     +---w access-action?   access-action
        |  |     +---w vlan-type?       vlan-type
        |  +---w primary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
+       |  |  +---w nni-ptp-name?        string
+       |  |  +---w nni-ts-detail?       string
+       |  |  +---w adaptation-type?     adaptation-type
+       |  |  +---w odu-signal-type?     identityref
+       |  |  +---w switch-capability?   identityref
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
        |  |     +---w vlan-type?       vlan-type
        |  +---w secondary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
+       |  |  +---w nni-ptp-name?        string
+       |  |  +---w nni-ts-detail?       string
+       |  |  +---w adaptation-type?     adaptation-type
+       |  |  +---w odu-signal-type?     identityref
+       |  |  +---w switch-capability?   identityref
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
        |  |     +---w vlan-type?       vlan-type
        |  +---w primary-nni2
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
+       |  |  +---w nni-ptp-name?        string
+       |  |  +---w nni-ts-detail?       string
+       |  |  +---w adaptation-type?     adaptation-type
+       |  |  +---w odu-signal-type?     identityref
+       |  |  +---w switch-capability?   identityref
        |  |  +---w ftp-vlan-spec
        |  |     +---w vlan-id*         uint64
        |  |     +---w vlan-priority?   uint64
        |  |     +---w access-action?   access-action
        |  |     +---w vlan-type?       vlan-type
        |  +---w secondary-nni2
-       |     +---w nni-ptp-name?         string
-       |     +---w nni-ts-detail?        string
-       |     +---w adaptation-type?      adaptation-type
-       |     +---w client-signal-type?   identityref
-       |     +---w switch-capability?    identityref
+       |     +---w nni-ptp-name?        string
+       |     +---w nni-ts-detail?       string
+       |     +---w adaptation-type?     adaptation-type
+       |     +---w odu-signal-type?     identityref
+       |     +---w switch-capability?   identityref
        |     +---w ftp-vlan-spec
        |        +---w vlan-id*         uint64
        |        +---w vlan-priority?   uint64
@@ -490,6 +492,7 @@ module: acc-eth
        +--ro output
           +--ro connection
           |  +--ro name                   string
+          |  +--ro label?                 string
           |  +--ro state-pac
           |  |  +--ro operational-state    operational-state
           |  |  +--ro admin-state          admin-state
@@ -553,38 +556,39 @@ module: acc-otn
     |  |  |        +---w cbs?          uint64
     |  |  |        +---w pbs?          uint64
     |  |  +---w client-side-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  |  +---w nni-ptp-name?        string
+    |  |  |  +---w nni-ts-detail?       string
+    |  |  |  +---w adaptation-type?     adaptation-type
+    |  |  |  +---w odu-signal-type?     identityref
+    |  |  |  +---w switch-capability?   identityref
     |  |  +---w primary-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  |  +---w nni-ptp-name?        string
+    |  |  |  +---w nni-ts-detail?       string
+    |  |  |  +---w adaptation-type?     adaptation-type
+    |  |  |  +---w odu-signal-type?     identityref
+    |  |  |  +---w switch-capability?   identityref
     |  |  +---w secondary-nni
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  |  +---w nni-ptp-name?        string
+    |  |  |  +---w nni-ts-detail?       string
+    |  |  |  +---w adaptation-type?     adaptation-type
+    |  |  |  +---w odu-signal-type?     identityref
+    |  |  |  +---w switch-capability?   identityref
     |  |  +---w primary-nni2
-    |  |  |  +---w nni-ptp-name?         string
-    |  |  |  +---w nni-ts-detail?        string
-    |  |  |  +---w adaptation-type?      adaptation-type
-    |  |  |  +---w client-signal-type?   identityref
-    |  |  |  +---w switch-capability?    identityref
+    |  |  |  +---w nni-ptp-name?        string
+    |  |  |  +---w nni-ts-detail?       string
+    |  |  |  +---w adaptation-type?     adaptation-type
+    |  |  |  +---w odu-signal-type?     identityref
+    |  |  |  +---w switch-capability?   identityref
     |  |  +---w secondary-nni2
-    |  |     +---w nni-ptp-name?         string
-    |  |     +---w nni-ts-detail?        string
-    |  |     +---w adaptation-type?      adaptation-type
-    |  |     +---w client-signal-type?   identityref
-    |  |     +---w switch-capability?    identityref
+    |  |     +---w nni-ptp-name?        string
+    |  |     +---w nni-ts-detail?       string
+    |  |     +---w adaptation-type?     adaptation-type
+    |  |     +---w odu-signal-type?     identityref
+    |  |     +---w switch-capability?   identityref
     |  +--ro output
     |     +--ro connection
     |        +--ro name                   string
+    |        +--ro label?                 string
     |        +--ro state-pac
     |        |  +--ro operational-state    operational-state
     |        |  +--ro admin-state          admin-state
@@ -611,10 +615,10 @@ module: acc-otn
           +---w timeout                              uint64
 
   notifications:
-    +---n g-hao-notification
-       +--ro g-hao-adjust-serial-no    uint64
-       +--ro ctp-name                  string
-       +--ro modify-result             g-hao-modify-result
+    +---n oduflex-notification
+       +--ro oduflex-adjust-serial-no    uint64
+       +--ro ctp-name                    string
+       +--ro modify-result               g-hao-modify-result
 module: acc-performance
   +--rw performances
      +--rw performance* [object-name pm-parameter-name granularity start-time]
@@ -702,9 +706,9 @@ module: acc-sdh
   rpcs:
     +---x create-sdh-connection
        +---w input
-       |  +---w connection-name?       string
-       |  +---w service-type           acc-devm:service-type
-       |  +---w layer-protocol-name    identityref
+       |  +---w connection-name?        string
+       |  +---w service-type            acc-devm:service-type
+       |  +---w layer-protocol-name     identityref
        |  +---w requested-capacity
        |  |  +---w (for-odu-or-eth)?
        |  |     +--:(for-odu-or-sdh)
@@ -714,50 +718,51 @@ module: acc-sdh
        |  |        +---w pir?          uint64
        |  |        +---w cbs?          uint64
        |  |        +---w pbs?          uint64
-       |  +---w adaptation-mode?       acc-con:adaptation-mode
+       |  +---w service-mapping-mode?   acc-otn:adaptation-type
        |  +---w sdh-uni
        |  |  +---w uni-ptp-name          string
        |  |  +---w vc-type               switch-type
        |  |  +---w a-ctp-mapping-path    string
        |  +---w primary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
+       |  |  +---w nni-ptp-name?        string
+       |  |  +---w nni-ts-detail?       string
+       |  |  +---w adaptation-type?     adaptation-type
+       |  |  +---w odu-signal-type?     identityref
+       |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type              sdh-signal-type
        |  |     +---w z-ctp-mapping-path    string
        |  +---w secondary-nni
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
+       |  |  +---w nni-ptp-name?        string
+       |  |  +---w nni-ts-detail?       string
+       |  |  +---w adaptation-type?     adaptation-type
+       |  |  +---w odu-signal-type?     identityref
+       |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type?             sdh-signal-type
        |  |     +---w z-ctp-mapping-path?   string
        |  +---w primary-nni2
-       |  |  +---w nni-ptp-name?         string
-       |  |  +---w nni-ts-detail?        string
-       |  |  +---w adaptation-type?      adaptation-type
-       |  |  +---w client-signal-type?   identityref
-       |  |  +---w switch-capability?    identityref
+       |  |  +---w nni-ptp-name?        string
+       |  |  +---w nni-ts-detail?       string
+       |  |  +---w adaptation-type?     adaptation-type
+       |  |  +---w odu-signal-type?     identityref
+       |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type?             sdh-signal-type
        |  |     +---w z-ctp-mapping-path?   string
        |  +---w secondary-nni2
-       |     +---w nni-ptp-name?         string
-       |     +---w nni-ts-detail?        string
-       |     +---w adaptation-type?      adaptation-type
-       |     +---w client-signal-type?   identityref
-       |     +---w switch-capability?    identityref
+       |     +---w nni-ptp-name?        string
+       |     +---w nni-ts-detail?       string
+       |     +---w adaptation-type?     adaptation-type
+       |     +---w odu-signal-type?     identityref
+       |     +---w switch-capability?   identityref
        |     +---w sdh-ftp
        |        +---w sdh-type?             sdh-signal-type
        |        +---w z-ctp-mapping-path?   string
        +--ro output
           +--ro connection
           |  +--ro name                   string
+          |  +--ro label?                 string
           |  +--ro state-pac
           |  |  +--ro operational-state    operational-state
           |  |  +--ro admin-state          admin-state

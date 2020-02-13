@@ -228,8 +228,8 @@ module acc-sdh {
     rpc create-sdh-connection {
         input {
             uses acc-con:create-connection;
-            leaf adaptation-mode {
-                type acc-con:adaptation-mode;
+            leaf service-mapping-mode {
+                type acc-otn:adaptation-type;
             }
             container sdh-uni {
                 leaf uni-ptp-name {

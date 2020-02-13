@@ -110,23 +110,23 @@ module acc-devm {
 
     typedef ntp-state {
         type enumeration {
-            enum clock-never-set {
+            enum NSET {
                 value 0;
             }
-            enum freq-set-from-file {
+            enum FSET {
                 value 1;
             }
-            enum spike-detected {
+            enum SPIK {
                 value 2;
             }
-            enum frequency-mode {
+            enum FREQ {
                 value 3;
             }
-            enum clock-synchronized {
+            enum SYNC {
                 value 4;
             }
         }
-        description "rfc 5905";
+        description "rfc 5905：clock-never-set，freq-set-from-file，spike-detected，frequency-mode，clock-synchronized";
     }
     typedef reset-type {
         type enumeration {
@@ -200,10 +200,12 @@ module acc-devm {
 		}
 		enum system-control {
 			value 3;
-			description "system main control or cross";
 		}
-		enum timer {
-			value 4;
+        enum cross-connect {
+            value 4;
+        }
+		enum clock {
+			value 5;
 		}
 	}
     }
@@ -376,7 +378,11 @@ module acc-devm {
             type boolean;
             description "Support ntp or not.";
         }
-      
+        leaf ntp-state {
+            type ntp-state;
+            config false;
+            description "ntpState提到这里，当ntpEnable使能后,代表网元与ntpServer同步的最终结果,但无法知道究竟是跟哪台同步的，行标先这么";
+        }
         container ntp-servers {
             list ntp-server {
                 key 'name';
@@ -402,11 +408,7 @@ module acc-devm {
                     }
                     description "Ntp version default value: V3";
                 }
-        		  leaf ntp-state {
-        		    type ntp-state;
-        		    config false;
-        		    description "Ntp state";
-        		}
+        		
             }
         }
         leaf gate-way1 {
@@ -562,11 +564,10 @@ module acc-devm {
                 type boolean;
                 config false;
             }
-    	    leaf eq-type {
-    	    	  mandatory true;
+    	    leaf-list eq-type {
     		      config false;
     		      type eq-type;
-    		      description "eq type: power,fan,service,system-control,timer";
+                  min-elements 1;
     	    }
             leaf software-version {
                 type string{

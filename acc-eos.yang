@@ -38,8 +38,8 @@ module acc-eos {
     rpc create-eos-connection {
         input {
             uses acc-con:create-connection;
-            leaf adaptation-mode {
-                type acc-con:adaptation-mode;
+            leaf service-mapping-mode {
+                type acc-otn:adaptation-type;
             }
             container eth-uni {
                 leaf uni-ptp-name {

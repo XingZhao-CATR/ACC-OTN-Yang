@@ -132,7 +132,7 @@ module acc-eth {
         }
         leaf service-mapping-mode {
             mandatory true;
-            type acc-con:adaptation-mode;
+            type acc-otn:adaptation-type;
         }
         leaf mapping-type {
             mandatory true;
@@ -147,14 +147,14 @@ module acc-eth {
                 type eth-mapping-type;
                 description "EoO,EoS  1..*";
             }
-            leaf-list odu-switch-capability {
+            leaf-list supported-odu-server-switch-capability {
                 config false;
                 type identityref {
                     base otn-types:odu-type;
                 }
                 description "ODU能力上报，支持什么就上报什么";
             }
-            leaf-list sdh-switch-capability {
+            leaf-list supported-sdh-server-switch-capability {
                 config false;
                 type acc-sdh:switch-type;
                 description "SDH能力上报，支持什么就上报什么";
@@ -375,8 +375,8 @@ module acc-eth {
     rpc create-eth-connection {
         input {
             uses acc-con:create-connection;
-            leaf adaptation-mode {
-                type acc-con:adaptation-mode;
+            leaf service-mapping-mode {
+                type acc-otn:adaptation-type;
             }
             container eth-uni {
                 leaf uni-ptp-name {

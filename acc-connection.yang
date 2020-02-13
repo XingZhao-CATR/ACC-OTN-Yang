@@ -75,6 +75,7 @@ module acc-connection {
         }
     }
 
+    /*重新利用otn的adaptation-type
     typedef adaptation-mode {
         type enumeration {
             enum GFP-F {
@@ -93,10 +94,11 @@ module acc-connection {
                 value 4;
             }
             enum TTT+GMP {
-                value 1;
+                value 5;
             }
         }
-    }
+    }*/
+
     /*
     * common types
     */
@@ -138,6 +140,10 @@ module acc-connection {
             mandatory true;
             type string;
             description "connection name must be unique in one device";
+        }
+        leaf label {
+            type string;
+            description "对于单独设备无意义，仅仅为网管上层串接端到端connection方便";
         }
         container state-pac {
             uses acc-devm:state-pac;
