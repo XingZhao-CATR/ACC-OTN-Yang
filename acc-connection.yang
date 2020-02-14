@@ -174,9 +174,9 @@ module acc-connection {
     }
 
     grouping create-connection {
-        leaf connection-name {
+        leaf label {
             type string;
-            description "connection name must be unique in device";
+            description "创建业务时不再下发name，由设备自己生成，可以下发这个新增的可选的label标识";
         }
         leaf service-type {
             mandatory true;

@@ -324,7 +324,7 @@ module: acc-eos
   rpcs:
     +---x create-eos-connection
     |  +---w input
-    |  |  +---w connection-name?        string
+    |  |  +---w label?                  string
     |  |  +---w service-type            acc-devm:service-type
     |  |  +---w layer-protocol-name     identityref
     |  |  +---w requested-capacity
@@ -420,7 +420,7 @@ module: acc-eth
   rpcs:
     +---x create-eth-connection
        +---w input
-       |  +---w connection-name?        string
+       |  +---w label?                  string
        |  +---w service-type            acc-devm:service-type
        |  +---w layer-protocol-name     identityref
        |  +---w requested-capacity
@@ -543,7 +543,7 @@ module: acc-otn
   rpcs:
     +---x create-odu-connection
     |  +---w input
-    |  |  +---w connection-name?       string
+    |  |  +---w label?                 string
     |  |  +---w service-type           acc-devm:service-type
     |  |  +---w layer-protocol-name    identityref
     |  |  +---w requested-capacity
@@ -706,7 +706,7 @@ module: acc-sdh
   rpcs:
     +---x create-sdh-connection
        +---w input
-       |  +---w connection-name?        string
+       |  +---w label?                  string
        |  +---w service-type            acc-devm:service-type
        |  +---w layer-protocol-name     identityref
        |  +---w requested-capacity
