@@ -133,6 +133,7 @@ module: acc-devm
   |  +--rw mask                   yang:dotted-quad
   |  +--rw ntp-enable             boolean
   |  +--ro ntp-state?             ntp-state
+  |  +--rw ntp-server-in-use?     string
   |  +--rw ntp-servers
   |  |  +--rw ntp-server* [name]
   |  |     +--rw name           string
@@ -631,11 +632,11 @@ module: acc-performance
            +--:(digital)
            |  +--ro digital-pm-value    acc-type:real
            +--:(analog)
-              +--rw analog-pm-value
-                 +--rw max-value?       acc-type:real
-                 +--rw min-value?       acc-type:real
-                 +--rw average-value?   acc-type:real
-                 +--rw current-value    acc-type:real
+              +--ro analog-pm-value
+                 +--ro max-value?       acc-type:real
+                 +--ro min-value?       acc-type:real
+                 +--ro average-value?   acc-type:real
+                 +--ro current-value    acc-type:real
 
   rpcs:
     +---x get-history-performance-monitoring-data

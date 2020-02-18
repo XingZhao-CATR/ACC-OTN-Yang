@@ -206,6 +206,9 @@
     <ntp-state>
       <!-- type: ntp-state -->
     </ntp-state>
+    <ntp-server-in-use>
+      <!-- type: string -->
+    </ntp-server-in-use>
     <ntp-servers>
       <ntp-server>
         <!-- # keys: name-->
