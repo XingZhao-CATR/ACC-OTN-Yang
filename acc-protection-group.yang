@@ -69,21 +69,18 @@ module acc-protection-group {
                     "to secondary";
             }
         }
-        description "protection direction";
     }
     typedef reversion-mode {
         type enumeration {
-            enum return {
+            enum reversion {
                 value 0;
-                description "企标中的是 revertive，暂时用之前习惯用的return吧";
+                description "企标中的是 revertive";
             }
-            enum non-return {
+            enum non-reversion {
                 value 1;
                 description "企标中的是 non-revertive";
             }
         }
-        description
-            "reversion mode";
     }
     typedef switch-reason {
         type enumeration {
@@ -128,8 +125,6 @@ module acc-protection-group {
                     "lockout of protection";
             }
         }
-        description
-            "switch reason";
     }
 
     typedef lag-mode {
