@@ -72,11 +72,11 @@ module acc-protection-group {
     }
     typedef reversion-mode {
         type enumeration {
-            enum reversion {
+            enum revertive {
                 value 0;
                 description "企标中的是 revertive";
             }
-            enum non-reversion {
+            enum non-revertive {
                 value 1;
                 description "企标中的是 non-revertive";
             }
