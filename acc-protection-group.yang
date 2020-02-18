@@ -7,41 +7,23 @@ module acc-protection-group {
          prefix acc-devm; 
     }
 
-    organization
-        "xxx";
-    contact
-        "xxx";
-    description
-        "xxx";
-    revision 2019-02-13 {
-        description
-            "Initial revision.";
-        reference
-            "xxx";
+    
     }
     /*
     * common types
     */
     typedef protection-type {
         type enumeration {
-            enum odu-sncp {
+            enum sncp-1-plus-1 {
                 value 0;
-                description
-                    "ODU SNCP";
             }
-            enum vc-sncp {
+            enum och-1-plus-1 {
                 value 1;
-                description
-                    "VC SNCP";
             }
-            enum olp-1-plus-1 {
+            enum msp-1-plus-1 {
                 value 2;
-                description
-                    "OLP 1+1";
             }
         }
-        description
-            "protection type";
     }
     typedef switch-type {
         type enumeration {
@@ -94,13 +76,11 @@ module acc-protection-group {
         type enumeration {
             enum return {
                 value 0;
-                description
-                    "none";
+                description "企标中的是 revertive，暂时用之前习惯用的return吧";
             }
             enum non-return {
                 value 1;
-                description
-                    "none";
+                description "企标中的是 non-revertive";
             }
         }
         description
@@ -151,6 +131,61 @@ module acc-protection-group {
         }
         description
             "switch reason";
+    }
+
+    typedef lag-mode {
+        type enumeration {
+            enum sharing {
+                value 0;
+                description "负载分担";
+            }
+            enum no-sharing {
+                value 1;
+            }
+        }
+    }
+
+    typedef lag-policy {
+        type enumeration {
+            enum source-mac {
+                value 0;
+            }
+            enum dest-mac {
+                value 1;
+            }
+            enum source-ip {
+                value 2;
+            }
+            enum dest-ip {
+                value 3;
+            }
+        }
+    }
+
+    typedef lacp-mode {
+        type enumeration {
+            enum manual {
+                value 0;
+                description "手工模式";
+            }
+            enum lacp {
+                value 1;
+            }
+            enum static {
+                value 2;
+                description "静态模式";
+            }
+        }
+    }
+    typedef lag-status {
+        type enumeration {
+            enum up {
+                value 0;
+            }
+            enum down {
+                value 1;
+            }
+        }
     }
 
     /*
@@ -237,6 +272,52 @@ module acc-protection-group {
             config false;
             description
                 "selected port";
+        }
+    }
+
+    grouping lag-pg {
+        description "Lag pg";
+        leaf lag-id {
+            mandatory true;
+            type string;
+        }
+        leaf-list lag-port {
+            type leafref {
+                path '/acc-devm:ptps/acc-devm:ptp/acc-devm:name';
+            }
+            min-elements 1;
+        }
+        leaf lag-mode {
+            mandatory true;
+            type lag-mode;
+            description "LAG 保护组模式";
+        }
+        leaf lag-policy {
+            type lag-policy;
+        }
+        leaf lacp-mode {
+            mandatory true;
+            type lacp-mode;
+        }
+        leaf status {
+            mandatory true;
+            type lag-status;
+        }
+        leaf hold-off {
+            default 0;
+            type uint16;
+        }
+        leaf reversion-mode {
+            mandatory true;
+            type reversion-mode;
+        }
+        
+        leaf wait-to-restore-time {
+        mandatory true;
+            type uint64;
+            units seconds;
+            description
+                "wait to restore time";
         }
     }
 

@@ -63,6 +63,7 @@ module acc-performance {
                 }
                 case analog {
                     container analog-pm-value {
+                        config false;
                         leaf max-value {
                             type acc-type:real;
                             description "max-value";

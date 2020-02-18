@@ -381,7 +381,13 @@ module acc-devm {
         leaf ntp-state {
             type ntp-state;
             config false;
-            description "ntpState提到这里，当ntpEnable使能后,代表网元与ntpServer同步的最终结果,但无法知道究竟是跟哪台同步的，行标先这么";
+            description "ntpState提到这里，当ntpEnable使能后,代表网元与ntpServer同步的最终结果";
+        }
+        leaf ntp-server-in-use {
+            type string {
+                length "1..32";
+                description "ntpServer name";
+            }
         }
         container ntp-servers {
             list ntp-server {
