@@ -22,9 +22,9 @@ module acc-performance {
     */   
     grouping performances {
         list performance {
+            config false;
             key 'object-name pm-parameter-name granularity start-time';
             leaf object-name {
-                mandatory true;
                 type string {
                     length "1..64";
                 }
@@ -49,21 +49,18 @@ module acc-performance {
                 type string {
                     length "1..64";
                 }
-                config false;
                 description "object-type";
             }
             choice digital-or-analog  {
+				config false;
                 case digital {
                   leaf digital-pm-value {
-                    mandatory true;
                     type acc-type:real;
-                    config false;
                     description "digital-pm-value";
                     }
                 }
                 case analog {
                     container analog-pm-value {
-                        config false;
                         leaf max-value {
                             type acc-type:real;
                             description "max-value";

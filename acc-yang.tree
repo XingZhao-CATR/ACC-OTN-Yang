@@ -622,15 +622,15 @@ module: acc-otn
        +--ro modify-result               g-hao-modify-result
 module: acc-performance
   +--rw performances
-     +--rw performance* [object-name pm-parameter-name granularity start-time]
-        +--rw object-name               string
-        +--rw pm-parameter-name         string
-        +--rw granularity               acc-type:granularity
-        +--rw start-time                yang:date-and-time
+     +--ro performance* [object-name pm-parameter-name granularity start-time]
+        +--ro object-name               string
+        +--ro pm-parameter-name         string
+        +--ro granularity               acc-type:granularity
+        +--ro start-time                yang:date-and-time
         +--ro object-type               string
-        +--rw (digital-or-analog)?
+        +--ro (digital-or-analog)?
            +--:(digital)
-           |  +--ro digital-pm-value    acc-type:real
+           |  +--ro digital-pm-value?   acc-type:real
            +--:(analog)
               +--ro analog-pm-value
                  +--ro max-value?       acc-type:real
@@ -656,7 +656,7 @@ module: acc-performance
                 +--ro object-type               string
                 +--ro (digital-or-analog)?
                    +--:(digital)
-                   |  +--ro digital-pm-value    acc-type:real
+                   |  +--ro digital-pm-value?   acc-type:real
                    +--:(analog)
                       +--ro analog-pm-value
                          +--ro max-value?       acc-type:real

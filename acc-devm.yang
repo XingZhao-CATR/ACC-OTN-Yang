@@ -560,7 +560,6 @@ module acc-devm {
             key 'name';
             min-elements 1;
             leaf name {
-		        mandatory true;
                 type string {
                 length "1..64";
                 }
