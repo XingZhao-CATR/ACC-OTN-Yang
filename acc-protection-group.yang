@@ -13,15 +13,18 @@ module acc-protection-group {
     */
     typedef protection-type {
         type enumeration {
-            enum sncp-1-plus-1 {
-                value 0;
-            }
-            enum och-1-plus-1 {
-                value 1;
-            }
-            enum msp-1-plus-1 {
-                value 2;
-            }
+            enum odu-sncp { 
+				value 0;
+			}
+			enum vc-sncp { 
+				value 1;
+			}
+			enum och-1-plus-1 { 
+				value 2;
+			}
+			enum msp-1-plus-1 {
+				value 3; 
+			}
         }
     }
     typedef switch-type {
