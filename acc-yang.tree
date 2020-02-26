@@ -143,6 +143,7 @@ module: acc-devm
   |  +--rw gate-way1              inet:ipv4-address
   |  +--rw gate-way2?             inet:ipv4-address
   |  +--ro eq*                    -> /eqs/eq/name
+  |  +--ro mc-port*               -> /mc-ports/mc-port/name
   +--rw ptps
   |  +--rw ptp* [name]
   |     +--rw name                             string
@@ -289,6 +290,12 @@ module: acc-devm
   |           +--rw acc-eth:cc-interval      oam-transmit-interval
   |           +--rw acc-eth:lm-interval      oam-transmit-interval
   |           +--rw acc-eth:dm-interval      oam-transmit-interval
+  +--rw mc-ports
+  |  +--rw mc-port* [name]
+  |     +--rw name                 string
+  |     +--ro mac-address?         string
+  |     +--ro operational-state    operational-state
+  |     +--rw admin-state          admin-state
   +--rw eqs
      +--rw eq* [name]
         +--rw name                string

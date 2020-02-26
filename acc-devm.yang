@@ -296,6 +296,27 @@ module acc-devm {
             description "Loop back type of ctp,default non-loopback";
         }
     }
+
+    grouping mc-port {
+        leaf name {
+            mandatory true;
+            type string;
+            description "命名规则：端口类型加序号，如：RJ45_1, USB_1, Serial_1";
+        }
+        leaf mac-address {
+            type string;
+            config false;
+        }
+        leaf operational-state {
+            mandatory true;
+            type operational-state;
+            config false;
+        }
+        leaf admin-state {
+            mandatory true;
+            type admin-state;
+        }
+    }
     /*
     * the data tree
     */
@@ -434,7 +455,13 @@ module acc-devm {
             config false;
             description "Eq list";
         }
-        description "me";
+        leaf-list mc-port {
+            type leafref {
+                path '/acc-devm:mc-ports/acc-devm:mc-port/acc-devm:name';
+            }
+            min-elements 1;
+            config false;
+        }
     }
 
     container ptps {
@@ -555,6 +582,12 @@ module acc-devm {
             uses ctp;
         }
     }    
+    container mc-ports {
+        list mc-port {
+            key 'name';
+            uses mc-port;
+        }
+    }
     container eqs {
         list eq {
             key 'name';

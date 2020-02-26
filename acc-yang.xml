@@ -234,6 +234,9 @@
     <eq>
       <!-- # entries: 1.. -->
     </eq>
+    <mc-port>
+      <!-- # entries: 1.. -->
+    </mc-port>
   </me>
   <ptps xmlns="urn:ccsa:yang:acc-devm">
     <ptp>
@@ -637,6 +640,24 @@
       </eth-ctp-pac>
     </ctp>
   </ctps>
+  <mc-ports xmlns="urn:ccsa:yang:acc-devm">
+    <mc-port>
+      <!-- # keys: name-->
+      <!-- # entries: 0.. -->
+      <name>
+        <!-- type: string -->
+      </name>
+      <mac-address>
+        <!-- type: string -->
+      </mac-address>
+      <operational-state>
+        <!-- type: operational-state -->
+      </operational-state>
+      <admin-state>
+        <!-- type: admin-state -->
+      </admin-state>
+    </mc-port>
+  </mc-ports>
   <eqs xmlns="urn:ccsa:yang:acc-devm">
     <eq>
       <!-- # keys: name-->
