@@ -739,6 +739,7 @@ module: acc-sdh
        |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
        |  |     +---w sdh-type              sdh-signal-type
+       |  |     +---w vc-type               switch-type
        |  |     +---w z-ctp-mapping-path    string
        |  +---w secondary-nni
        |  |  +---w nni-ptp-name?        string
@@ -747,8 +748,9 @@ module: acc-sdh
        |  |  +---w odu-signal-type?     identityref
        |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type?             sdh-signal-type
-       |  |     +---w z-ctp-mapping-path?   string
+       |  |     +---w sdh-type              sdh-signal-type
+       |  |     +---w vc-type               switch-type
+       |  |     +---w z-ctp-mapping-path    string
        |  +---w primary-nni2
        |  |  +---w nni-ptp-name?        string
        |  |  +---w nni-ts-detail?       string
@@ -756,8 +758,9 @@ module: acc-sdh
        |  |  +---w odu-signal-type?     identityref
        |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type?             sdh-signal-type
-       |  |     +---w z-ctp-mapping-path?   string
+       |  |     +---w sdh-type              sdh-signal-type
+       |  |     +---w vc-type               switch-type
+       |  |     +---w z-ctp-mapping-path    string
        |  +---w secondary-nni2
        |     +---w nni-ptp-name?        string
        |     +---w nni-ts-detail?       string
@@ -765,8 +768,9 @@ module: acc-sdh
        |     +---w odu-signal-type?     identityref
        |     +---w switch-capability?   identityref
        |     +---w sdh-ftp
-       |        +---w sdh-type?             sdh-signal-type
-       |        +---w z-ctp-mapping-path?   string
+       |        +---w sdh-type              sdh-signal-type
+       |        +---w vc-type               switch-type
+       |        +---w z-ctp-mapping-path    string
        +--ro output
           +--ro connection
           |  +--ro name                   string
