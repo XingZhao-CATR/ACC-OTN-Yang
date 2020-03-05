@@ -19,6 +19,10 @@ module acc-eos {
         prefix acc-otn;
     }
 
+    import ietf-otn-types {
+        prefix otn-types;
+    }
+
     
 
     revision 2019-02-13 {
@@ -76,7 +80,9 @@ module acc-eos {
            
             container eos-pac {
                 leaf sdh-signal-type {
-                    type acc-sdh:sdh-signal-type;
+                    type identityref {
+                        base otn-types:client-signal;
+                    }
                 }
                 leaf vc-type {
                     mandatory true;
@@ -89,7 +95,9 @@ module acc-eos {
                     }
                 }
                 leaf sdh-signal-type-protect {
-                    type acc-sdh:sdh-signal-type;
+                    type identityref {
+                        base otn-types:client-signal;
+                    }
                 }
                 leaf-list mapping-path-protect {
                     type string {

@@ -91,11 +91,8 @@ module acc-otn {
             enum CBRx {
                 value 6;
             }
-            enum TTT+GMP {
+            enum GMP {
                 value 7;
-            }
-            enum CBRX_GMP {
-                value 8;
             }
             enum ODUij {
                 value 9;

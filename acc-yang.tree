@@ -178,11 +178,11 @@ module: acc-devm
   |     |  +--ro acc-otn:pmtrail-trace-actual-rx?     string
   |     |  +--rw acc-otn:pmtrail-trace-expected-rx?   string
   |     +--rw acc-sdh:sdh-mapping-pac
-  |     |  +--rw acc-sdh:supported-sdh-signal-types*   sdh-signal-type
+  |     |  +--rw acc-sdh:supported-sdh-signal-types*   identityref
   |     |  +--rw acc-sdh:switch-capability*            switch-type
   |     +--rw acc-sdh:sdh-ptp-pac
-  |     |  +--rw acc-sdh:sdh-signal-type               sdh-signal-type
-  |     |  +--ro acc-sdh:supported-sdh-signal-types*   sdh-signal-type
+  |     |  +--rw acc-sdh:sdh-signal-type               identityref
+  |     |  +--ro acc-sdh:supported-sdh-signal-types*   identityref
   |     |  +--ro acc-sdh:switch-capability*            switch-type
   |     |  +--rw acc-sdh:j0-actual-tx?                 string
   |     |  +--rw acc-sdh:j0-expected-rx?               string
@@ -213,7 +213,7 @@ module: acc-devm
   |     +--rw client-ctp*            -> /ctps/ctp/name
   |     +--rw server-ctp*            -> /ctps/ctp/name
   |     +--rw acc-sdh:sdh-ftp-pac
-  |     |  +--rw acc-sdh:sdh-signal-type      sdh-signal-type
+  |     |  +--rw acc-sdh:sdh-signal-type      identityref
   |     |  +--ro acc-sdh:switch-capability*   switch-type
   |     |  +--rw acc-sdh:j0-actual-tx?        string
   |     |  +--rw acc-sdh:j0-expected-rx?      string
@@ -380,10 +380,10 @@ module: acc-eos
     |  |  |     +---w access-action?   access-action
     |  |  |     +---w vlan-type?       vlan-type
     |  |  +---w eos-pac
-    |  |     +---w sdh-signal-type?           acc-sdh:sdh-signal-type
+    |  |     +---w sdh-signal-type?           identityref
     |  |     +---w vc-type                    acc-sdh:switch-type
     |  |     +---w mapping-path*              string
-    |  |     +---w sdh-signal-type-protect?   acc-sdh:sdh-signal-type
+    |  |     +---w sdh-signal-type-protect?   identityref
     |  |     +---w mapping-path-protect*      string
     |  |     +---w lcas?                      boolean
     |  |     +---w hold-off?                  uint32
@@ -728,9 +728,9 @@ module: acc-sdh
        |  |        +---w pbs?          uint64
        |  +---w service-mapping-mode?   acc-otn:adaptation-type
        |  +---w sdh-uni
-       |  |  +---w uni-ptp-name          string
-       |  |  +---w vc-type               switch-type
-       |  |  +---w a-ctp-mapping-path    string
+       |  |  +---w uni-ptp-name    string
+       |  |  +---w vc-type         switch-type
+       |  |  +---w mapping-path    string
        |  +---w primary-nni
        |  |  +---w nni-ptp-name?        string
        |  |  +---w nni-ts-detail?       string
@@ -738,9 +738,9 @@ module: acc-sdh
        |  |  +---w odu-signal-type?     identityref
        |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type              sdh-signal-type
-       |  |     +---w vc-type               switch-type
-       |  |     +---w z-ctp-mapping-path    string
+       |  |     +---w sdh-type        identityref
+       |  |     +---w vc-type         switch-type
+       |  |     +---w mapping-path    string
        |  +---w secondary-nni
        |  |  +---w nni-ptp-name?        string
        |  |  +---w nni-ts-detail?       string
@@ -748,9 +748,9 @@ module: acc-sdh
        |  |  +---w odu-signal-type?     identityref
        |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type              sdh-signal-type
-       |  |     +---w vc-type               switch-type
-       |  |     +---w z-ctp-mapping-path    string
+       |  |     +---w sdh-type        identityref
+       |  |     +---w vc-type         switch-type
+       |  |     +---w mapping-path    string
        |  +---w primary-nni2
        |  |  +---w nni-ptp-name?        string
        |  |  +---w nni-ts-detail?       string
@@ -758,9 +758,9 @@ module: acc-sdh
        |  |  +---w odu-signal-type?     identityref
        |  |  +---w switch-capability?   identityref
        |  |  +---w sdh-ftp
-       |  |     +---w sdh-type              sdh-signal-type
-       |  |     +---w vc-type               switch-type
-       |  |     +---w z-ctp-mapping-path    string
+       |  |     +---w sdh-type        identityref
+       |  |     +---w vc-type         switch-type
+       |  |     +---w mapping-path    string
        |  +---w secondary-nni2
        |     +---w nni-ptp-name?        string
        |     +---w nni-ts-detail?       string
@@ -768,9 +768,9 @@ module: acc-sdh
        |     +---w odu-signal-type?     identityref
        |     +---w switch-capability?   identityref
        |     +---w sdh-ftp
-       |        +---w sdh-type              sdh-signal-type
-       |        +---w vc-type               switch-type
-       |        +---w z-ctp-mapping-path    string
+       |        +---w sdh-type        identityref
+       |        +---w vc-type         switch-type
+       |        +---w mapping-path    string
        +--ro output
           +--ro connection
           |  +--ro name                   string

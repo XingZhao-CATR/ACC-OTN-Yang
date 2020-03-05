@@ -75,29 +75,7 @@ module acc-connection {
         }
     }
 
-    /*重新利用otn的adaptation-type
-    typedef adaptation-mode {
-        type enumeration {
-            enum GFP-F {
-                value 0;
-            }
-            enum CBRx_GMP {
-                value 1;
-            }
-            enum CBR_BMP {
-                value 2;
-            }
-            enum CBR_AMP {
-                value 3;
-            }
-            enum GFP-T {
-                value 4;
-            }
-            enum TTT+GMP {
-                value 5;
-            }
-        }
-    }*/
+  
 
     /*
     * common types

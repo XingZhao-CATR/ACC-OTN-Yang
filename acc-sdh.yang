@@ -16,6 +16,10 @@ module acc-sdh {
         prefix acc-type;
     }
 
+    import ietf-otn-types {
+        prefix otn-types;
+    }
+
     identity SDH {
         base acc-type:layer-protocol-name;
     }
@@ -32,6 +36,7 @@ module acc-sdh {
             }
         }
     }
+    /*废弃，统一使用ietf-otn-types里面的client-signal
     typedef sdh-signal-type {
         type enumeration {
             enum STM1 {
@@ -53,7 +58,7 @@ module acc-sdh {
                 value 5;
             }
         }
-    }
+    }*/
 
     grouping vcg-pac {
         leaf vc-type {
@@ -101,13 +106,15 @@ module acc-sdh {
     grouping sdh-ftp {
         leaf sdh-type {
             mandatory true;
-            type sdh-signal-type;
+            type identityref {
+                base otn-types:client-signal;
+            }
         }
         leaf vc-type {
             mandatory true;
             type switch-type;
         }
-        leaf z-ctp-mapping-path {
+        leaf mapping-path {
             mandatory true;
             type string {
                 length "1..64";
@@ -119,7 +126,9 @@ module acc-sdh {
     /*augment "/acc-devm:eqs/acc-devm:eq" {
         container eq-sdh-pac {
             leaf-list supported-sdh-signal-types {
-                type sdh-signal-type;
+                type identityref {
+                    base otn-types:client-signal;
+                }
                 config false;
             }
             leaf-list switch-capability {
@@ -131,7 +140,9 @@ module acc-sdh {
     augment "/acc-devm:ptps/acc-devm:ptp" {
         container sdh-mapping-pac {
             leaf-list supported-sdh-signal-types {
-                type sdh-signal-type;
+                type identityref {
+                    base otn-types:client-signal;
+                }
             }
             leaf-list switch-capability {
                 type switch-type;
@@ -144,10 +155,14 @@ module acc-sdh {
         container sdh-ptp-pac {
             leaf sdh-signal-type {
                 mandatory true;
-                type sdh-signal-type;
+                type identityref {
+                    base otn-types:client-signal;
+                }
             }
             leaf-list supported-sdh-signal-types {
-                type sdh-signal-type;
+                type identityref {
+                    base otn-types:client-signal;
+                }
                 config false;
             }
             leaf-list switch-capability {
@@ -181,7 +196,9 @@ module acc-sdh {
         container sdh-ftp-pac {
             leaf sdh-signal-type {
                 mandatory true;
-                type sdh-signal-type;
+                type identityref {
+                    base otn-types:client-signal;
+                }
             }
             leaf-list switch-capability {
                 min-elements 1;
@@ -260,7 +277,7 @@ module acc-sdh {
                     mandatory true;
                     type switch-type;
                 }
-                leaf a-ctp-mapping-path {
+                leaf mapping-path {
                     mandatory true;
                     type string {
                         length "1..64";

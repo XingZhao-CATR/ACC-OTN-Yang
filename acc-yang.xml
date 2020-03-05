@@ -342,7 +342,7 @@
       </sdh-mapping-pac>
       <sdh-ptp-pac xmlns="urn:ccsa:yang:acc-sdh">
         <sdh-signal-type>
-          <!-- type: sdh-signal-type -->
+          <!-- type: identityref -->
         </sdh-signal-type>
         <supported-sdh-signal-types>
           <!-- # entries: 0.. -->
@@ -434,7 +434,7 @@
       </server-ctp>
       <sdh-ftp-pac xmlns="urn:ccsa:yang:acc-sdh">
         <sdh-signal-type>
-          <!-- type: sdh-signal-type -->
+          <!-- type: identityref -->
         </sdh-signal-type>
         <switch-capability>
           <!-- # entries: 1.. -->
