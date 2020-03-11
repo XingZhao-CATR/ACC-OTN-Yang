@@ -239,9 +239,6 @@ module acc-sdh {
                         length "1..64";
                     }
                 }
-                leaf second-uni-ptp-name {
-                    type string;
-                }
                 leaf vc-type {
                     type acc-enum:sdh-switch-type;
                 }
@@ -259,11 +256,9 @@ module acc-sdh {
                     }
                 }
                 leaf vc-type {
-                    mandatory true;
                     type acc-enum:sdh-switch-type;
                 }
                 leaf mapping-path {
-                    mandatory true;
                     type string {
                         length "1..64";
                     }

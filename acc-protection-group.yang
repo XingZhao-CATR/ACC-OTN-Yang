@@ -152,7 +152,6 @@ module acc-protection-group {
         }
         
         leaf switch-reason {
-        mandatory true;
             type switch-reason;
             config false;
             description "switch reason, default NO SWITCH";
@@ -169,7 +168,7 @@ module acc-protection-group {
             description  "hold off time";
         }
         leaf wait-to-restore-time {
-        mandatory true;
+            mandatory true;
             type uint64;
             units seconds;
             description "wait to restore time";

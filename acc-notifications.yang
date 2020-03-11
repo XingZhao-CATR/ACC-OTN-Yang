@@ -18,6 +18,12 @@ module acc-notifications {
             enum attribute-value-change {
                 value 2;
             }
+            enum user-login {
+                value 3;
+            }
+            enum user-logoff {
+                value 4;
+            }
         }
     }   
     /*
@@ -38,6 +44,9 @@ module acc-notifications {
         }
         leaf object-type {
             mandatory true;
+            type string;
+        }
+        leaf user-name {
             type string;
         }
     }

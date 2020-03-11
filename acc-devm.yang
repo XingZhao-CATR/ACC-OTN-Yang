@@ -408,6 +408,7 @@ module acc-devm {
             type string {
                 length "1..32";
             }
+            config false;
             description "ntpServer name";
         }
         container ntp-servers {
@@ -678,6 +679,11 @@ module acc-devm {
 
     rpc modify-user-password {
         input {
+            leaf user-name {
+                type string {
+                    length "8..16";
+                }
+            }
             leaf old-password {
                 mandatory true;
                 type string {
