@@ -1,0 +1,162 @@
+module acc-enum {
+    yang-version 1.1;
+    namespace "urn:ccsa:yang:acc-enum";
+    prefix acc-enum;
+
+    typedef signal-type {
+        type enumeration {
+            enum STM-1 {
+                value 0;
+                description "STM1";
+            }
+             enum STM-4 {
+                value 1;
+                description "STM4";
+            }
+             enum STM-16 {
+                value 2;
+                description "STM16";
+            }
+             enum STM-64 {
+                value 3;
+                description "STM64";
+            }
+             enum STM-256 {
+                value 4;
+                description "STM256";
+            }
+             enum ODU0 {
+                value 5;
+                description "ODU0";
+            }
+             enum ODU1 {
+                value 6;
+                description "ODU1";
+            }
+             enum ODU2 {
+                value 7;
+                description "ODU1";
+            }
+             enum ODU2e {
+                value 8;
+                description "ODU1";
+            }
+             enum ODU4 {
+                value 9;
+                description "ODU1";
+            }
+            enum GE {
+                value 10;
+                description "GE";
+            }
+            enum FE {
+                value 11;
+                description "FE";
+            }
+            enum 10GE {
+                value 12;
+                description "10GE";
+            }
+            enum NULL {
+                value 13;
+                description "NULL";
+            }
+        }
+    }
+
+    typedef odu-switch-type {
+        type enumeration {
+            enum ODU0 {
+                value 0;
+                description "ODU0";
+            }
+             enum ODU1 {
+                value 1;
+                description "ODU1";
+            }
+             enum ODU2 {
+                value 2;
+                description "ODU2";
+            }
+             enum ODU2e {
+                value 3;
+                description "ODU2e";
+            }
+             enum ODU3 {
+                value 4;
+                description "ODU3";
+            }
+            enum ODU4 {
+                value 5;
+                description "ODU4";
+            }
+            enum ODUflex-GFP {
+                value 6;
+                description "ODUflex-GFP";
+            }
+            enum ODUflex-CBR {
+                value 7;
+                description "ODUflex-CBR";
+            }
+        }
+    }
+
+    typedef sdh-switch-type {
+        type enumeration {
+            enum VC12 {
+                value 0;
+            }
+            enum VC3 {
+                value 1;
+            }
+            enum VC4 {
+                value 2;
+            }
+        }
+    }
+
+    typedef adaptation-type {
+        type enumeration {
+            enum CBR_AMP {
+                value 0;
+                description "Asynchronous CBR mapping";
+            }
+            enum CBR_BMP {
+                value 1;
+                description "Bit-synchronous CBR mapping";
+            }
+            enum GFP-T {
+                value 2;
+                description "Transparent generic framing procedure";
+            }
+            enum GFP-F {
+                value 3;
+                description "Frame-Mapped Framing Generic Procedure";
+            }
+            enum NULL {
+                value 4;
+                description "NULL test signal mapping";
+            }
+            enum PRBS {
+                value 5;
+                description "PRBS test signal mapping";
+            }
+            enum CBRx {
+                value 6;
+            }
+            enum GMP {
+                value 7;
+            }
+            enum ODUij {
+                value 8;
+            }
+            enum ODUj21 {
+                value 9;
+            }
+            enum ODUk {
+                value 10;
+            }
+        }
+        description "Adaptation type";
+    }
+}

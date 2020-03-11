@@ -8,10 +8,6 @@ module acc-eth {
     import acc-yang-types {
          prefix acc-type; 
     }
-
-    import ietf-otn-types {
-        prefix otn-types;
-    }
     
     import acc-devm {
         prefix acc-devm;
@@ -25,9 +21,12 @@ module acc-eth {
         prefix acc-otn;
     }
 
+    import acc-enum {
+        prefix acc-enum;
+    }
 
-    import acc-sdh {
-        prefix acc-sdh;
+    import acc-protection-group {
+        prefix acc-pg;
     }
 
     revision 2020-02-09 {
@@ -132,7 +131,7 @@ module acc-eth {
         }
         leaf service-mapping-mode {
             mandatory true;
-            type acc-otn:adaptation-type;
+            type acc-enum:adaptation-type;
         }
         leaf mapping-type {
             mandatory true;
@@ -149,14 +148,12 @@ module acc-eth {
             }
             leaf-list supported-odu-server-switch-capability {
                 config false;
-                type identityref {
-                    base otn-types:odu-type;
-                }
+                type acc-enum:odu-switch-type;
                 description "ODU能力上报，支持什么就上报什么";
             }
             leaf-list supported-sdh-server-switch-capability {
                 config false;
-                type acc-sdh:switch-type;
+                type acc-enum:sdh-switch-type;
                 description "SDH能力上报，支持什么就上报什么";
             }
         }
@@ -376,10 +373,23 @@ module acc-eth {
         input {
             uses acc-con:create-connection;
             leaf service-mapping-mode {
-                type acc-otn:adaptation-type;
+                type acc-enum:adaptation-type;
+            }
+            leaf uni-protection-type {
+                type acc-pg:protection-type;
+                description "default lag";
+            }
+            leaf nni-protection-type {
+                type acc-pg:protection-type;
+            }
+            leaf nni2-protection-type {
+                type acc-pg:protection-type;
             }
             container eth-uni {
                 leaf uni-ptp-name {
+                    type string;
+                }
+                leaf second-uni-ptp-name {
                     type string;
                 }
                 container client-vlan-spec {

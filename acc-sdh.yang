@@ -16,54 +16,23 @@ module acc-sdh {
         prefix acc-type;
     }
 
-    import ietf-otn-types {
-        prefix otn-types;
+    import acc-enum {
+        prefix acc-enum;
+    }
+
+    import acc-protection-group {
+        prefix acc-pg;
     }
 
     identity SDH {
         base acc-type:layer-protocol-name;
     }
-    typedef switch-type {
-        type enumeration {
-            enum VC12 {
-                value 0;
-            }
-            enum VC3 {
-                value 1;
-            }
-            enum VC4 {
-                value 2;
-            }
-        }
-    }
-    /*废弃，统一使用ietf-otn-types里面的client-signal
-    typedef sdh-signal-type {
-        type enumeration {
-            enum STM1 {
-                value 0;
-            }
-            enum STM4 {
-                value 1;
-            }
-            enum STM16 {
-                value 2;
-            }
-            enum STM64 {
-                value 3;
-            }
-            enum STM256 {
-                value 4;
-            }
-            enum NO-SERVICE {
-                value 5;
-            }
-        }
-    }*/
+    
 
     grouping vcg-pac {
         leaf vc-type {
             mandatory true;
-            type acc-sdh:switch-type;
+            type acc-enum:sdh-switch-type;
         }
         leaf lcas {
             type boolean;
@@ -106,13 +75,11 @@ module acc-sdh {
     grouping sdh-ftp {
         leaf sdh-type {
             mandatory true;
-            type identityref {
-                base otn-types:client-signal;
-            }
+            type acc-enum:signal-type;
         }
         leaf vc-type {
             mandatory true;
-            type switch-type;
+            type acc-enum:sdh-switch-type;
         }
         leaf mapping-path {
             mandatory true;
@@ -126,13 +93,11 @@ module acc-sdh {
     /*augment "/acc-devm:eqs/acc-devm:eq" {
         container eq-sdh-pac {
             leaf-list supported-sdh-signal-types {
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
                 config false;
             }
             leaf-list switch-capability {
-                type switch-type;
+                type acc-enum:sdh-switch-type;
                 config false;
             }
         }
@@ -140,12 +105,10 @@ module acc-sdh {
     augment "/acc-devm:ptps/acc-devm:ptp" {
         container sdh-mapping-pac {
             leaf-list supported-sdh-signal-types {
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
             }
             leaf-list switch-capability {
-                type switch-type;
+                type acc-enum:sdh-switch-type;
             }
         }
     }
@@ -155,19 +118,15 @@ module acc-sdh {
         container sdh-ptp-pac {
             leaf sdh-signal-type {
                 mandatory true;
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
             }
             leaf-list supported-sdh-signal-types {
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
                 config false;
             }
             leaf-list switch-capability {
                 min-elements 1;
-                type switch-type;
+                type acc-enum:sdh-switch-type;
                 config false;
             }
             leaf j0-actual-tx {
@@ -196,13 +155,11 @@ module acc-sdh {
         container sdh-ftp-pac {
             leaf sdh-signal-type {
                 mandatory true;
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
             }
             leaf-list switch-capability {
                 min-elements 1;
-                type switch-type;
+                type acc-enum:sdh-switch-type;
                 config false;
             }
             leaf j0-actual-tx {
@@ -229,7 +186,7 @@ module acc-sdh {
         container vc-ctp-pac {
             leaf vc-type {
                 mandatory true;
-                type switch-type;
+                type acc-enum:sdh-switch-type;
             }
             leaf mapping-path {
                 mandatory true;
@@ -264,18 +221,46 @@ module acc-sdh {
         input {
             uses acc-con:create-connection;
             leaf service-mapping-mode {
-                type acc-otn:adaptation-type;
+                type acc-enum:adaptation-type;
+            }
+            leaf uni-protection-type {
+                type acc-pg:protection-type;
+                description "default msp-1-plus-1";
+            }
+            leaf nni-protection-type {
+                type acc-pg:protection-type;
+            }
+            leaf nni2-protection-type {
+                type acc-pg:protection-type;
             }
             container sdh-uni {
                 leaf uni-ptp-name {
-                    mandatory true;
+                    type string {
+                        length "1..64";
+                    }
+                }
+                leaf second-uni-ptp-name {
+                    type string;
+                }
+                leaf vc-type {
+                    type acc-enum:sdh-switch-type;
+                }
+                leaf mapping-path {
+                    type string {
+                        length "1..64";
+                    }
+                }
+                description "only for UNI-NNI ";
+            }
+            container second-sdh-uni {
+                leaf uni-ptp-name {
                     type string {
                         length "1..64";
                     }
                 }
                 leaf vc-type {
                     mandatory true;
-                    type switch-type;
+                    type acc-enum:sdh-switch-type;
                 }
                 leaf mapping-path {
                     mandatory true;
@@ -283,6 +268,7 @@ module acc-sdh {
                         length "1..64";
                     }
                 }
+                description "only for UNI-NNI ";
             }
             
             container primary-nni {

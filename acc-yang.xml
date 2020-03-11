@@ -332,34 +332,6 @@
           <!-- type: string -->
         </pmtrail-trace-expected-rx>
       </odu-ptp-pac>
-      <sdh-mapping-pac xmlns="urn:ccsa:yang:acc-sdh">
-        <supported-sdh-signal-types>
-          <!-- # entries: 0.. -->
-        </supported-sdh-signal-types>
-        <switch-capability>
-          <!-- # entries: 0.. -->
-        </switch-capability>
-      </sdh-mapping-pac>
-      <sdh-ptp-pac xmlns="urn:ccsa:yang:acc-sdh">
-        <sdh-signal-type>
-          <!-- type: identityref -->
-        </sdh-signal-type>
-        <supported-sdh-signal-types>
-          <!-- # entries: 0.. -->
-        </supported-sdh-signal-types>
-        <switch-capability>
-          <!-- # entries: 1.. -->
-        </switch-capability>
-        <j0-actual-tx>
-          <!-- type: string -->
-        </j0-actual-tx>
-        <j0-expected-rx>
-          <!-- type: string -->
-        </j0-expected-rx>
-        <j0-actual-rx>
-          <!-- type: string -->
-        </j0-actual-rx>
-      </sdh-ptp-pac>
       <eth-mapping-pac xmlns="urn:ccsa:yang:acc-eth">
         <supported-mapping-type>
           <!-- # entries: 0.. -->
@@ -406,6 +378,34 @@
           <!-- type: string -->
         </lldp-peer-system-name>
       </eth-ptp-pac>
+      <sdh-mapping-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <supported-sdh-signal-types>
+          <!-- # entries: 0.. -->
+        </supported-sdh-signal-types>
+        <switch-capability>
+          <!-- # entries: 0.. -->
+        </switch-capability>
+      </sdh-mapping-pac>
+      <sdh-ptp-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <sdh-signal-type>
+          <!-- type: acc-enum:signal-type -->
+        </sdh-signal-type>
+        <supported-sdh-signal-types>
+          <!-- # entries: 0.. -->
+        </supported-sdh-signal-types>
+        <switch-capability>
+          <!-- # entries: 1.. -->
+        </switch-capability>
+        <j0-actual-tx>
+          <!-- type: string -->
+        </j0-actual-tx>
+        <j0-expected-rx>
+          <!-- type: string -->
+        </j0-expected-rx>
+        <j0-actual-rx>
+          <!-- type: string -->
+        </j0-actual-rx>
+      </sdh-ptp-pac>
     </ptp>
   </ptps>
   <ftps xmlns="urn:ccsa:yang:acc-devm">
@@ -432,9 +432,35 @@
       <server-ctp>
         <!-- # entries: 0.. -->
       </server-ctp>
+      <eth-ftp-pac xmlns="urn:ccsa:yang:acc-eth">
+        <supported-mtu>
+          <!-- type: uint64 -->
+        </supported-mtu>
+        <current-mtu>
+          <!-- type: uint64 -->
+        </current-mtu>
+        <service-mapping-mode>
+          <!-- type: acc-enum:adaptation-type -->
+        </service-mapping-mode>
+        <mapping-type>
+          <!-- type: eth-mapping-type -->
+        </mapping-type>
+        <vcg-pac xmlns="urn:ccsa:yang:acc-eos">
+          <vc-type>
+            <!-- type: acc-enum:sdh-switch-type -->
+          </vc-type>
+          <lcas>False</lcas>
+          <hold-off>0</hold-off>
+          <wtr>300</wtr>
+          <tsd>False</tsd>
+          <tx-number>0</tx-number>
+          <rx-number>0</rx-number>
+          <so-handshake-state>False</so-handshake-state>
+        </vcg-pac>
+      </eth-ftp-pac>
       <sdh-ftp-pac xmlns="urn:ccsa:yang:acc-sdh">
         <sdh-signal-type>
-          <!-- type: identityref -->
+          <!-- type: acc-enum:signal-type -->
         </sdh-signal-type>
         <switch-capability>
           <!-- # entries: 1.. -->
@@ -449,32 +475,6 @@
           <!-- type: string -->
         </j0-actual-rx>
       </sdh-ftp-pac>
-      <eth-ftp-pac xmlns="urn:ccsa:yang:acc-eth">
-        <supported-mtu>
-          <!-- type: uint64 -->
-        </supported-mtu>
-        <current-mtu>
-          <!-- type: uint64 -->
-        </current-mtu>
-        <service-mapping-mode>
-          <!-- type: acc-otn:adaptation-type -->
-        </service-mapping-mode>
-        <mapping-type>
-          <!-- type: eth-mapping-type -->
-        </mapping-type>
-        <vcg-pac xmlns="urn:ccsa:yang:acc-eos">
-          <vc-type>
-            <!-- type: acc-sdh:switch-type -->
-          </vc-type>
-          <lcas>False</lcas>
-          <hold-off>0</hold-off>
-          <wtr>300</wtr>
-          <tsd>False</tsd>
-          <tx-number>0</tx-number>
-          <rx-number>0</rx-number>
-          <so-handshake-state>False</so-handshake-state>
-        </vcg-pac>
-      </eth-ftp-pac>
     </ftp>
   </ftps>
   <ctps xmlns="urn:ccsa:yang:acc-devm">
@@ -507,13 +507,13 @@
       </loop-back>
       <odu-ctp-pac xmlns="urn:ccsa:yang:acc-otn">
         <odu-signal-type>
-          <!-- type: identityref -->
+          <!-- type: acc-enum:signal-type -->
         </odu-signal-type>
         <adaptation-type>
-          <!-- type: adaptation-type -->
+          <!-- type: acc-enum:adaptation-type -->
         </adaptation-type>
         <switch-capability>
-          <!-- type: identityref -->
+          <!-- type: acc-enum:odu-switch-type -->
         </switch-capability>
         <ts-detail>
           <!-- type: string -->
@@ -534,23 +534,6 @@
           <!-- type: g-hao-status -->
         </g-hao-status>
       </odu-ctp-pac>
-      <vc-ctp-pac xmlns="urn:ccsa:yang:acc-sdh">
-        <vc-type>
-          <!-- type: switch-type -->
-        </vc-type>
-        <mapping-path>
-          <!-- type: string -->
-        </mapping-path>
-        <j1-actual-tx>
-          <!-- type: string -->
-        </j1-actual-tx>
-        <j1-expected-rx>
-          <!-- type: string -->
-        </j1-expected-rx>
-        <j1-actual-rx>
-          <!-- type: string -->
-        </j1-actual-rx>
-      </vc-ctp-pac>
       <eth-ctp-pac xmlns="urn:ccsa:yang:acc-eth">
         <vlan-spec>
           <vlan-id>
@@ -638,6 +621,23 @@
           </dm-interval>
         </oam-config>
       </eth-ctp-pac>
+      <vc-ctp-pac xmlns="urn:ccsa:yang:acc-sdh">
+        <vc-type>
+          <!-- type: acc-enum:sdh-switch-type -->
+        </vc-type>
+        <mapping-path>
+          <!-- type: string -->
+        </mapping-path>
+        <j1-actual-tx>
+          <!-- type: string -->
+        </j1-actual-tx>
+        <j1-expected-rx>
+          <!-- type: string -->
+        </j1-expected-rx>
+        <j1-actual-rx>
+          <!-- type: string -->
+        </j1-actual-rx>
+      </vc-ctp-pac>
     </ctp>
   </ctps>
   <mc-ports xmlns="urn:ccsa:yang:acc-devm">
@@ -733,33 +733,36 @@
       <protection-type>
         <!-- type: protection-type -->
       </protection-type>
-      <switch-type>
-        <!-- type: switch-type -->
-      </switch-type>
       <reversion-mode>
         <!-- type: reversion-mode -->
       </reversion-mode>
-      <sd-trigger>
-        <!-- type: sd-trigger -->
-      </sd-trigger>
+      <tcm>
+        <!-- type: uint16 -->
+      </tcm>
+      <switch-type>
+        <!-- type: switch-type -->
+      </switch-type>
       <switch-reason>
         <!-- type: switch-reason -->
       </switch-reason>
-      <wait-to-restore-time>
-        <!-- type: uint64 -->
-      </wait-to-restore-time>
-      <hold-off>0</hold-off>
       <protection-direction>
         <!-- type: protection-direction -->
       </protection-direction>
+      <hold-off>0</hold-off>
+      <wait-to-restore-time>
+        <!-- type: uint64 -->
+      </wait-to-restore-time>
+      <sd-trigger>
+        <!-- type: sd-trigger -->
+      </sd-trigger>
       <primary-port>
-        <!-- type: leafref -->
+        <!-- type: string -->
       </primary-port>
       <secondary-port>
-        <!-- type: leafref -->
+        <!-- type: string -->
       </secondary-port>
       <selected-port>
-        <!-- type: leafref -->
+        <!-- type: string -->
       </selected-port>
     </pg>
   </pgs>

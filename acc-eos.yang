@@ -19,10 +19,13 @@ module acc-eos {
         prefix acc-otn;
     }
 
-    import ietf-otn-types {
-        prefix otn-types;
+    import acc-enum {
+        prefix acc-enum;
     }
 
+    import acc-protection-group {
+        prefix acc-pg;
+    }
     
 
     revision 2019-02-13 {
@@ -43,11 +46,23 @@ module acc-eos {
         input {
             uses acc-con:create-connection;
             leaf service-mapping-mode {
-                type acc-otn:adaptation-type;
+                type acc-enum:adaptation-type;
+                description "基于SDH FTP客户信号类型，STM-1/STM-4=GMP，STM-16/STM-64=CBR_BMP";
+            }
+            leaf uni-protection-type {
+                type acc-pg:protection-type;
+                description "default lag";
+            }
+            leaf nni-protection-type {
+                type acc-pg:protection-type;
             }
             container eth-uni {
                 leaf uni-ptp-name {
                     type string;
+                }
+                leaf second-uni-ptp-name {
+                    type string;
+                    description "可选，用于与客户设备之间建立LAG保护（非负载均衡，单端保护）";
                 }
                 container client-vlan-spec {
                   when "../../service-type = 'EVPL'";
@@ -80,13 +95,11 @@ module acc-eos {
            
             container eos-pac {
                 leaf sdh-signal-type {
-                    type identityref {
-                        base otn-types:client-signal;
-                    }
+                    type acc-enum:signal-type;
                 }
                 leaf vc-type {
                     mandatory true;
-                    type acc-sdh:switch-type;
+                    type acc-enum:sdh-switch-type;
                 }
                 leaf-list mapping-path {
                     min-elements 1;
@@ -95,9 +108,7 @@ module acc-eos {
                     }
                 }
                 leaf sdh-signal-type-protect {
-                    type identityref {
-                        base otn-types:client-signal;
-                    }
+                    type acc-enum:signal-type;
                 }
                 leaf-list mapping-path-protect {
                     type string {

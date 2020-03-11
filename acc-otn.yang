@@ -3,8 +3,8 @@ module acc-otn {
     namespace "urn:ccsa:yang:acc-otn";
     prefix acc-otn;
 
-    import ietf-otn-types {
-        prefix otn-types;
+    import acc-enum {
+        prefix acc-enum;
     }
     import acc-devm { 
         prefix acc-devm; 
@@ -14,6 +14,10 @@ module acc-otn {
     }
     import acc-yang-types { 
         prefix acc-type; 
+    }
+    
+    import acc-protection-group {
+        prefix acc-pg;
     }
 
     organization
@@ -38,74 +42,7 @@ module acc-otn {
         base acc-type:layer-protocol-name;
     }
 
-    identity OTN-ODU0 {
-    base otn-types:client-signal;
-    description
-      "Client signal type of ODU0";
-    }
 
-    identity OTN-ODU1 {
-    base otn-types:client-signal;
-    description
-      "Client signal type of ODU1";
-    }
-
-    identity OTN-ODU2 {
-    base otn-types:client-signal;
-    description
-      "Client signal type of ODU2";
-    }
-
-    identity OTN-ODU4 {
-    base otn-types:client-signal;
-    description
-      "Client signal type of ODU4";
-    }
-
-    typedef adaptation-type {
-        type enumeration {
-            enum CBR_AMP {
-                value 0;
-                description "Asynchronous CBR mapping";
-            }
-            enum CBR_BMP {
-                value 1;
-                description "Bit-synchronous CBR mapping";
-            }
-            enum GFP-T {
-                value 2;
-                description "Transparent generic framing procedure";
-            }
-            enum GFP-F {
-                value 3;
-                description "Frame-Mapped Framing Generic Procedure";
-            }
-            enum NULL {
-                value 4;
-                description "NULL test signal mapping";
-            }
-            enum PRBS {
-                value 5;
-                description "PRBS test signal mapping";
-            }
-            enum CBRx {
-                value 6;
-            }
-            enum GMP {
-                value 7;
-            }
-            enum ODUij {
-                value 9;
-            }
-            enum ODUj21 {
-                value 10;
-            }
-            enum ODUk {
-                value 11;
-            }
-        }
-        description "Adaptation type";
-    }
 
     typedef channel-sate {
         type enumeration {
@@ -252,18 +189,14 @@ module acc-otn {
             }
         }
         leaf adaptation-type {
-            type adaptation-type;
+            type acc-enum:adaptation-type;
         }
         leaf odu-signal-type {
-            type identityref {
-                base otn-types:client-signal;
-            }
+            type acc-enum:signal-type;
             description "clientSignalType改名为oduSignalType";
         }
         leaf switch-capability {
-            type identityref {
-                base otn-types:odu-type;
-            }
+            type acc-enum:odu-switch-type;
             description "Switch capability";
         }
         description "本来nni结构里面的属性都必选，但如果加上mandatory为true，同时放在secondary-nni里又因子属性必选引起父容器也跟着必选，就与secondary-nni可空矛盾了";
@@ -283,23 +216,19 @@ module acc-otn {
             }
             leaf-list odu-signal-type {
                 min-elements 1;
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
                 config false;
                 description "The client signal type.";
             }
             leaf-list adaptation-type {
                 min-elements 1;
-                type adaptation-type;
+                type acc-enum:adaptation-type;
                 config false;
                 description "The adaptation type.";
             }
             leaf-list switch-capability {
                 min-elements 1;
-                type identityref {
-                    base otn-types:odu-type;
-                }
+                type acc-enum:odu-switch-type;
                 config false;
                 description "The switch capability";
             }
@@ -353,21 +282,17 @@ module acc-otn {
         container odu-ctp-pac {
             leaf odu-signal-type {
                 mandatory true;
-                type identityref {
-                    base otn-types:client-signal;
-                }
+                type acc-enum:signal-type;
                 description "Client signal type";
             }
             leaf adaptation-type {
                 mandatory true;
-                type adaptation-type;
+                type acc-enum:adaptation-type;
                 description "Adaptation type";
             }
             leaf switch-capability {
                 mandatory true;
-                type identityref {
-                    base otn-types:odu-type;
-                }
+                type acc-enum:odu-switch-type;
                 config false;
                 description "Switch capability";
             }
@@ -416,10 +341,15 @@ module acc-otn {
     rpc create-odu-connection {
         input {
             uses acc-con:create-connection;
-
+            leaf nni-protection-type {
+                type acc-pg:protection-type;
+            }
+            leaf nni2-protection-type {
+                type acc-pg:protection-type;
+            }
             container client-side-nni {
                 uses nni;
-                description "client side nni";
+                description "client side nni, only for UNI-NNI";
             }
             container primary-nni {
                 uses nni;
