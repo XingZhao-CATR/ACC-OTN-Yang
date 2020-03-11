@@ -133,7 +133,7 @@ module: acc-devm
   |  +--rw mask                   yang:dotted-quad
   |  +--rw ntp-enable             boolean
   |  +--ro ntp-state?             ntp-state
-  |  +--rw ntp-server-in-use?     string
+  |  +--ro ntp-server-in-use?     string
   |  +--rw ntp-servers
   |  |  +--rw ntp-server* [name]
   |  |     +--rw name           string
@@ -313,6 +313,7 @@ module: acc-devm
     |     +---w reset-type    reset-type
     +---x modify-user-password
     |  +---w input
+    |     +---w user-name?      string
     |     +---w old-password    string
     |     +---w new-password    string
     +---x set-managed-element-time
@@ -543,12 +544,14 @@ module: acc-notifications
     |     +--ro event-type         event-type
     |     +--ro object-name        string
     |     +--ro object-type        string
+    |     +--ro user-name?         string
     +---n attribute-value-change-notification
        +--ro event
        |  +--ro event-serial-no    uint64
        |  +--ro event-type         event-type
        |  +--ro object-name        string
        |  +--ro object-type        string
+       |  +--ro user-name?         string
        +--ro attribute-value-change
           +--ro attribute-name    string
           +--ro new-value         string
@@ -687,7 +690,7 @@ module: acc-protection-group
         +--rw reversion-mode          reversion-mode
         +--rw tcm?                    uint16
         +--rw switch-type             switch-type
-        +--ro switch-reason           switch-reason
+        +--ro switch-reason?          switch-reason
         +--ro protection-direction?   protection-direction
         +--rw hold-off?               uint32
         +--rw wait-to-restore-time    uint64
@@ -712,7 +715,7 @@ module: acc-protection-group
           +--ro reversion-mode          reversion-mode
           +--ro tcm?                    uint16
           +--ro switch-type             switch-type
-          +--ro switch-reason           switch-reason
+          +--ro switch-reason?          switch-reason
           +--ro protection-direction?   protection-direction
           +--ro hold-off?               uint32
           +--ro wait-to-restore-time    uint64
@@ -742,14 +745,13 @@ module: acc-sdh
        |  +---w nni-protection-type?    acc-pg:protection-type
        |  +---w nni2-protection-type?   acc-pg:protection-type
        |  +---w sdh-uni
-       |  |  +---w uni-ptp-name?          string
-       |  |  +---w second-uni-ptp-name?   string
-       |  |  +---w vc-type?               acc-enum:sdh-switch-type
-       |  |  +---w mapping-path?          string
+       |  |  +---w uni-ptp-name?   string
+       |  |  +---w vc-type?        acc-enum:sdh-switch-type
+       |  |  +---w mapping-path?   string
        |  +---w second-sdh-uni
        |  |  +---w uni-ptp-name?   string
-       |  |  +---w vc-type         acc-enum:sdh-switch-type
-       |  |  +---w mapping-path    string
+       |  |  +---w vc-type?        acc-enum:sdh-switch-type
+       |  |  +---w mapping-path?   string
        |  +---w primary-nni
        |  |  +---w nni-ptp-name?        string
        |  |  +---w nni-ts-detail?       string

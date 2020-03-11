@@ -680,9 +680,8 @@ module acc-devm {
     rpc modify-user-password {
         input {
             leaf user-name {
-                type string {
-                    length "8..16";
-                }
+                type string;
+				description "可选，默认当前用户";
             }
             leaf old-password {
                 mandatory true;
